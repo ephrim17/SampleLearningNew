@@ -9,7 +9,7 @@ import Foundation
 import FoundationModels
 import SwiftUI
 
-@Generable()
+@Generable() 
 struct SuggestedVegetable: Equatable {
     
     @Guide(description: "Suggest vegetable names")
