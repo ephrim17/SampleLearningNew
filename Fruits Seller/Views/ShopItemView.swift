@@ -17,10 +17,10 @@ struct ShopItem: View {
     var offer:String
     var price: String
     
+    var onAddToCart: (() -> Void)? = nil
+    
     @State var showAddIcon: Bool = false
     @Namespace private var namespace
-    
-    @State private var showToast = false
     
     var body: some View {
         ZStack {
@@ -55,12 +55,8 @@ struct ShopItem: View {
                     Text(price)
                         .modifier(TextViewModifierForFruitSeller(fontSize: 13))
                     Button() {
-                        //ADD Cart Items
-                        showToast = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                            showToast = false
-                        }
                         cartItems.append(title)
+                        onAddToCart?()
                     } label: {
                         
                             ZStack{
@@ -75,16 +71,6 @@ struct ShopItem: View {
                     }.padding(.trailing, 10)
                         .padding(.bottom, 10)
                 }
-                if showToast {
-                    VStack {
-                        Spacer()
-                        ToastView(message: "Item added to cart!")
-                            .padding(.bottom, 40)
-                    }
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-                    .animation(.easeInOut(duration: 0.3), value: showToast)
-                }
-                
             }
         }
         .onPreferenceChange(ShopImagePreferenceKey.self) { value in

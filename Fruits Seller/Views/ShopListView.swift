@@ -20,12 +20,14 @@ struct ShopListView: View {
         GridItem(.fixed(180)),
     ]
     
+    var onAddToCart: (() -> Void)? = nil
+    
     var body: some View {
         ScrollView() {
             LazyVGrid(columns: columns, spacing: 20) {
                 if let items = viewModel.items {
                     ForEach(items, id: \.id) { item in
-                        ShopItem(imageName: item.image, title: item.name, color: item.color, rating: item.rating, desc: item.description, offer: item.offer, price: item.price)
+                        ShopItem(imageName: item.image, title: item.name, color: item.color, rating: item.rating, desc: item.description, offer: item.offer, price: item.price, onAddToCart: onAddToCart)
                             .matchedGeometryEffect(id: item.id, in: namespace)
                             .onTapGesture {
                                 goToDetail = true

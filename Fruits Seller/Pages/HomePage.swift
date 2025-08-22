@@ -10,11 +10,19 @@ struct HomePage: View {
     
     @State var goToCart = false
     @State var selected : Int = 0
+    @State private var showToast = false
     
     var columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
+    
+    func handleAddToCart() {
+        showToast = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            showToast = false
+        }
+    }
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -29,9 +37,9 @@ struct HomePage: View {
             }
             
             if selected == 0 {
-                ShopListView(type: .Fruits)
+                ShopListView(type: .Fruits, onAddToCart: handleAddToCart)
             } else {
-                ShopListView(type: .Veggies)
+                ShopListView(type: .Veggies, onAddToCart: handleAddToCart)
             }
             
             HStack (alignment: .center){
@@ -44,11 +52,7 @@ struct HomePage: View {
             Spacer()
         }
         .toolbar {
-            Button {
-                goToCart = true
-            } label: {
-                Label("", systemImage: "bag")
-            }
+            ToolBarButton(goToCart: $goToCart, showToast: $showToast)
         }
         .navigationDestination(isPresented: $goToCart) {
             CartPage()
@@ -56,6 +60,27 @@ struct HomePage: View {
     }
 }
 
+// This view is intended to be used inside a '.toolbar' modifier in a parent view.
+struct ToolBarButton: View {
+    
+    @Binding var goToCart: Bool
+    @Binding var showToast: Bool
+    
+    var body: some View {
+        Button {
+            goToCart = true
+        } label: {
+            if showToast {
+                Text("Added to Cart")
+                    .scaleEffect(0.8)
+                    .animation(.easeInOut(duration: 0.2), value: showToast)
+            } else {
+                Label("", systemImage: "bag")
+            }
+            
+        }
+    }
+}
 
 #Preview {
     NavigationStack {
