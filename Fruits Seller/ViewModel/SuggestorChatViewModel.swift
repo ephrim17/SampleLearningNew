@@ -46,12 +46,10 @@ class SuggestorChatViewModel {
         let userInput = self.userInput
         self.userInput = ""
         
-        
-        
 //      streamingTask = Task {
             do {
                 let streamResponse = session.streamResponse(generating: SuggestedVegetable.self) {
-                    "Create a List of Vegetable that is good for heart health"
+                    userInput
                 }
                 self.partialId = UUID()
                 

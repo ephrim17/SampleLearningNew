@@ -20,12 +20,10 @@ struct Fruits_Seller: View {
                         Spacer()
                         PROduceSelectionList(items: viewModel.items ?? [], selections: $selectedItems)
                         //Spacer()
-                        
                     }.padding()
                 }
                 
                 if selectedItems.count > 0 {
-                    
                     Divider()
                     Button {
                         print("Selected Items: \(selectedItems)")

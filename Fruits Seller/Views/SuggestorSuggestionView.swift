@@ -15,7 +15,7 @@ struct SuggestorSuggestionView: View {
         "Vegetable with high calories",
         "Vegetable with high protein",
         "Vegetable with high fiber",
-        "Vegetable with low vitamins",
+        "Vegetable with high vitamins",
         "Vegetable good for heart health",
     ]
     

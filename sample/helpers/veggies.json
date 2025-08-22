@@ -2,46 +2,94 @@
   {
         "name":"Cabbage",
         "image":"https://www.freepngimg.com/thumb/categories/2970.png",
-        "id":2
+        "id":2,
+        "color": "#ffffcc",
+        
+        "description": "Fresh and crunchy cabbage, perfect for salads and cooking.",
+        "rating" : "4.5",
+        "offer" : "10% OFF",
+        "price" : "₹50"
     },
     {
         "name":"Capsicum",
-        "image":"https://www.nicepng.com/png/detail/52-525615_green-bell-pepper-png-green-capsicum-png.png",
-        "id":7
-    },
-    {
-        "name":"Garlic",
-        "image":"https://www.freepngimg.com/thumb/garlic/2-2-garlic-transparent-thumb.png",
-        "id":10
+        "image":"https://freepngimg.com/thumb/pepper/36-green-pepper-png-image.png",
+        "id":7,
+        "color": "#66ff33",
+        "description": "Vibrant green capsicum, ideal for stir-fries and salads.",
+        "rating" : "4.5",
+        "offer" : "8% OFF",
+        "price" : "₹40"
+        
     },
     {
         "name":"Beetroot",
         "image":"https://pngimg.com/uploads/beet/beet_PNG28.png",
-        "id":11
-    },
-    {
-        "name":"Tomatoes",
-        "image":"https://www.freepngimg.com/thumb/categories/2985.png",
-        "id":13
-    },
-    {
-        "name":"Celeriac",
-        "image":"https://w7.pngwing.com/pngs/252/146/png-transparent-celeriac-leaf-vegetable-food-celery-herbes-leaf-vegetable-food-plant-stem-thumbnail.png",
-        "id":16
+        "id":11,
+        "color": "#cc0000",
+        "description": "Nutritious beetroot, great for salads and juices.",
+        "rating" : "4.4",
+        "offer" : "9% OFF",
+        "price" : "₹50"
     },
     {
         "name":"Carrots",
         "image":"https://www.freepngimg.com/thumb/categories/2971.png",
-        "id":18
+        "id":18,
+        "color": "#ff9933",
+        "description": "Fresh carrots, rich in vitamins and perfect for snacking or cooking.",
+        "rating" : "4.2",
+        "offer" : "11% OFF",
+        "price" : "₹60"
+        
+    },
+    {
+        "name":"Broccoli",
+        "image":"https://freepngimg.com/thumb/broccoli/12-broccoli-png-image-with-transparent-background.png",
+        "id":16,
+        "color": "#ccff99",
+        "description": "Healthy broccoli, packed with nutrients and great for steaming.",
+        "rating" : "4.2",
+        "offer" : "11% OFF",
+        "price" : "₹60"
+    },
+    {
+        "name":"Garlic",
+        "image":"https://www.freepngimg.com/thumb/garlic/2-2-garlic-transparent-thumb.png",
+        "id":10,
+        "color": "#ffffcc",
+        "description": "Aromatic garlic, essential for flavoring dishes.",
+        "rating" : "4.6",
+        "offer" : "12% OFF",
+        "price" : "₹30"
+    },
+    {
+        "name":"Tomatoes",
+        "image":"https://www.freepngimg.com/thumb/categories/2985.png",
+        "id":13,
+        "color": "#ff0000",
+        "description": "Juicy tomatoes, perfect for salads, sauces, and cooking.",
+        "rating" : "4.8",
+        "offer" : "10% OFF",
+        "price" : "₹50"
     },
     {
         "name":"Onions",
         "image":"https://www.freepngimg.com/thumb/onion/10-red-onion-png-image-thumb.png",
-        "id":19
+        "id":19,
+        "color": "#ff6699",
+        "description": "Fresh onions, a staple for many dishes.",
+        "rating" : "4.3",
+        "offer" : "5% OFF",
+        "price" : "₹40"
     },
     {
         "name":"Potatoes",
         "image":"https://www.freepngimg.com/thumb/potato/7-potato-png-images-pictures-download-thumb.png",
-        "id":20
+        "id":20,
+        "color": "#ff9966",
+        "description": "Versatile potatoes, great for baking, boiling, or frying.",
+        "rating" : "4.5",
+        "offer" : "6% OFF",
+        "price" : "₹30"
     }
 ]

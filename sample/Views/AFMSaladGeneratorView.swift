@@ -19,13 +19,14 @@ struct AFMSaladGeneratorView: View {
                 VStack {
                     if let salad = saladReady.saladMaker{
                         SaladHeader(salad: salad)
-                        
+                            .showAddToCartButton(true)
                         Text("Ingredients Required")
                             .fontWeight(.bold)
-                            .font(.custom("Helvetica Neue", size: 18))
+                            .modifier(TextViewModifierForFruitSeller())
                         if let ingredients = salad.ingredients {
                             ForEach(ingredients, id: \.id) { item in
                                 Text("\u{2022} \(item.name ?? "") \(item.quantity ?? "")")
+                                    .modifier(TextViewModifierForFruitSeller())
                             }
                             Divider()
                         }
@@ -33,10 +34,11 @@ struct AFMSaladGeneratorView: View {
                         
                         Text("Instructions to Prepare")
                             .fontWeight(.bold)
-                            .font(.custom("Helvetica Neue", size: 18))
+                            .modifier(TextViewModifierForFruitSeller())
                         if let instructions = salad.instructions {
                             ForEach(instructions, id: \.self) { item in
                                 Text("\u{2022} \(item)")
+                                    .modifier(TextViewModifierForFruitSeller())
                             }
                             Divider()
                         }
@@ -52,8 +54,9 @@ struct AFMSaladGeneratorView: View {
                         if let calorieCount = salad.calories {
                             Text("Total Calorie Count")
                                 .fontWeight(.bold)
-                                .font(.custom("Helvetica Neue", size: 18))
+                                .modifier(TextViewModifierForFruitSeller())
                             Text("\(calorieCount)")
+                                .modifier(TextViewModifierForFruitSeller())
                             Divider()
                         }
                         
@@ -62,8 +65,9 @@ struct AFMSaladGeneratorView: View {
                         if let seasoning = salad.suggestSeasoning {
                             Text("Season with")
                                 .fontWeight(.bold)
-                                .font(.custom("Helvetica Neue", size: 18))
+                                .modifier(TextViewModifierForFruitSeller())
                             Text(seasoning)
+                                .modifier(TextViewModifierForFruitSeller())
                             Divider()
                         }
                         PreparationTime(salad: salad)
@@ -84,7 +88,7 @@ struct AFMSaladGeneratorView: View {
 }
 
 #Preview {
-    AFMSaladGeneratorView()
+    //AFMSaladGeneratorView()
 }
 
 struct DifficultyView: View{
@@ -95,7 +99,7 @@ struct DifficultyView: View{
         HStack{
             Text("Difficulty Level")
                 .fontWeight(.bold)
-                .font(.custom("Helvetica Neue", size: 18))
+                .modifier(TextViewModifierForFruitSeller())
             Circle()
                 .fill(getDiffColor())
                 .frame(width: 15, height: 15)
@@ -139,11 +143,11 @@ struct PreparationTime: View {
         HStack{
             Text("Prepration Time: ")
                 .fontWeight(.bold)
-                .font(.custom("Helvetica Neue", size: 18))
+                .modifier(TextViewModifierForFruitSeller())
             if let preparationTime = salad.preparationTime {
                 Text(preparationTime)
                     .fontWeight(.medium)
-                    .font(.custom("Helvetica Neue", size: 14))
+                    .modifier(TextViewModifierForFruitSeller())
             }
         }
     }

@@ -21,3 +21,32 @@ extension View {
         preference(key: BagPreferenceKey.self, value: items) // This is just a placeholder value
     }
 }
+
+struct ShopImagePreferenceKey: PreferenceKey {
+    static var defaultValue: Bool = false
+    
+    static func reduce(value: inout Bool, nextValue: () -> Bool) {
+        value = value || nextValue()
+    }
+}
+    
+extension View {
+    func showShopImage(_ flag: Bool) -> some View {
+        preference(key: ShopImagePreferenceKey.self, value: flag)
+    }
+}
+
+
+struct ShopAddToCartKey: PreferenceKey {
+    static var defaultValue: Bool = false
+    
+    static func reduce(value: inout Bool, nextValue: () -> Bool) {
+        value = value || nextValue()
+    }
+}
+    
+extension View {
+    func showAddToCartButton(_ flag: Bool) -> some View {
+        preference(key: ShopAddToCartKey.self, value: flag)
+    }
+}

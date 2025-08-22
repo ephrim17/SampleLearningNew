@@ -17,6 +17,8 @@ struct SuggestorChatMessageView: View {
     
     @State var selectedOptions: [String] = [""]
     
+    @FocusState private var isTextFieldFocused: Bool
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -25,81 +27,70 @@ struct SuggestorChatMessageView: View {
                     SuggestorSuggestionView(viewModel: viewModel)
                     
                     //}
-                    
                     //else {
                     SuggestorChatView(messages: viewModel.messages,
-                             isLoading: viewModel.isResponding,
-                             partial: viewModel.partial,
-                             partialId: viewModel.partialId)
+                                      isLoading: viewModel.isResponding,
+                                      partial: viewModel.partial,
+                                      partialId: viewModel.partialId)
                     
                     //}
-        
-                    
-                    
-                    
                     Divider()
-                    
-                    
                 }
                 HStack {
-                    TextField("Write a question here...", text: $viewModel.userInput)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    //TextField("Write a question here...", text: $viewModel.userInput)
+//                        .textFieldStyle(RoundedBorderTextFieldStyle())
+
+//                            
+//                        }
+                    AFMSearchBar(tempText: $viewModel.userInput, isTextFieldFocused: _isTextFieldFocused)
                         .onSubmit {
                             Task {
+                                isTextFieldFocused = false
                                 await viewModel.sendMessage()
                             }
                             
                         }
                     Button("Send") {
                         Task {
+                            isTextFieldFocused = false
                             await viewModel.sendMessage()
                         }
                     }
                     .disabled(viewModel.isResponding)
                 }
                 .padding()
-                .navigationTitle("Vegetable Advisor")
+                //.navigationTitle("Vegetable Advisor")
                 .toolbar {
                     Button("Restart") {
                         viewModel.reset()
                     }
-                    
                     if showBag {
                         Button {
-                            showModal = true
+                            //showModal = true
                         } label: {
                             Text("Add To Bag")
-                                //.padding()
+                            //.padding()
                                 .fontWeight(.bold)
-                                //.frame(maxWidth: .infinity)
+                            //.frame(maxWidth: .infinity)
                                 .foregroundColor(.blue)
-                                
-                                
-                                
                                 .clipShape(.rect)
-                                //.cornerRadius(10)
-                                
+                            //.cornerRadius(10)
                         }
-                        
-                        
                     }
-                    
                 }
-                
             }
-            .sheet(isPresented: $showModal) {
-                Bag(selectedItems: selectedOptions)
-            }
+//            .sheet(isPresented: $showModal) {
+//                Bag(selectedItems: selectedOptions)
+//            }
             .onPreferenceChange(BagPreferenceKey.self) { value in
-                print(selectedOptions)
-                showBag = true
+                //showBag = true
+                cartItems.removeAll()
                 selectedOptions = Array(Set(value.filter { !$0.isEmpty }))
                 showBag = selectedOptions.isEmpty ? false : true
+                cartItems = selectedOptions
             }
         }
-        
     }
-    
 }
 
 

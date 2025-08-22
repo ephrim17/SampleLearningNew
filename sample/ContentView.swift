@@ -11,7 +11,7 @@ import FoundationModels
 
 struct ContentView: View {
     var body: some View {
-        Fruits_Seller()
+        FruitStarterPage()
     }
 }
 

@@ -25,6 +25,3 @@ struct PROduceitemView: View {
     }
 }
 
-#Preview {
-    PROduceitemView(PROitem: PROduceModel(name: "Apple", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Table_grapes_on_white.jpg/320px-Table_grapes_on_white.jpg", id: 1))
-}

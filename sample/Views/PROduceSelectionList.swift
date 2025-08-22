@@ -17,8 +17,6 @@ struct PROduceSelectionList: View {
     ]
     
     var body: some View {
-    
-            
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(self.items, id: \.id) { item in
                     PROduceSelectionRow(title: item.name, proItem: item, isSelected: self.selections.contains(item.name)) {
@@ -31,8 +29,6 @@ struct PROduceSelectionList: View {
                     }
                 }
             }
-            
-            
             
 //            ForEach(self.items, id: \.id) { item in
 //                PROduceSelectionRow(title: item.name, proItem: item, isSelected: self.selections.contains(item.name)) {

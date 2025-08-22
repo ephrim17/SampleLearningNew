@@ -1,22 +1,63 @@
 [
     {
       "name": "Apple",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/265px-Red_Apple.jpg",
-      "id": 2
+      "image": "https://png.pngtree.com/png-vector/20231017/ourmid/pngtree-fresh-apple-fruit-red-png-image_10203073.png",
+      "id": 2,
+      "color": "#ff0000",
+      "rating" : "4.9",
+      "offer" : "6% OFF",
+      "price" : "₹250",
+      "description": "Fresh and juicy apples, perfect for snacking or baking."
     },
     {
       "name": "Banana",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Bananas_white_background_DS.jpg/320px-Bananas_white_background_DS.jpg",
-      "id": 3
+      "image": "https://freepngimg.com/thumb/banana/31668-7-banana-icon.png",
+      "id": 3,
+      "color": "#ffff00",
+      "rating" : "4.5",
+      "offer" : "12% OFF",
+      "price" : "₹50",
+      "description": "Sweet bananas, rich in potassium and great for a quick energy boost."
+      
     },
     {
       "name": "Grapes",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Table_grapes_on_white.jpg/320px-Table_grapes_on_white.jpg",
-      "id": 4
+      "image": "https://freepngimg.com/thumb/grape/9-2-grape-picture.png",
+      "id": 4,
+      "color": "#3cc33",
+      "rating" : "4.5",
+      "offer" : "8% OFF",
+      "price" : "₹150",
+      "description": "Fresh grapes, perfect for snacking or adding to salads."
     },
     {
       "name": "Pineapple",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Pineapple_and_cross_section.jpg/286px-Pineapple_and_cross_section.jpg",
-      "id": 5
+      "image": "https://freepngimg.com/thumb/pineapple/2-2-pineapple-picture.png",
+      "id": 5,
+      "color": "#ffcc00",
+      "rating" : "4.8",
+      "offer" : "12% OFF",
+      "price" : "₹90",
+      "description": "Sweet and tangy pineapples, great for desserts or smoothies."
+    },
+    {
+      "name": "WaterMelon",
+      "image": "https://freepngimg.com/thumb/watermelon/3-2-watermelon-png.png",
+      "id": 6,
+      "color": "#66ff33",
+      "rating" : "4.5",
+      "offer" : "13% OFF",
+      "price" : "₹50",
+      "description": "Refreshing watermelons, perfect for summer days or fruit salads."
+    },
+    {
+      "name": "Orange",
+      "image": "https://freepngimg.com/thumb/orange/3-2-orange-png-image.png",
+      "id": 7,
+      "color": "#ff9933",
+      "rating" : "4.7",
+      "offer" : "11% OFF",
+      "price" : "₹150",
+      "description": "Citrusy oranges, rich in vitamin C and great for juices."
     }
 ]
