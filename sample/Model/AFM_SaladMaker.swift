@@ -44,7 +44,7 @@ final class SaladAFMPlannerViewModel {
         }
         
         for try await partialResponse in streamResponse {
-            self.saladMaker =  partialResponse
+            //self.saladMaker =  partialResponse
         }
     }
     

@@ -85,31 +85,27 @@ struct ShopItem: View {
 
 
 struct ShopItemImage: View {
-    @State var imageUrl = URL(string: "")
-    @State var width: CGFloat = 120
-    @State var height: CGFloat = 120
+    var imageUrl: URL?
+    private let size: CGFloat = 120
 
     var body: some View {
         AsyncImage(url: imageUrl) { phase in
-            switch phase {
-            case .empty:
-                ProgressView()
-                    .showShopImage(false)
-            case .success(let image):
-                image
-                    .resizable()
-                    .frame(width: width, height: height)
-                    .scaledToFit()
-                    .showShopImage(true)
-            case .failure:
-                Text("")
-                    .frame(width: height, height: height)
-                    .showShopImage(true)
-            @unknown default:
-                // Handle any future cases not yet defined in AsyncImagePhase
-                Text("Unknown state")
+            Group {
+                switch phase {
+                case .empty:
+                    ProgressView()
+                case .success(let image):
+                    image.resizable().scaledToFit()
+                case .failure(_):
+                    Text("image failed")
+                        .font(.caption)
+                        .foregroundColor(.red)
+                        .multilineTextAlignment(.center)
+                @unknown default:
+                    Text("Unknown state")
+                }
             }
+            .frame(width: size, height: size)
         }
     }
 }
-

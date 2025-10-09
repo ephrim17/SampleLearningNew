@@ -7,17 +7,13 @@
 import SwiftUI
 
 struct HomePage: View {
-    
-    @State var goToCart = false
-    @State var selected : Int = 0
+    @State private var goToCart = false
+    @State private var selected = 0
     @State private var showToast = false
     
-    var columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible())
-    ]
+    let columns = [GridItem(.flexible()), GridItem(.flexible())]
     
-    func handleAddToCart() {
+    private func handleAddToCart() {
         showToast = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             showToast = false
@@ -26,29 +22,25 @@ struct HomePage: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            WelcomeView()
-                .padding(10)
-            HStack (alignment: .center){
+            WelcomeView().padding(10)
+            HStack {
                 Spacer()
                 CustomSwitch(selected: $selected)
                     .background(Color.gray.opacity(0.2))
                     .clipShape(Capsule())
                 Spacer()
             }
-            
             if selected == 0 {
                 ShopListView(type: .Fruits, onAddToCart: handleAddToCart)
             } else {
                 ShopListView(type: .Veggies, onAddToCart: handleAddToCart)
             }
-            
-            HStack (alignment: .center){
+            FooterView()
+            HStack {
                 Spacer()
-                AFMButton()
-                    .opacity(0.8)
+                AFMButton().opacity(0.8)
                 Spacer()
             }
-            
             Spacer()
         }
         .toolbar {
@@ -60,9 +52,7 @@ struct HomePage: View {
     }
 }
 
-// This view is intended to be used inside a '.toolbar' modifier in a parent view.
 struct ToolBarButton: View {
-    
     @Binding var goToCart: Bool
     @Binding var showToast: Bool
     
@@ -77,8 +67,18 @@ struct ToolBarButton: View {
             } else {
                 Label("", systemImage: "bag")
             }
-            
         }
+        .foregroundColor(showToast ? .blue : .primary)
+    }
+}
+
+struct FooterView: View {
+    var body: some View {
+        Text("hello world footer")
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(Color.gray.opacity(0.1))
+            .font(.footnote)
     }
 }
 

@@ -25,9 +25,10 @@ struct ContentView: View {
 //    }
     do  {
         
-        let instructions = "you are a mobile store sales person"
-        let session = LanguageModelSession(instructions: instructions)
-        let response =  try await session.respond(to: "hi")
+        let article = "Check the weather forecast and be prepared for changes, especially in desert climates. Always be aware of your surroundings, especially when hiking. Carry plenty of water and wear appropriate clothing.Follow Leave No Trace principles to protect the natural beauty of Joshua Tree."
+        
+        let session = LanguageModelSession()
+        let response =  try await session.respond(to: "Does this article has the word Joshua: " + article)
            print(response)
        } catch {
            print(error)

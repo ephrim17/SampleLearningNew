@@ -43,7 +43,7 @@ struct DetailPage: View {
             VStack (spacing: 10){
                 
                 if let proItem = selectedItem {
-                    ShopItemImage(imageUrl: URL(string: proItem.image), width: 300, height: 300)
+                    ShopItemImage(imageUrl: URL(string: proItem.image))
                     if showDetail{
                         Text("Here's the salad that you can try with \(proItem.name)")
                             .modifier(TextViewModifierForFruitSeller(fontSize: 18))

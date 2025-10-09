@@ -57,7 +57,7 @@ class SuggestorChatViewModel {
                 
                 for try await partial in streamResponse {
                     //print(partial)
-                    self.partial = partial
+                    //self.partial = partial
                 }
                 
                 guard !Task.isCancelled else { return }

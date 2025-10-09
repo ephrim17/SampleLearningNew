@@ -51,7 +51,7 @@ class ChatViewModel {
                 
                 for try await partial in stream {
                     //print(partial)
-                    self.partial = partial
+                    //self.partial = partial
                 }
                 
                 guard !Task.isCancelled else { return }

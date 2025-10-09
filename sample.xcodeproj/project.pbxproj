@@ -11,6 +11,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		053788BE2E96AAB000B76044 /* DocumentScanner */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = DocumentScanner;
+			sourceTree = "<group>";
+		};
 		058527452E30E797006C8A3E /* ChatBot */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = ChatBot;
@@ -42,6 +47,7 @@
 		05DBFAC42E2507AA004B7836 = {
 			isa = PBXGroup;
 			children = (
+				053788BE2E96AAB000B76044 /* DocumentScanner */,
 				05921E522E33877A00255EBF /* Fruits Seller */,
 				058527452E30E797006C8A3E /* ChatBot */,
 				05DBFACF2E2507AA004B7836 /* sample */,
@@ -73,6 +79,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				053788BE2E96AAB000B76044 /* DocumentScanner */,
 				058527452E30E797006C8A3E /* ChatBot */,
 				05921E522E33877A00255EBF /* Fruits Seller */,
 				05DBFACF2E2507AA004B7836 /* sample */,
