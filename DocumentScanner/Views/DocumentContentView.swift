@@ -11,6 +11,7 @@ import FoundationModels
 struct DocumentContentView: View {
     @State private var camera = Camera()
     @State var imageData: Data? = nil
+    @State var hideActionButton: Bool = false
     
     var body: some View {
         //        if let image = imageData {
@@ -23,12 +24,33 @@ struct DocumentContentView: View {
         //                }
         //        }
         VStack {
-            if let image = imageData {
+            if hideActionButton, let image = imageData {
                 ImageView(imageData: image)
+                    .transition(.opacity) 
+            } else {
+                Spacer()
+                Text("Tap the button to add image.")
+                    .font(.title)
+                    .foregroundColor(.gray)
+                Spacer()
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        convertAssetImageToData(named: "Hotel-invoice-example1")
+                        withAnimation(.easeInOut(duration: 0.25)) {
+                            hideActionButton = true
+                    }
+                    }) {
+                        Image(systemName: "photo.badge.plus")
+                            .font(.system(size: 28, weight: .medium))
+                            .foregroundColor(.white)
+                            .frame(width: 70, height: 70)
+                            .background(Color.black)
+                            .clipShape(Circle())
+                    }.padding()
+                    
+                                    }
             }
-        }
-        .onAppear {
-            convertAssetImageToData(named: "IMG_0038")
         }
     }
     
@@ -43,17 +65,11 @@ struct DocumentContentView: View {
         // Use .pngData() for lossless compression.
         // Use .jpegData(compressionQuality:) to specify a quality level.
         imageData = uiImage.pngData()
+        hideActionButton = true
     }
 }
 
+
 #Preview {
     DocumentContentView()
-}
-
-import Playgrounds
-
-#Playground {
-    
-    let session = LanguageModelSession()
-    let response = try await session.respond(to: "Tell me about orange fruit")
 }

@@ -19,8 +19,6 @@ class VisionModel {
         case invalidPoint
     }
     
-    var summarisedByAFM: String = ""
-    
     /// The first table detected in the document.
     var table: DocumentObservation.Container.Table? = nil
     
@@ -50,13 +48,13 @@ class VisionModel {
     ///
     /// Simple tables have at most 1 line per cell, and no cells that span multiple rows or columns.
     func exportTable() async throws -> String {
-//        guard let rows = self.table?.rows else {
-//            throw AppError.noTable
-//        }
+        guard let rows = self.table?.rows else {
+            throw AppError.noTable
+        }
         // Map each row into a tab-delimited line.
-//        let tableRowData = rows.map { row in
-//            return row.map({ $0.content.text.transcript }).joined(separator: "\t")
-//        }
+        let tableRowData = rows.map { row in
+            return row.map({ $0.content.text.transcript }).joined(separator: "\t")
+        }
         // Create a multiline string with one row per line.
         
         print("<<< statement")
@@ -65,11 +63,8 @@ class VisionModel {
             let afmResult = try await summarizeArticle(articleText: textParagraph)
             print("<<< afmResult")
             print(afmResult)
-            summarisedByAFM = afmResult
-            return textParagraph ?? ""
         }
-        return ""
-        //return tableRowData.joined(separator: "\n")
+        return tableRowData.joined(separator: "\n")
     }
     
     func summarizeArticle(articleText: String) async throws -> String {

@@ -28,26 +28,17 @@ struct ImageView: View {
                             .buttonStyle(RoundedButton())
                             .navigationBarBackButtonHidden()
                         if !viewModel.contacts.isEmpty {
-//                            Spacer()
-//                            NavigationLink("View Contacts") {
-//                                ContactView(contacts: viewModel.contacts)
-//                            }.buttonStyle(RoundedButton())
-                        }
-                        if viewModel.paragraph != nil {
                             Spacer()
-                            Button("Use AFM", action: copyTable)
+                            NavigationLink("View Contacts") {
+                                ContactView(contacts: viewModel.contacts)
+                            }.buttonStyle(RoundedButton())
+                        }
+                        if viewModel.table != nil {
+                            Spacer()
+                            Button("Copy Table", action: copyTable)
                                 .buttonStyle(RoundedButton())
                         }
                         Spacer()
-                    }
-                    
-                    if viewModel.summarisedByAFM.count > 0 {
-                        Text("Summarised by AFM:")
-                            .font(.headline)
-                            .padding(.top)
-                        Text(viewModel.summarisedByAFM)
-                            .italic()
-                            .padding([.leading, .trailing, .bottom])
                     }
                 }
                 // Convert the image data to a `UIImage`, and display it in an `Image` view.
@@ -150,12 +141,12 @@ struct ImageView: View {
         Task {
             UIPasteboard.general.string = try await viewModel.exportTable()
             withAnimation {
-               // isAlertShowing = true
+                isAlertShowing = true
             }
-//            try? await Task.sleep(for: .seconds(5))
-//            withAnimation {
-//                isAlertShowing = false
-//            }
+            try? await Task.sleep(for: .seconds(5))
+            withAnimation {
+                isAlertShowing = false
+            }
         }
     }
     
