@@ -23,8 +23,14 @@ class VisionModel {
     var table: DocumentObservation.Container.Table? = nil
     
     var paragraph: DocumentObservation.Container.Text? = nil
+    
+    var newParagraphs : [DocumentObservation.Container.Text] = []
     /// A list of contacts extracted from the table.
     var contacts = [Contact]()
+    
+    //Summarized by AFM
+    var summarisedData: InvoiceMakerModel? = nil
+    var showBillSummary: Bool = false
     
     /// Run Vision document recognition on the image to parse a table.
     func recognizeTable(in image: Data) async {
@@ -57,28 +63,49 @@ class VisionModel {
         }
         // Create a multiline string with one row per line.
         
-        print("<<< statement")
-        print(self.paragraph?.transcript)
-        if let textParagraph = self.paragraph?.transcript {
-            let afmResult = try await summarizeArticle(articleText: textParagraph)
-            print("<<< afmResult")
-            print(afmResult)
+        var textParagraph = ""
+        
+        for (index, item) in self.newParagraphs.enumerated() {
+            print(item.transcript)
+            textParagraph.append(item.transcript)
         }
+        
+        print("<<<<<< BEFORE AFM")
+        print(textParagraph)
+        do {
+            summarisedData = try await summarizeArticle(articleText: textParagraph)
+            showBillSummary = true
+        } catch {
+            print("Summarization failed:", error)
+        }
+        
         return tableRowData.joined(separator: "\n")
     }
     
-    func summarizeArticle(articleText: String) async throws -> String {
+    func summarizeArticle(articleText: String) async throws -> InvoiceMakerModel {
         // 1. Create a LanguageModelSession
         let session = LanguageModelSession()
+        
+        let prompt = "Take a summary of the following article and give date, total amount, address and person name , :\n\n" + articleText
+        
+        do {
+            let afmResponse = try await session.respond(generating: InvoiceMakerModel.self) {
+                prompt
+            }
+            return afmResponse.content
+        } catch {
+            print("LanguageModelSession respond failed:", error)
+            throw error
+        }
 
         // 2. Formulate the prompt
-        let prompt = "Summarize the following article:\n\n" + articleText
+      
 
         // 3. Send the prompt and await the response
-        let response = try await session.respond(to: prompt)
+        //let response = try await session.respond(to: prompt)
 
         // 4. Return the summarized content
-        return response.content
+        //return afmResponse.content
     }
 
     /// Process an image and return the first table detected.
@@ -96,11 +123,20 @@ class VisionModel {
         }
         
         //extract lines
-        guard let para = document.paragraphs.first else {
-            throw AppError.noTable
-        }
+//        guard let para = document.paragraphs else {
+//            throw AppError.noTable
+//        }
         
-        paragraph = para
+        for (index, item) in document.paragraphs.enumerated() {
+            print(item.transcript)
+            print("<<<<<<")
+            
+            if item.transcript == "Total:" {
+                print("<<< TOTAL BILL \(document.paragraphs[index + 1].transcript)")
+            }
+        }
+        newParagraphs = document.paragraphs
+        //paragraph = para
         
         // Extract the first table detected.
         guard let table = document.tables.first else {
@@ -116,9 +152,9 @@ class VisionModel {
         
         //iterate para
         
-        for text in paragraph!.lines {
-            print("text \(text.transcript)")
-        }
+//        for text in paragraph?.lines {
+//            print("text \(text.transcript)")
+//        }
         
         // Iterate over each row in the table.
         for row in table.rows {
@@ -177,4 +213,22 @@ extension DocumentObservation.Container.Table {
         }
         return nil
     }
+}
+
+
+@Generable()
+struct InvoiceMakerModel: Equatable {
+    
+    @Guide(description: "Date from the given text")
+    let Date: String
+    
+    @Guide(description: "totalAmount from the given text")
+    let totalAmount: String
+    
+    @Guide(description: "address from the given text")
+    let address: String
+    
+    @Guide(description: "personName from the given text")
+    let personName: String
+
 }

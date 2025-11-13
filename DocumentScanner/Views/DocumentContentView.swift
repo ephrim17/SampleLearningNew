@@ -23,6 +23,8 @@ struct DocumentContentView: View {
         //                    await camera.start()
         //                }
         //        }
+        VStack{
+
         VStack {
             if hideActionButton, let image = imageData {
                 ImageView(imageData: image)
@@ -39,7 +41,7 @@ struct DocumentContentView: View {
                         convertAssetImageToData(named: "Hotel-invoice-example1")
                         withAnimation(.easeInOut(duration: 0.25)) {
                             hideActionButton = true
-                    }
+                        }
                     }) {
                         Image(systemName: "photo.badge.plus")
                             .font(.system(size: 28, weight: .medium))
@@ -49,7 +51,8 @@ struct DocumentContentView: View {
                             .clipShape(Circle())
                     }.padding()
                     
-                                    }
+                }
+            }
             }
         }
     }

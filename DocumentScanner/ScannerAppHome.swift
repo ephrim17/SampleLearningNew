@@ -18,7 +18,7 @@ struct ScannerAppHome: View {
     
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 // Main card
                 VStack(spacing: 0) {
@@ -87,7 +87,7 @@ struct ScannerAppHome: View {
                             .buttonStyle(.plain)
                             
                             ActionButtonView(
-                                icon: "arrow.up.right.square",
+                                icon: "square.stack.3d.up",
                                 title: "Results",
                                 backgroundColor: Color(red: 0.85, green: 0.98, blue: 0.85),
                                 

@@ -1,15 +1,8 @@
-/*
-See the LICENSE.txt file for this sample’s licensing information.
-
-Abstract:
-Displays the captured image and runs table detection.
-*/
-
 import SwiftUI
 import Vision
 
 struct ImageView: View {
-    let imageData: Data
+    @State var imageData: Data? =  nil
     @State private var viewModel = VisionModel()
     @State private var isPopoverPresented = false
     @State private var isAlertShowing = false
@@ -17,32 +10,28 @@ struct ImageView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            NavigationStack {
+             VStack{
                 VStack {
                     // Navigation buttons to retake photo, view or export data.
                     HStack {
                         Spacer()
-//                        NavigationLink("Retake photo") {
-//                            //DocumentContentView()
-//                        }
+                        //                        NavigationLink("Retake photo") {
+                        //                            //DocumentContentView()
+                        //                        }
                             .buttonStyle(RoundedButton())
-                            .navigationBarBackButtonHidden()
+                            
                         if !viewModel.contacts.isEmpty {
                             Spacer()
                             NavigationLink("View Contacts") {
                                 ContactView(contacts: viewModel.contacts)
                             }.buttonStyle(RoundedButton())
                         }
-                        if viewModel.table != nil {
-                            Spacer()
-                            Button("Copy Table", action: copyTable)
-                                .buttonStyle(RoundedButton())
-                        }
+                        
                         Spacer()
                     }
                 }
                 // Convert the image data to a `UIImage`, and display it in an `Image` view.
-                if let uiImage = UIImage(data: imageData) {
+                if let uiImage = UIImage(data: imageData ?? Data()) {
                     Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFit()
@@ -52,12 +41,12 @@ struct ImageView: View {
                                     ZStack {
                                         // Draw bounding boxes around the table and its cells.
                                         BoundingBox(region: table.boundingRegion)
-                                            .stroke(.blue, lineWidth: 4.0)
+                                            .stroke(.blue, lineWidth: 1.0)
                                             .contentShape(Rectangle())
                                         ForEach(table.rows, id: \.hashValue) { row in
                                             ForEach(row, id: \.hashValue) { cell in
                                                 BoundingBox(region: cell.content.boundingRegion)
-                                                    .stroke(.blue, style: .init(lineWidth: 2.0, dash: [5]))
+                                                    .stroke(.blue, style: .init(lineWidth: 1.0, dash: [5]))
                                             }
                                         }
                                     }
@@ -65,6 +54,23 @@ struct ImageView: View {
                                         selectCell(containing: point, in: geometry.size)
                                     }
                                 }
+                            }
+                            
+                            if !viewModel.newParagraphs.isEmpty {
+                                ZStack {
+                                    ForEach(viewModel.newParagraphs, id: \.hashValue) { para in
+                                        BoundingBox(region: para.boundingRegion)
+                                            .stroke(.blue, lineWidth: 1.0)
+                                            .contentShape(Rectangle())
+                                        ForEach(para.lines, id: \.hashValue) { line in
+                                            BoundingBox(region: line.boundingRegion)
+                                                .stroke(.blue, style: .init(lineWidth: 1.0, dash: [5]))
+                                        }
+                                    }
+                                }.onAppear {
+                                    copyTable()
+                                }
+                                
                             }
                             
                             if let para = viewModel.paragraph {
@@ -91,14 +97,56 @@ struct ImageView: View {
                                 .presentationCompactAdaptation(.popover)
                         }
                 }
-            }
-            if isAlertShowing {
-                makeAlert()
+                
+                if viewModel.showBillSummary {
+                    HStack(spacing: 16) {
+                        Image(systemName: "wand.and.sparkles")
+                            .font(.system(size: 12))
+                            .foregroundColor(.black)
+                        
+                        NavigationLink {
+                            if let invoiceMakerItems = viewModel.summarisedData {
+                                CustomBillSummaryView(invoiceMakerItems: invoiceMakerItems)
+                            }
+                        } label: {
+                            Text("Update Bill with AI")
+                                .font(.system(size: 10, weight: .semibold))
+                                .foregroundColor(.black)
+                        }
+                        
+                    }
+                    
+                    .frame(width: 200)
+                    .frame(height: 44)
+                    .background(Color.green)
+                    .opacity(0.8)
+                    .cornerRadius(24)
+                }
+                
+                
+                if viewModel.table != nil {
+                    HStack(spacing: 16) {
+                        Image(systemName: "arrow.clockwise")
+                            .font(.system(size: 12))
+                            .foregroundColor(.black)
+                        
+                        Text("Re upload new bill")
+                            .font(.system(size: 10, weight: .semibold))
+                            .foregroundColor(.black)
+                    }
+                    
+                    .frame(width: 200)
+                    .frame(height: 44)
+                    
+                    .background(Color.orange)
+                    .opacity(0.8)
+                    .cornerRadius(24)
+                }
             }
         }
         .task {
             // Process the image with Vision's document recognition.
-            await viewModel.recognizeTable(in: imageData)
+            await viewModel.recognizeTable(in: imageData ?? Data())
         }
     }
     
@@ -135,7 +183,7 @@ struct ImageView: View {
             .transition(.move(edge: .top))
             .frame(maxHeight: .infinity, alignment: .top)
     }
-
+    
     /// Copy the detected table to the clipboard and show an alert upon success.
     private func copyTable() {
         Task {
