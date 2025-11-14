@@ -1,10 +1,3 @@
-/*
-See the LICENSE.txt file for this sample’s licensing information.
-
-Abstract:
-Provides data models to store information extracted from the document.
-*/
-
 import Vision
 import SwiftUI
 internal import DataDetection

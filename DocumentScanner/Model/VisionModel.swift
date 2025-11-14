@@ -9,9 +9,10 @@ import SwiftUI
 import Vision
 internal import DataDetection
 import FoundationModels
+internal import Combine
 
-@Observable
-class VisionModel {
+
+class VisionModel: ObservableObject {
     
     enum AppError: Error {
         case noDocument
@@ -20,22 +21,27 @@ class VisionModel {
     }
     
     /// The first table detected in the document.
-    var table: DocumentObservation.Container.Table? = nil
+    @Published var table: DocumentObservation.Container.Table? = nil
     
-    var paragraph: DocumentObservation.Container.Text? = nil
+    @Published var paragraph: DocumentObservation.Container.Text? = nil
     
-    var newParagraphs : [DocumentObservation.Container.Text] = []
+    @Published var newParagraphs : [DocumentObservation.Container.Text] = []
     /// A list of contacts extracted from the table.
     var contacts = [Contact]()
     
     //Summarized by AFM
-    var summarisedData: InvoiceMakerModel? = nil
-    var showBillSummary: Bool = false
+    @Published var summarisedData: InvoiceMakerModel? = nil
+    @Published var showBillSummary: Bool = false
+    
+    //ShowLoading
+    @Published var isShowLoading: Bool = true
+    @Published var loadingText: String = ""
     
     /// Run Vision document recognition on the image to parse a table.
     func recognizeTable(in image: Data) async {
         resetState()
         do {
+            self.loadingText = "Recognizing document..."
             let table = try await extractTable(from: image)
             self.table = table
             self.contacts = parseTable(table)
@@ -48,6 +54,10 @@ class VisionModel {
     func resetState() {
         self.table = nil
         self.contacts = []
+        self.summarisedData = nil
+        self.paragraph = nil
+        self.newParagraphs = []
+        self.showBillSummary = false
     }
     
     /// Convert a simple table into a TSV string format compatible with pasting into Notes & Numbers.
@@ -70,9 +80,11 @@ class VisionModel {
             textParagraph.append(item.transcript)
         }
         
-        print("<<<<<< BEFORE AFM")
-        print(textParagraph)
+        //print("<<<<<< BEFORE AFM")
+        //print(textParagraph)
+        isShowLoading = false
         do {
+            loadingText = "Analyzing document..."
             summarisedData = try await summarizeArticle(articleText: textParagraph)
             showBillSummary = true
         } catch {
@@ -92,6 +104,7 @@ class VisionModel {
             let afmResponse = try await session.respond(generating: InvoiceMakerModel.self) {
                 prompt
             }
+            loadingText = ""
             return afmResponse.content
         } catch {
             print("LanguageModelSession respond failed:", error)
@@ -217,7 +230,7 @@ extension DocumentObservation.Container.Table {
 
 
 @Generable()
-struct InvoiceMakerModel: Equatable {
+struct InvoiceMakerModel: Equatable, Hashable {
     
     @Guide(description: "Date from the given text")
     let Date: String

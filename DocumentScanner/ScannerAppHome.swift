@@ -6,19 +6,15 @@
 //
 
 import SwiftUI
-
-enum Route: Hashable {
-    case scan
-}
+internal import Combine
 
 
 struct ScannerAppHome: View {
     
-    @State private var path: [Route] = []
-    
+    @StateObject var router = Router()
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $router.path) {
             ZStack {
                 // Main card
                 VStack(spacing: 0) {
@@ -74,13 +70,21 @@ struct ScannerAppHome: View {
                     // Action buttons grid
                     VStack(spacing: 16) {
                         HStack(spacing: 16) {
-                            NavigationLink(destination: DocumentContentView()) {
+                           // NavigationLink(destination: //DocumentContentView()) {
+                            
+                            //NavigationLink(value: Route.scan) {
                                 ActionButtonView(
                                     icon: "scanner",
                                     title: "Scan",
                                     backgroundColor: Color(red: 0.85, green: 0.95, blue: 1.0),
                                 )
-                            }
+                            //}
+                                .onTapGesture {
+                                    router.navigate(to: .scan)
+                                }
+                            
+                            
+                            //}
                             
                             
                             
@@ -135,15 +139,19 @@ struct ScannerAppHome: View {
                 }
                 .background(Color.white)
                 .cornerRadius(40)
-//                .navigationDestination(for: Route.self) { route in
-//                    switch route {
-//                    case .scan:
-//                        DocumentContentView()
-//                    }
-//                }
+                .navigationDestination(for: Route.self) { route in
+                    switch route {
+                    case .scan:
+                        DocumentContentView()
+                    case .summary(let invoiceMaker):
+                        CustomBillSummaryView(invoiceMakerItems: invoiceMaker)
+                    }
+                }
                 
             }
         }
+        .environmentObject(router)
+        
     }
 }
 

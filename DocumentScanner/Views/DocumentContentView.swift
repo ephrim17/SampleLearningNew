@@ -7,55 +7,11 @@
 
 import SwiftUI
 import FoundationModels
+internal import Combine
 
-struct DocumentContentView: View {
-    @State private var camera = Camera()
-    @State var imageData: Data? = nil
-    @State var hideActionButton: Bool = false
-    
-    var body: some View {
-        //        if let image = imageData {
-        //            ImageView(imageData: image)
-        //        } else {
-        //            CameraView(camera: camera, imageData: $imageData)
-        //                .task {
-        //                    // Start the capture pipeline.
-        //                    await camera.start()
-        //                }
-        //        }
-        VStack{
-
-        VStack {
-            if hideActionButton, let image = imageData {
-                ImageView(imageData: image)
-                    .transition(.opacity) 
-            } else {
-                Spacer()
-                Text("Tap the button to add image.")
-                    .font(.title)
-                    .foregroundColor(.gray)
-                Spacer()
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        convertAssetImageToData(named: "Hotel-invoice-example1")
-                        withAnimation(.easeInOut(duration: 0.25)) {
-                            hideActionButton = true
-                        }
-                    }) {
-                        Image(systemName: "photo.badge.plus")
-                            .font(.system(size: 28, weight: .medium))
-                            .foregroundColor(.white)
-                            .frame(width: 70, height: 70)
-                            .background(Color.black)
-                            .clipShape(Circle())
-                    }.padding()
-                    
-                }
-            }
-            }
-        }
-    }
+class ImageDataModel: ObservableObject {
+    /// The first table detected in the document.
+    @Published var imageData: Data? = nil
     
     func convertAssetImageToData(named name: String) {
         // 1. Get the UIImage from the asset catalog.
@@ -68,8 +24,61 @@ struct DocumentContentView: View {
         // Use .pngData() for lossless compression.
         // Use .jpegData(compressionQuality:) to specify a quality level.
         imageData = uiImage.pngData()
-        hideActionButton = true
     }
+    
+    func resetImageData() {
+        imageData = nil
+    }
+    
+}
+
+struct DocumentContentView: View {
+    @State private var camera = Camera()
+    @State var imageData: Data? = nil
+    @StateObject var imageDataViewModel = ImageDataModel()
+    
+    var body: some View {
+        //        if let image = imageData {
+        //            ImageView(imageData: image)
+        //        } else {
+        //            CameraView(camera: camera, imageData: $imageData)
+        //                .task {
+        //                    // Start the capture pipeline.
+        //                    await camera.start()
+        //                }
+        //        }
+        VStack{
+            
+            VStack {
+                if let imageData = imageDataViewModel.imageData {
+                    ImageView(imageData: imageData)
+                        .transition(.opacity)
+                } else {
+                    Spacer()
+                    Text("Tap the button to add image.")
+                        .font(.title)
+                        .foregroundColor(.gray)
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            imageDataViewModel.convertAssetImageToData(named: "Hotel-invoice-example1")
+                        }) {
+                            Image(systemName: "photo.badge.plus")
+                                .font(.system(size: 28, weight: .medium))
+                                .foregroundColor(.white)
+                                .frame(width: 70, height: 70)
+                                .background(Color.black)
+                                .clipShape(Circle())
+                        }.padding()
+                        
+                    }
+                }
+            }
+        }
+        .environmentObject(imageDataViewModel)
+    }
+    
 }
 
 

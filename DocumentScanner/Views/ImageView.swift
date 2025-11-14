@@ -2,8 +2,10 @@ import SwiftUI
 import Vision
 
 struct ImageView: View {
-    @State var imageData: Data? =  nil
-    @State private var viewModel = VisionModel()
+    @EnvironmentObject var router: Router
+    @State var imageData: Data?
+    @State private var loadingMessage = ""
+    @StateObject private var viewModel = VisionModel()
     @State private var isPopoverPresented = false
     @State private var isAlertShowing = false
     @State private var selectedCell: TableCell? = nil
@@ -103,19 +105,15 @@ struct ImageView: View {
                         Image(systemName: "wand.and.sparkles")
                             .font(.system(size: 12))
                             .foregroundColor(.black)
-                        
-                        NavigationLink {
-                            if let invoiceMakerItems = viewModel.summarisedData {
-                                CustomBillSummaryView(invoiceMakerItems: invoiceMakerItems)
+                        Text("Update Bill with AI")
+                            .font(.system(size: 10, weight: .semibold))
+                            .foregroundColor(.black)
+                            .onTapGesture {
+                                if let invoiceMakerItems = viewModel.summarisedData {
+                                    router.navigate(to: .summary(invoiceMaker: invoiceMakerItems))
+                                }
                             }
-                        } label: {
-                            Text("Update Bill with AI")
-                                .font(.system(size: 10, weight: .semibold))
-                                .foregroundColor(.black)
-                        }
-                        
                     }
-                    
                     .frame(width: 200)
                     .frame(height: 44)
                     .background(Color.green)
@@ -133,6 +131,10 @@ struct ImageView: View {
                         Text("Re upload new bill")
                             .font(.system(size: 10, weight: .semibold))
                             .foregroundColor(.black)
+                            .onTapGesture {
+                                imageData = nil
+                                viewModel.resetState()
+                            }
                     }
                     
                     .frame(width: 200)
@@ -143,7 +145,11 @@ struct ImageView: View {
                     .cornerRadius(24)
                 }
             }
+            
+            LoadingOverlayView(loadingText: viewModel.loadingText)
         }
+        
+        
         .task {
             // Process the image with Vision's document recognition.
             await viewModel.recognizeTable(in: imageData ?? Data())
@@ -220,5 +226,36 @@ struct RoundedButton: ButtonStyle {
             .background(Color.blue)
             .foregroundStyle(.white)
             .clipShape(Capsule())
+    }
+}
+
+
+struct LoadingOverlayView: View {
+    
+    var loadingText: String = "Loading..."
+    
+    var body: some View {
+        ZStack {
+            // A semi-transparent background that covers the whole screen
+            if (!loadingText.isEmpty) {
+                Color.black
+                    .opacity(0.4)
+                    .edgesIgnoringSafeArea(.all)
+
+                // The loading indicator container (e.g., a blurred box)
+                VStack {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        .scaleEffect(1.5)
+                    Text(loadingText)
+                        .foregroundColor(.white)
+                        .padding(.top, 10)
+                }
+                .padding(25)
+                .background(Color.black.opacity(0.7))
+                .cornerRadius(15)
+            }
+            
+        }
     }
 }

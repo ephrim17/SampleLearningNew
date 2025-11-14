@@ -7,53 +7,152 @@
 
 import SwiftUI
 
+
+struct BillAction: View {
+    let icon: String?
+    let foregroundColor: Color?
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            Image(systemName: icon ?? "")
+                .font(.system(size: 32))
+                .foregroundColor(foregroundColor)
+            
+        }
+    }
+}
+
 struct CustomBillSummaryView: View {
     var invoiceMakerItems: InvoiceMakerModel
 
-    private let columns: [GridItem] = [
-        GridItem(.flexible(minimum: 60), alignment: .leading),
-        GridItem(.flexible(minimum: 80), alignment: .leading),
-        GridItem(.flexible(minimum: 120), alignment: .leading),
-        GridItem(.flexible(minimum: 100), alignment: .leading)
-    ]
+    @EnvironmentObject var router: Router
+
+    @State private var date: String = ""
+    @State private var personName: String = ""
+    @State private var address: String = ""
+    @State private var totalAmount: String = ""
 
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: true) {
-            VStack(alignment: .leading, spacing: 16) {
-                Text("Bills")
-                    .font(.title2).bold()
-                    .padding(.top, 8)
-
-                // Header row
-                LazyVGrid(columns: columns, spacing: 12) {
-                    Text("Date").font(.headline)
-                    Text("Person Name").font(.headline)
-                    Text("Address").font(.headline)
-                    Text("Total Amount").font(.headline)
-                }
-                .padding(.vertical, 8)
-
-                Divider()
-
-                // Data row
-                LazyVGrid(columns: columns, alignment: .leading, spacing: 12) {
-                    Text(invoiceMakerItems.Date)
-                        .font(.body)
-                    Text(invoiceMakerItems.personName)
-                        .font(.body)
-                    Text(invoiceMakerItems.address)
-                        .font(.body)
-                    Text(invoiceMakerItems.totalAmount)
-                        .font(.body)
+        VStack {
+            
+            Form {
+                Section(header: Text("Bill Details").font(.headline)) {
+                    LabeledContent {
+                            TextField("Date", text: $date)
+                                .multilineTextAlignment(.trailing)
+                                .fontWeight(.semibold)// Aligns the input to the trailing edge
+                        } label: {
+                            Text("Date")
+                                .customStyled()
+                        }
                     
+                    LabeledContent {
+                            TextField("Person Name", text: $personName)
+                                .multilineTextAlignment(.trailing)
+                                .fontWeight(.semibold)// Aligns the input to the trailing edge
+                        } label: {
+                            Text("Person Name")
+                                .customStyled()
+                        }
                     
-                }
+                    HStack {
+                        Text("Address")
+                            .customStyled()
+                            .frame(width: 120, alignment: .leading) // Fixed width for label
 
-                Spacer(minLength: 0)
+                        TextField("Address", text: $address)
+                            .multilineTextAlignment(.trailing)
+                            .fontWeight(.semibold)
+                            .disableAutocorrection(true)
+                            .textInputAutocapitalization(.words)
+                            .onChange(of: address) { _oldValue, newValue in
+                                if newValue.contains("\n") {
+                                    address = newValue.replacingOccurrences(of: "\n", with: " ")
+                                }
+                            }
+                             // Optional: match LabeledContent style
+                    }
+                    
+                    LabeledContent {
+                            TextField("Total Amount", text: $totalAmount)
+                                .multilineTextAlignment(.trailing)
+                                .fontWeight(.semibold)// Aligns the input to the trailing edge
+                        } label: {
+                            Text("Total Amount")
+                                .customStyled()
+                        }
+                    HStack(spacing: -5) {
+                        Spacer()
+                        BillAction(icon: "xmark.bin.circle.fill", foregroundColor: Color.red)
+                            .frame(width: 50, height: 20)
+                        BillAction(icon: "square.and.pencil.circle.fill", foregroundColor: Color.yellow)
+                            .frame(width: 50, height: 20)
+//                        Button("Save") {
+//                            print("Button tapped!")
+//                        }
+//                        .tint(.green)
+//                        .buttonStyle(.borderedProminent)
+                    }
+                }
+                
             }
-            .frame(minWidth: 600, alignment: .leading)
-            .padding()
+            
+            Spacer()
+            
+            HStack{
+                Text("Upload Another Bill")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundColor(.black)
+                    .onTapGesture {
+                        router.goBackAndScanAgain()
+                    }
+            }
+            .frame(width: 200)
+            .frame(height: 44)
+            .background(Color.orange)
+            .opacity(0.8)
+            .cornerRadius(24)
         }
+        
         .navigationTitle("Summary")
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button(action: {
+                            router.reset()
+                        }) {
+                            // Recreate the standard back button appearance
+                            HStack(spacing: 4) {
+                                Image(systemName: "chevron.left")
+                                Text("Back")
+                            }
+                        }
+                    }
+                }
+        .onAppear {
+            // Initialize state from the provided model
+            date = invoiceMakerItems.Date
+            personName = invoiceMakerItems.personName
+            address = invoiceMakerItems.address
+            totalAmount = invoiceMakerItems.totalAmount
+        }
+    }
+}
+
+#Preview {
+    CustomBillSummaryView(invoiceMakerItems: InvoiceMakerModel(Date: "aaaa", totalAmount: "aaaa", address: "12 Crescent Close Fairiew 11027 United Statses", personName: "aaaa"))
+}
+
+
+struct CustomTextStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .fontWeight(.bold)
+    }
+}
+
+extension Text {
+    func customStyled() -> some View {
+        self.modifier(CustomTextStyle())
     }
 }
