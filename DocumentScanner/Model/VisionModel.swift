@@ -230,7 +230,7 @@ extension DocumentObservation.Container.Table {
 
 
 @Generable()
-struct InvoiceMakerModel: Equatable, Hashable {
+struct InvoiceMakerModel: Equatable, Hashable, Codable {
     
     @Guide(description: "Date from the given text")
     let Date: String

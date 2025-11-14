@@ -12,6 +12,8 @@ internal import Combine
 struct ScannerAppHome: View {
     
     @StateObject var router = Router()
+    @StateObject var imageDataModel = ImageDataModel()
+    @StateObject var visionModel = VisionModel()
     
     var body: some View {
         NavigationStack(path: $router.path) {
@@ -96,6 +98,13 @@ struct ScannerAppHome: View {
                                 backgroundColor: Color(red: 0.85, green: 0.98, blue: 0.85),
                                 
                             )
+                            .onTapGesture {
+                                if let savedInvoice = StorageManager.shared.loadInvoice() {
+                                    router.navigate(to: .summary(invoiceMaker: savedInvoice))
+                                } else {
+                                    router.navigate(to: .emptyResults)
+                                }
+                            }
                         }
                         
                         HStack(spacing: 16) {
@@ -145,12 +154,16 @@ struct ScannerAppHome: View {
                         DocumentContentView()
                     case .summary(let invoiceMaker):
                         CustomBillSummaryView(invoiceMakerItems: invoiceMaker)
+                    case .emptyResults:
+                        EmptyResultsView()
                     }
                 }
                 
             }
         }
         .environmentObject(router)
+        .environmentObject(imageDataModel)
+        .environmentObject(visionModel)
         
     }
 }

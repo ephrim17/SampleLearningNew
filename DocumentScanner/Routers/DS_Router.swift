@@ -11,6 +11,7 @@ internal import Combine
 enum Route: Hashable {
     case scan
     case summary(invoiceMaker: InvoiceMakerModel)
+    case emptyResults
 }
 
 class Router: ObservableObject {
@@ -31,9 +32,7 @@ class Router: ObservableObject {
         path.append(destination)
     }
     
-    func goBackAndScanAgain(){
-        //visionViewModel.resetState()
-        //imageDataViewModel.resetImageData()
+    func goBackAndScanAgain() {
         path.removeLast()
     }
     

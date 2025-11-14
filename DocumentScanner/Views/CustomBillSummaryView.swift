@@ -26,6 +26,9 @@ struct CustomBillSummaryView: View {
     var invoiceMakerItems: InvoiceMakerModel
 
     @EnvironmentObject var router: Router
+    @EnvironmentObject var imageDataModel: ImageDataModel
+    @EnvironmentObject var visionModel: VisionModel
+    
 
     @State private var date: String = ""
     @State private var personName: String = ""
@@ -38,28 +41,28 @@ struct CustomBillSummaryView: View {
             Form {
                 Section(header: Text("Bill Details").font(.headline)) {
                     LabeledContent {
-                            TextField("Date", text: $date)
-                                .multilineTextAlignment(.trailing)
-                                .fontWeight(.semibold)// Aligns the input to the trailing edge
-                        } label: {
-                            Text("Date")
-                                .customStyled()
-                        }
+                        TextField("Date", text: $date)
+                            .multilineTextAlignment(.trailing)
+                            .fontWeight(.semibold)// Aligns the input to the trailing edge
+                    } label: {
+                        Text("Date")
+                            .customStyled()
+                    }
                     
                     LabeledContent {
-                            TextField("Person Name", text: $personName)
-                                .multilineTextAlignment(.trailing)
-                                .fontWeight(.semibold)// Aligns the input to the trailing edge
-                        } label: {
-                            Text("Person Name")
-                                .customStyled()
-                        }
+                        TextField("Person Name", text: $personName)
+                            .multilineTextAlignment(.trailing)
+                            .fontWeight(.semibold)// Aligns the input to the trailing edge
+                    } label: {
+                        Text("Person Name")
+                            .customStyled()
+                    }
                     
                     HStack {
                         Text("Address")
                             .customStyled()
                             .frame(width: 120, alignment: .leading) // Fixed width for label
-
+                        
                         TextField("Address", text: $address)
                             .multilineTextAlignment(.trailing)
                             .fontWeight(.semibold)
@@ -70,28 +73,28 @@ struct CustomBillSummaryView: View {
                                     address = newValue.replacingOccurrences(of: "\n", with: " ")
                                 }
                             }
-                             // Optional: match LabeledContent style
+                        // Optional: match LabeledContent style
                     }
                     
                     LabeledContent {
-                            TextField("Total Amount", text: $totalAmount)
-                                .multilineTextAlignment(.trailing)
-                                .fontWeight(.semibold)// Aligns the input to the trailing edge
-                        } label: {
-                            Text("Total Amount")
-                                .customStyled()
-                        }
+                        TextField("Total Amount", text: $totalAmount)
+                            .multilineTextAlignment(.trailing)
+                            .fontWeight(.semibold)// Aligns the input to the trailing edge
+                    } label: {
+                        Text("Total Amount")
+                            .customStyled()
+                    }
                     HStack(spacing: -5) {
                         Spacer()
                         BillAction(icon: "xmark.bin.circle.fill", foregroundColor: Color.red)
                             .frame(width: 50, height: 20)
                         BillAction(icon: "square.and.pencil.circle.fill", foregroundColor: Color.yellow)
                             .frame(width: 50, height: 20)
-//                        Button("Save") {
-//                            print("Button tapped!")
-//                        }
-//                        .tint(.green)
-//                        .buttonStyle(.borderedProminent)
+                        //                        Button("Save") {
+                        //                            print("Button tapped!")
+                        //                        }
+                        //                        .tint(.green)
+                        //                        .buttonStyle(.borderedProminent)
                     }
                 }
                 
@@ -100,18 +103,34 @@ struct CustomBillSummaryView: View {
             Spacer()
             
             HStack{
-                Text("Upload Another Bill")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(.black)
-                    .onTapGesture {
-                        router.goBackAndScanAgain()
-                    }
+                HStack{
+                    Text("Upload Another Bill")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(.black)
+                        .onTapGesture {
+                            imageDataModel.resetImageData()
+                            visionModel.resetState()
+                            router.goBackAndScanAgain()
+                        }
+                }
+                .frame(width: 150)
+                .frame(height: 44)
+                .background(Color.orange)
+                .opacity(0.8)
+                .cornerRadius(24)
+                
+                HStack{
+                    Text("Sync with server")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(.black)
+                }
+                .frame(width: 150)
+                .frame(height: 44)
+                .background(Color.orange)
+                .opacity(0.8)
+                .cornerRadius(24)
+                
             }
-            .frame(width: 200)
-            .frame(height: 44)
-            .background(Color.orange)
-            .opacity(0.8)
-            .cornerRadius(24)
         }
         
         .navigationTitle("Summary")

@@ -3,9 +3,11 @@ import Vision
 
 struct ImageView: View {
     @EnvironmentObject var router: Router
+    @EnvironmentObject var imageDataModel: ImageDataModel
+    @EnvironmentObject var viewModel: VisionModel
     @State var imageData: Data?
+    
     @State private var loadingMessage = ""
-    @StateObject private var viewModel = VisionModel()
     @State private var isPopoverPresented = false
     @State private var isAlertShowing = false
     @State private var selectedCell: TableCell? = nil
@@ -33,7 +35,7 @@ struct ImageView: View {
                     }
                 }
                 // Convert the image data to a `UIImage`, and display it in an `Image` view.
-                if let uiImage = UIImage(data: imageData ?? Data()) {
+                 if let uiImage = UIImage(data: imageDataModel.imageData ?? Data()) {
                     Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFit()
@@ -105,11 +107,12 @@ struct ImageView: View {
                         Image(systemName: "wand.and.sparkles")
                             .font(.system(size: 12))
                             .foregroundColor(.black)
-                        Text("Update Bill with AI")
+                        Text("Update bill to the portal")
                             .font(.system(size: 10, weight: .semibold))
                             .foregroundColor(.black)
                             .onTapGesture {
                                 if let invoiceMakerItems = viewModel.summarisedData {
+                                    StorageManager.shared.saveInvoice(invoiceMakerItems)
                                     router.navigate(to: .summary(invoiceMaker: invoiceMakerItems))
                                 }
                             }
@@ -132,7 +135,7 @@ struct ImageView: View {
                             .font(.system(size: 10, weight: .semibold))
                             .foregroundColor(.black)
                             .onTapGesture {
-                                imageData = nil
+                                imageDataModel.imageData = nil
                                 viewModel.resetState()
                             }
                     }
@@ -147,12 +150,13 @@ struct ImageView: View {
             }
             
             LoadingOverlayView(loadingText: viewModel.loadingText)
+
         }
         
         
         .task {
             // Process the image with Vision's document recognition.
-            await viewModel.recognizeTable(in: imageData ?? Data())
+            await viewModel.recognizeTable(in: imageDataModel.imageData ?? Data())
         }
     }
     

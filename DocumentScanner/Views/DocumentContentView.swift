@@ -35,7 +35,7 @@ class ImageDataModel: ObservableObject {
 struct DocumentContentView: View {
     @State private var camera = Camera()
     @State var imageData: Data? = nil
-    @StateObject var imageDataViewModel = ImageDataModel()
+    @EnvironmentObject var imageDataViewModel: ImageDataModel
     
     var body: some View {
         //        if let image = imageData {
@@ -76,7 +76,6 @@ struct DocumentContentView: View {
                 }
             }
         }
-        .environmentObject(imageDataViewModel)
     }
     
 }
