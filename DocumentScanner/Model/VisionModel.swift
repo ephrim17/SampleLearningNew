@@ -37,27 +37,50 @@ class VisionModel: ObservableObject {
     @Published var isShowLoading: Bool = true
     @Published var loadingText: String = ""
     
+    private var currentTask: Task<Void, Never>?
+    
+    deinit {
+        currentTask?.cancel()
+    }
+    
     /// Run Vision document recognition on the image to parse a table.
     func recognizeTable(in image: Data) async {
         resetState()
-        do {
-            self.loadingText = "Recognizing document..."
-            let table = try await extractTable(from: image)
-            self.table = table
-            self.contacts = parseTable(table)
-        } catch {
-            print(error)
+        
+        // Cancel any previous task
+        currentTask?.cancel()
+        
+        currentTask = Task {
+            do {
+                self.loadingText = "Recognizing document..."
+                let table = try await extractTable(from: image)
+                
+                // Check if task was cancelled
+                if !Task.isCancelled {
+                    self.table = table
+                    self.contacts = parseTable(table)
+                }
+            } catch {
+                if !Task.isCancelled {
+                    print(error)
+                }
+            }
         }
     }
     
     /// Clear data from previous table detection.
     func resetState() {
+        // Cancel any running task
+        currentTask?.cancel()
+        currentTask = nil
+        
         self.table = nil
         self.contacts = []
         self.summarisedData = nil
         self.paragraph = nil
         self.newParagraphs = []
         self.showBillSummary = false
+        self.loadingText = ""
     }
     
     /// Convert a simple table into a TSV string format compatible with pasting into Notes & Numbers.

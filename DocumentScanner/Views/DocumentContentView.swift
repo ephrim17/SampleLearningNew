@@ -36,6 +36,8 @@ struct DocumentContentView: View {
     @State private var camera = Camera()
     @State var imageData: Data? = nil
     @EnvironmentObject var imageDataViewModel: ImageDataModel
+    @EnvironmentObject var visionModel: VisionModel
+    @State private var isInitialized = false
     
     var body: some View {
         //        if let image = imageData {
@@ -48,7 +50,6 @@ struct DocumentContentView: View {
         //                }
         //        }
         VStack{
-            
             VStack {
                 if let imageData = imageDataViewModel.imageData {
                     ImageView(imageData: imageData)
@@ -75,6 +76,20 @@ struct DocumentContentView: View {
                     }
                 }
             }
+        }
+        .onAppear {
+            if !isInitialized {
+                imageDataViewModel.resetImageData()
+                visionModel.resetState()
+                isInitialized = true
+            }
+        }
+        .onDisappear {
+            imageData = nil
+            isInitialized = false
+            // Ensure vision model is reset when leaving
+            visionModel.resetState()
+            imageDataViewModel.resetImageData()
         }
     }
     

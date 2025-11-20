@@ -10,7 +10,7 @@ internal import Combine
 
 enum Route: Hashable {
     case scan
-    case summary(invoiceMaker: InvoiceMakerModel)
+    case allSummaries(invoiceMakers: [InvoiceMakerModel])
     case emptyResults
 }
 

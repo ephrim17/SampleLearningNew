@@ -99,8 +99,9 @@ struct ScannerAppHome: View {
                                 
                             )
                             .onTapGesture {
-                                if let savedInvoice = StorageManager.shared.loadInvoice() {
-                                    router.navigate(to: .summary(invoiceMaker: savedInvoice))
+                                let invoices = StorageManager.shared.loadInvoices()
+                                if !invoices.isEmpty {
+                                    router.navigate(to: .allSummaries(invoiceMakers: invoices))
                                 } else {
                                     router.navigate(to: .emptyResults)
                                 }
@@ -152,8 +153,8 @@ struct ScannerAppHome: View {
                     switch route {
                     case .scan:
                         DocumentContentView()
-                    case .summary(let invoiceMaker):
-                        CustomBillSummaryView(invoiceMakerItems: invoiceMaker)
+                    case .allSummaries(let invoiceMakers):
+                        CustomBillSummaryView(invoiceMakerItems: invoiceMakers)
                     case .emptyResults:
                         EmptyResultsView()
                     }

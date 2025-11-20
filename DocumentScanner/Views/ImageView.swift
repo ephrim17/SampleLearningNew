@@ -113,8 +113,11 @@ struct ImageView: View {
                             .onTapGesture {
                                 if let invoiceMakerItems = viewModel.summarisedData {
                                     StorageManager.shared.saveInvoice(invoiceMakerItems)
-                                    router.navigate(to: .summary(invoiceMaker: invoiceMakerItems))
+                                    let allInvoices = StorageManager.shared.loadInvoices()
+                                    router.navigate(to: .allSummaries(invoiceMakers: allInvoices))
                                 }
+                                imageDataModel.imageData = nil
+                                viewModel.resetState()
                             }
                     }
                     .frame(width: 200)
@@ -157,6 +160,9 @@ struct ImageView: View {
         .task {
             // Process the image with Vision's document recognition.
             await viewModel.recognizeTable(in: imageDataModel.imageData ?? Data())
+        }
+        .onDisappear {
+            viewModel.resetState()
         }
     }
     
