@@ -56,4 +56,17 @@ class StorageManager {
     func hasInvoices() -> Bool {
         return !loadInvoices().isEmpty
     }
+
+    /// Update an invoice at a specific index and persist the array
+    func updateInvoice(at index: Int, with invoice: InvoiceMakerModel) {
+        var invoices = loadInvoices()
+        guard index >= 0 && index < invoices.count else { return }
+        invoices[index] = invoice
+        do {
+            let encoded = try JSONEncoder().encode(invoices)
+            userDefaults.set(encoded, forKey: invoicesKey)
+        } catch {
+            print("Error updating invoice: \(error)")
+        }
+    }
 }

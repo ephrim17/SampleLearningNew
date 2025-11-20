@@ -49,6 +49,11 @@ struct CustomBillSummaryView: View {
                         ForEach(Array(currentInvoices.enumerated()), id: \.offset) { index, invoice in
                             BillCard(invoice: invoice, index: index, onDelete: {
                                 deleteBillAndRefresh(at: index)
+                            }, onSave: { updatedInvoice in
+                                StorageManager.shared.updateInvoice(at: index, with: updatedInvoice)
+                                withAnimation {
+                                    currentInvoices = StorageManager.shared.loadInvoices()
+                                }
                             })
                         }
                     }
@@ -120,12 +125,19 @@ struct BillCard: View {
     var invoice: InvoiceMakerModel
     var index: Int
     var onDelete: () -> Void = {}
-    
+    var onSave: (InvoiceMakerModel) -> Void = { _ in }
+
     @State private var date: String = ""
     @State private var personName: String = ""
     @State private var address: String = ""
     @State private var totalAmount: String = ""
-    
+    @State private var isEditing: Bool = false
+    @FocusState private var focusedField: Field?
+
+    private enum Field: Hashable {
+        case date, person, address, total
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
@@ -141,59 +153,120 @@ struct BillCard: View {
                             .font(.system(size: 14))
                             .foregroundColor(.red)
                     }
-                    
-                    Button(action: {}) {
-                        Image(systemName: "pencil.circle.fill")
-                            .font(.system(size: 14))
-                            .foregroundColor(.orange)
+
+                    if isEditing {
+                        Button(action: {
+                            // Cancel edits
+                            cancelEditing()
+                        }) {
+                            Image(systemName: "xmark.circle")
+                                .font(.system(size: 16))
+                                .foregroundColor(.gray)
+                        }
+
+                        Button(action: {
+                            saveEditing()
+                        }) {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.system(size: 16))
+                                .foregroundColor(.green)
+                        }
+                    } else {
+                        Button(action: {
+                            startEditing()
+                        }) {
+                            Image(systemName: "pencil.circle.fill")
+                                .font(.system(size: 14))
+                                .foregroundColor(.orange)
+                        }
                     }
                 }
             }
             .padding(.bottom, 4)
-            
+
             Divider()
-            
+
             VStack(spacing: 12) {
                 HStack {
                     Text("Date")
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(.gray)
                     Spacer()
-                    Text(date)
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(.black)
+                    if isEditing {
+                        TextField("Date", text: $date)
+                            .multilineTextAlignment(.trailing)
+                            .focused($focusedField, equals: .date)
+                            .submitLabel(.next)
+                            .onSubmit {
+                                focusedField = .person
+                            }
+                    } else {
+                        Text(date)
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundColor(.black)
+                    }
                 }
-                
+
                 HStack {
                     Text("Person Name")
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(.gray)
                     Spacer()
-                    Text(personName)
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(.black)
+                    if isEditing {
+                        TextField("Person Name", text: $personName)
+                            .multilineTextAlignment(.trailing)
+                            .focused($focusedField, equals: .person)
+                            .submitLabel(.next)
+                            .onSubmit {
+                                focusedField = .address
+                            }
+                    } else {
+                        Text(personName)
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundColor(.black)
+                    }
                 }
-                
+
                 HStack {
                     Text("Address")
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(.gray)
                     Spacer()
-                    Text(address)
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(.black)
-                        .lineLimit(2)
-                        .multilineTextAlignment(.trailing)
+                    if isEditing {
+                        TextField("Address", text: $address)
+                            .multilineTextAlignment(.trailing)
+                            .focused($focusedField, equals: .address)
+                            .submitLabel(.next)
+                            .onSubmit {
+                                focusedField = .total
+                            }
+                    } else {
+                        Text(address)
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundColor(.black)
+                            .lineLimit(2)
+                            .multilineTextAlignment(.trailing)
+                    }
                 }
-                
+
                 HStack {
                     Text("Total Amount")
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(.gray)
                     Spacer()
-                    Text(totalAmount)
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(.black)
+                    if isEditing {
+                        TextField("Total Amount", text: $totalAmount)
+                            .multilineTextAlignment(.trailing)
+                            .focused($focusedField, equals: .total)
+                            .submitLabel(.done)
+                            .onSubmit {
+                                saveEditing()
+                            }
+                    } else {
+                        Text(totalAmount)
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundColor(.black)
+                    }
                 }
             }
         }
@@ -207,6 +280,32 @@ struct BillCard: View {
             address = invoice.address
             totalAmount = invoice.totalAmount
         }
+    }
+
+    private func startEditing() {
+        isEditing = true
+        // focus after a tiny delay to ensure TextField exists in view hierarchy
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+            focusedField = .date
+        }
+    }
+
+    private func cancelEditing() {
+        // revert local state to original
+        date = invoice.Date
+        personName = invoice.personName
+        address = invoice.address
+        totalAmount = invoice.totalAmount
+        isEditing = false
+        focusedField = nil
+    }
+
+    private func saveEditing() {
+        // Create updated model and call save callback
+        let updated = InvoiceMakerModel(Date: date, totalAmount: totalAmount, address: address, personName: personName)
+        onSave(updated)
+        isEditing = false
+        focusedField = nil
     }
 }
 
