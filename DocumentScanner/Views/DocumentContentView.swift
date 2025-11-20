@@ -62,7 +62,7 @@ struct DocumentContentView: View {
                     HStack {
                         Spacer()
                         Button(action: {
-                            imageDataViewModel.convertAssetImageToData(named: "Hotel-invoice-example1")
+                            imageDataViewModel.convertAssetImageToData(named: "11Grocery")
                         }) {
                             Image(systemName: "photo.badge.plus")
                                 .font(.system(size: 28, weight: .medium))
