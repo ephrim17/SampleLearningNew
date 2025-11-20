@@ -4,27 +4,36 @@ struct EmptyResultsView: View {
     @EnvironmentObject var router: Router
     
     var body: some View {
-        VStack(spacing: 24) {
-            
-            Image(systemName: "doc.text.magnifyingglass")
-                .font(.system(size: 60))
-                .foregroundColor(.gray)
-            
-            VStack(spacing: 8) {
-                Text("No Bills Added")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(.black)
+        ZStack {
+            // subtle background
+            Image("scannerBg")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
+            VStack(spacing: 24) {
                 
-                Text("Start scanning a bill to view results here")
-                    .font(.system(size: 16))
+                Image(systemName: "doc.text.magnifyingglass")
+                    .font(.system(size: 60))
                     .foregroundColor(.gray)
-                    .multilineTextAlignment(.center)
+                
+                VStack(spacing: 8) {
+                    Text("No Bills Yet")
+                        .font(.title)
+                        .foregroundColor(.black)
+                        .fontWeight(.bold)
+                    Text("Upload a bill to get started")
+                        .font(.title3)
+                        .foregroundColor(.gray)
+                        .onTapGesture {
+                            
+                        }
+                }
+                
+                
+                
+                .padding(.horizontal, 32)
+                .padding(.bottom, 32)
             }
-            
-            
-            
-            .padding(.horizontal, 32)
-            .padding(.bottom, 32)
         }
         .navigationTitle("Results")
         .navigationBarBackButtonHidden(true)
@@ -35,7 +44,6 @@ struct EmptyResultsView: View {
                 }) {
                     HStack(spacing: 4) {
                         Image(systemName: "chevron.left")
-                        Text("Back")
                     }
                 }
             }

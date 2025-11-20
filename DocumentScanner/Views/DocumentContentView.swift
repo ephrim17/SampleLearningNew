@@ -38,6 +38,7 @@ struct DocumentContentView: View {
     @EnvironmentObject var imageDataViewModel: ImageDataModel
     @EnvironmentObject var visionModel: VisionModel
     @State private var isInitialized = false
+    @EnvironmentObject var router: Router
     
     var body: some View {
         //        if let image = imageData {
@@ -49,30 +50,18 @@ struct DocumentContentView: View {
         //                    await camera.start()
         //                }
         //        }
-        VStack{
-            VStack {
-                if let imageData = imageDataViewModel.imageData {
-                    ImageView(imageData: imageData)
-                        .transition(.opacity)
-                } else {
-                    Spacer()
-                    Text("Tap the button to add image.")
-                        .font(.title)
-                        .foregroundColor(.gray)
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            imageDataViewModel.convertAssetImageToData(named: "11Grocery")
-                        }) {
-                            Image(systemName: "photo.badge.plus")
-                                .font(.system(size: 28, weight: .medium))
-                                .foregroundColor(.white)
-                                .frame(width: 70, height: 70)
-                                .background(Color.black)
-                                .clipShape(Circle())
-                        }.padding()
-                        
+        ZStack {
+            // subtle background
+            Image("scannerBg")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
+            
+            VStack{
+                VStack {
+                    if let imageData = imageDataViewModel.imageData {
+                        ImageView(imageData: imageData)
+                            .transition(.opacity)
                     }
                 }
             }
@@ -82,6 +71,8 @@ struct DocumentContentView: View {
                 imageDataViewModel.resetImageData()
                 visionModel.resetState()
                 isInitialized = true
+                
+                imageDataViewModel.convertAssetImageToData(named: "11Grocery")
             }
         }
         .onDisappear {
@@ -90,6 +81,18 @@ struct DocumentContentView: View {
             // Ensure vision model is reset when leaving
             visionModel.resetState()
             imageDataViewModel.resetImageData()
+        }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    router.reset()
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                    }
+                }
+            }
         }
     }
     

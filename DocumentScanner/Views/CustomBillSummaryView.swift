@@ -24,86 +24,95 @@ struct BillAction: View {
 
 struct CustomBillSummaryView: View {
     var invoiceMakerItems: [InvoiceMakerModel]
-
+    
     @EnvironmentObject var router: Router
     @EnvironmentObject var imageDataModel: ImageDataModel
     @EnvironmentObject var visionModel: VisionModel
     @State private var currentInvoices: [InvoiceMakerModel] = []
     
     var body: some View {
-        VStack {
-            if currentInvoices.isEmpty {
-                VStack(spacing: 16) {
-                    Spacer()
-                    Image(systemName: "doc.text.magnifyingglass")
-                        .font(.system(size: 50))
-                        .foregroundColor(.gray)
-                    Text("No Bills Available")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundColor(.black)
-                    Spacer()
-                }
-            } else {
-                ScrollView {
+        ZStack {
+            // subtle background
+            Image("scannerBg")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
+            
+            VStack {
+                if currentInvoices.isEmpty {
                     VStack(spacing: 16) {
-                        ForEach(Array(currentInvoices.enumerated()), id: \.offset) { index, invoice in
-                            BillCard(invoice: invoice, index: index, onDelete: {
-                                deleteBillAndRefresh(at: index)
-                            }, onSave: { updatedInvoice in
-                                StorageManager.shared.updateInvoice(at: index, with: updatedInvoice)
-                                withAnimation {
-                                    currentInvoices = StorageManager.shared.loadInvoices()
-                                }
-                            })
-                        }
+                        Spacer()
+                        Image(systemName: "doc.text.magnifyingglass")
+                            .font(.system(size: 50))
+                            .foregroundColor(.gray)
+                        Text("No Bills Yet")
+                            .font(.title)
+                            .foregroundColor(.black)
+                            .fontWeight(.bold)
+                        Text("Upload a bill to get started")
+                            .font(.title3)
+                            .foregroundColor(.gray)
+                        Spacer()
                     }
-                    .padding(.vertical, 16)
-                }
-            }
-            
-            Spacer()
-            
-            HStack(spacing: 12) {
-                HStack {
-                    Text("Upload Another Bill")
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(.black)
-                        .onTapGesture {
-                            imageDataModel.resetImageData()
-                            visionModel.resetState()
-                            router.goBackAndScanAgain()
+                } else {
+                    ScrollView {
+                        VStack {
+                            ForEach(Array(currentInvoices.enumerated()), id: \.offset) { index, invoice in
+                                BillCard(invoice: invoice, index: index, onDelete: {
+                                    deleteBillAndRefresh(at: index)
+                                }, onSave: { updatedInvoice in
+                                    StorageManager.shared.updateInvoice(at: index, with: updatedInvoice)
+                                    withAnimation {
+                                        currentInvoices = StorageManager.shared.loadInvoices()
+                                    }
+                                })
+                            }
                         }
+                        .padding(.vertical, 16)
+                    }
                 }
-                .frame(maxWidth: .infinity)
-                .frame(height: 44)
-                .background(Color.orange)
-                .opacity(0.8)
-                .cornerRadius(24)
                 
-                HStack {
-                    Text("Sync with server")
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(.black)
+                HStack(spacing: 12) {
+                    HStack {
+                        Text("Upload Another Bill")
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundColor(.black)
+                            .onTapGesture {
+                                imageDataModel.resetImageData()
+                                visionModel.resetState()
+                                router.goBackAndScanAgain()
+                            }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 44)
+                    .background(Color.orange)
+                    .opacity(0.8)
+                    .cornerRadius(24)
+                    
+                    HStack {
+                        Text("Sync with server")
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundColor(.black)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 44)
+                    .background(Color.orange)
+                    .opacity(0.8)
+                    .cornerRadius(24)
                 }
-                .frame(maxWidth: .infinity)
-                .frame(height: 44)
-                .background(Color.orange)
-                .opacity(0.8)
-                .cornerRadius(24)
+                .padding(.horizontal, 16)
             }
-            .padding(.horizontal, 16)
-        }
-        
-        .navigationTitle("Summary")
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button(action: {
-                    router.reset()
-                }) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "chevron.left")
-                        Text("Back")
+            
+            .navigationTitle("Summary")
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(action: {
+                        router.reset()
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.left")
+                        }
                     }
                 }
             }
@@ -126,18 +135,18 @@ struct BillCard: View {
     var index: Int
     var onDelete: () -> Void = {}
     var onSave: (InvoiceMakerModel) -> Void = { _ in }
-
+    
     @State private var date: String = ""
     @State private var personName: String = ""
     @State private var address: String = ""
     @State private var totalAmount: String = ""
     @State private var isEditing: Bool = false
     @FocusState private var focusedField: Field?
-
+    
     private enum Field: Hashable {
         case date, person, address, total
     }
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
@@ -153,7 +162,7 @@ struct BillCard: View {
                             .font(.system(size: 14))
                             .foregroundColor(.red)
                     }
-
+                    
                     if isEditing {
                         Button(action: {
                             // Cancel edits
@@ -163,7 +172,7 @@ struct BillCard: View {
                                 .font(.system(size: 16))
                                 .foregroundColor(.gray)
                         }
-
+                        
                         Button(action: {
                             saveEditing()
                         }) {
@@ -183,9 +192,9 @@ struct BillCard: View {
                 }
             }
             .padding(.bottom, 4)
-
+            
             Divider()
-
+            
             VStack(spacing: 12) {
                 HStack {
                     Text("Date")
@@ -206,7 +215,7 @@ struct BillCard: View {
                             .foregroundColor(.black)
                     }
                 }
-
+                
                 HStack {
                     Text("Person Name")
                         .font(.system(size: 13, weight: .semibold))
@@ -226,7 +235,7 @@ struct BillCard: View {
                             .foregroundColor(.black)
                     }
                 }
-
+                
                 HStack(alignment: .top) {
                     Text("Address")
                         .font(.system(size: 13, weight: .semibold))
@@ -248,7 +257,7 @@ struct BillCard: View {
                             .multilineTextAlignment(.trailing)
                     }
                 }
-
+                
                 HStack {
                     Text("Total Amount")
                         .font(.system(size: 13, weight: .semibold))
@@ -302,7 +311,7 @@ struct BillCard: View {
             }
         }
     }
-
+    
     private func startEditing() {
         isEditing = true
         // focus after a tiny delay to ensure TextField exists in view hierarchy
@@ -310,7 +319,7 @@ struct BillCard: View {
             focusedField = .date
         }
     }
-
+    
     private func cancelEditing() {
         // revert local state to original
         date = invoice.Date
@@ -320,7 +329,7 @@ struct BillCard: View {
         isEditing = false
         focusedField = nil
     }
-
+    
     private func saveEditing() {
         // Create updated model and call save callback
         let updated = InvoiceMakerModel(Date: date, totalAmount: totalAmount, address: address, personName: personName)

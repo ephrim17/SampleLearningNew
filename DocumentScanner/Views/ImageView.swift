@@ -13,27 +13,8 @@ struct ImageView: View {
     @State private var selectedCell: TableCell? = nil
     
     var body: some View {
-        ZStack(alignment: .top) {
+        ZStack {
              VStack{
-                VStack {
-                    // Navigation buttons to retake photo, view or export data.
-                    HStack {
-                        Spacer()
-                        //                        NavigationLink("Retake photo") {
-                        //                            //DocumentContentView()
-                        //                        }
-                            .buttonStyle(RoundedButton())
-                            
-                        if !viewModel.contacts.isEmpty {
-                            Spacer()
-                            NavigationLink("View Contacts") {
-                                ContactView(contacts: viewModel.contacts)
-                            }.buttonStyle(RoundedButton())
-                        }
-                        
-                        Spacer()
-                    }
-                }
                 // Convert the image data to a `UIImage`, and display it in an `Image` view.
                  if let uiImage = UIImage(data: imageDataModel.imageData ?? Data()) {
                     Image(uiImage: uiImage)
@@ -92,7 +73,7 @@ struct ImageView: View {
                                 }
                             }
                         }
-                        .padding()
+                        //.padding()
                         .popover(isPresented: $isPopoverPresented,
                                  attachmentAnchor: .point(selectedCell?.location ?? .bottom)
                         ) {
@@ -103,52 +84,40 @@ struct ImageView: View {
                 }
                 
                 if viewModel.showBillSummary {
-                    HStack(spacing: 16) {
-                        Image(systemName: "wand.and.sparkles")
-                            .font(.system(size: 12))
-                            .foregroundColor(.black)
-                        Text("Update bill to the portal")
-                            .font(.system(size: 10, weight: .semibold))
-                            .foregroundColor(.black)
-                            .onTapGesture {
-                                if let invoiceMakerItems = viewModel.summarisedData {
-                                    StorageManager.shared.saveInvoice(invoiceMakerItems)
-                                    let allInvoices = StorageManager.shared.loadInvoices()
-                                    router.navigate(to: .allSummaries(invoiceMakers: allInvoices))
-                                }
-                                imageDataModel.imageData = nil
-                                viewModel.resetState()
+                    HStack(spacing: 0) {
+                        Button(action: {
+                            if let invoiceMakerItems = viewModel.summarisedData {
+                                StorageManager.shared.saveInvoice(invoiceMakerItems)
+                                let allInvoices = StorageManager.shared.loadInvoices()
+                                router.navigate(to: .allSummaries(invoiceMakers: allInvoices))
                             }
+                            imageDataModel.imageData = nil
+                            viewModel.resetState()
+                        }) {
+                            Text("Save Updated Bill")
+                                .frame(maxWidth: .infinity)
+                                .font(.system(size: 20, weight: .semibold))
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
                     }
-                    .frame(width: 200)
-                    .frame(height: 44)
-                    .background(Color.green)
-                    .opacity(0.8)
-                    .cornerRadius(24)
-                }
-                
-                
-                if viewModel.table != nil {
-                    HStack(spacing: 16) {
-                        Image(systemName: "arrow.clockwise")
-                            .font(.system(size: 12))
-                            .foregroundColor(.black)
-                        
-                        Text("Re upload new bill")
-                            .font(.system(size: 10, weight: .semibold))
-                            .foregroundColor(.black)
-                            .onTapGesture {
-                                imageDataModel.imageData = nil
-                                viewModel.resetState()
-                            }
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 18)
+                    
+                    HStack(spacing: 0) {
+                        Button(action: {
+                            imageDataModel.imageData = nil
+                            viewModel.resetState()
+                        }) {
+                            Text("Re-Upload Bill")
+                                .frame(maxWidth: .infinity)
+                                .font(.system(size: 20, weight: .semibold))
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
                     }
-                    
-                    .frame(width: 200)
-                    .frame(height: 44)
-                    
-                    .background(Color.orange)
-                    .opacity(0.8)
-                    .cornerRadius(24)
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 18)
                 }
             }
             

@@ -1,154 +1,114 @@
-//
-//  ScannerAppHome.swift
-//  sample
-//
-//  Created by ephrim.daniel on 13/11/25.
-//
-
 import SwiftUI
 internal import Combine
 
-
 struct ScannerAppHome: View {
-    
     @StateObject var router = Router()
     @StateObject var imageDataModel = ImageDataModel()
     @StateObject var visionModel = VisionModel()
-    
+
     var body: some View {
         NavigationStack(path: $router.path) {
             ZStack {
-                // Main card
-                VStack(spacing: 0) {
-                    // Top bar
+                // subtle background
+                Image("scannerBg")
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
+               
+
+                VStack {
+                    // Top bar (avatar)
                     HStack {
                         Spacer()
-                        HStack(spacing: 12) {
-                            Button(action: {}) {
-                                Image(systemName: "person.circle")
-                                    .font(.system(size: 24))
-                                    .foregroundColor(.black)
-                                
-                                
-                            }.clipShape(Capsule())
-                            
-                            ZStack(alignment: .topTrailing) {
-                                Button(action: {}) {
-                                    Image(systemName: "bell")
-                                        .font(.system(size: 24))
-                                        .foregroundColor(.black)
-                                        .padding(12)
-                                        .background(Color.white)
-                                        .clipShape(Circle())
-                                }
-                                
-                                Circle()
-                                    .fill(Color.red)
-                                    .frame(width: 20, height: 20)
-                                    .overlay(
-                                        Text("5")
-                                            .font(.system(size: 11, weight: .bold))
-                                            .foregroundColor(.white)
-                                    )
-                                    .offset(x: 4, y: -4)
-                            }
+                        Button(action: {}) {
+                            Image(systemName: "person.circle")
+                                .font(.system(size: 28))
+                                .foregroundColor(.black)
+                                .padding(8)
                         }
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 24)
-                    
-                    // Greeting text
-                    VStack(alignment: .leading, spacing: 0) {
+                    .padding(.horizontal, 20)
+                    .padding(.top, 30)
+
+                    // Greeting
+                    VStack(alignment: .leading, spacing: 6) {
                         Text("Hi Peter,")
-                            .font(.system(size: 42, weight: .bold))
-                        Text("How can I help")
-                            .font(.system(size: 42, weight: .bold))
-                        Text("you today?")
-                            .font(.system(size: 42, weight: .bold))
+                            .font(.system(size: 48, weight: .bold))
+                            .foregroundColor(.black)
+                        Text("Welcome to the Bills Portal!")
+                                        // background image (add the image to Assets with name "ScannerBackground")
+                                       
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 24)
+                    .padding(.top, 24)
+
+                    Spacer()
+
                     
-                    // Action buttons grid
-                    VStack(spacing: 16) {
-                        HStack(spacing: 16) {
-                           // NavigationLink(destination: //DocumentContentView()) {
-                            
-                            //NavigationLink(value: Route.scan) {
-                                ActionButtonView(
-                                    icon: "scanner",
-                                    title: "Scan",
-                                    backgroundColor: Color(red: 0.85, green: 0.95, blue: 1.0),
-                                )
-                            //}
-                                .onTapGesture {
-                                    router.navigate(to: .scan)
-                                }
-                            
-                            
-                            //}
-                            
-                            
-                            
-                            .buttonStyle(.plain)
-                            
-                            ActionButtonView(
-                                icon: "square.stack.3d.up",
-                                title: "Results",
-                                backgroundColor: Color(red: 0.85, green: 0.98, blue: 0.85),
-                                
-                            )
-                            .onTapGesture {
+
+                    // Action buttons
+                    VStack(spacing: 20) {
+                     
+                        HStack(spacing: 0) {
+                            Button(action: {
+                                router.navigate(to: .scan)
+                            }) {
+                                Text("Upload Bill")
+                                    .frame(maxWidth: .infinity)
+                                    .font(.system(size: 20, weight: .semibold))
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .controlSize(.large)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal, 18)
+                        
+                        HStack(spacing: 0) {
+                            Button(action: {
                                 let invoices = StorageManager.shared.loadInvoices()
                                 if !invoices.isEmpty {
                                     router.navigate(to: .allSummaries(invoiceMakers: invoices))
                                 } else {
                                     router.navigate(to: .emptyResults)
                                 }
+                            }) {
+                                Text("View Results")
+                                    .frame(maxWidth: .infinity)
+                                    .font(.system(size: 20, weight: .semibold))
                             }
+                            .buttonStyle(.borderedProminent)
+                            .controlSize(.large)
                         }
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal, 18)
                         
-                        HStack(spacing: 16) {
-                            ActionButtonView(
-                                icon: "sparkles",
-                                title: "Ask AI",
-                                backgroundColor: Color(red: 1.0, green: 0.98, blue: 0.8),
-                                
-                            )
+                       
+
+                        Button(action: {
+                            // Ask AI action placeholder
+                        }) {
+                            Text("Ask AI")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundColor(Color.blue)
                         }
+                        .padding(.top, 6)
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 32)
-                    
-                    
-                    
-                    Spacer()
+
+                    // Help button bottom-right
                     HStack {
-                        HStack(spacing: 0) {
-                            Button(action: {}) {
-                                Image(systemName: "questionmark.circle")
-                                    .font(.system(size: 24))
-                                    .foregroundColor(.black)
-                                    .padding(12)
-                                    .background(Color.white)
-                                    .clipShape(Circle())
-                            }
-                        }
                         Spacer()
                         Button(action: {}) {
-                            Image(systemName: "waveform")
-                                .font(.system(size: 28, weight: .medium))
-                                .foregroundColor(.white)
-                                .frame(width: 70, height: 70)
-                                .background(Color.black)
-                                .clipShape(Circle())
+                            Image(systemName: "questionmark.circle")
+                                .font(.system(size: 28))
+                                .foregroundColor(.black.opacity(0.8))
+                                .padding(8)
                         }
+                        .padding(.trailing, 24)
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.bottom, 32)
                 }
-                .background(Color.white)
-                .cornerRadius(40)
+
+                // Navigation destinations
                 .navigationDestination(for: Route.self) { route in
                     switch route {
                     case .scan:
@@ -159,13 +119,11 @@ struct ScannerAppHome: View {
                         EmptyResultsView()
                     }
                 }
-                
             }
         }
         .environmentObject(router)
         .environmentObject(imageDataModel)
         .environmentObject(visionModel)
-        
     }
 }
 
@@ -194,3 +152,5 @@ struct ActionButtonView: View {
 #Preview {
     ScannerAppHome()
 }
+
+
