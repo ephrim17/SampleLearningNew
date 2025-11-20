@@ -227,19 +227,19 @@ struct BillCard: View {
                     }
                 }
 
-                HStack {
+                HStack(alignment: .top) {
                     Text("Address")
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(.gray)
                     Spacer()
                     if isEditing {
-                        TextField("Address", text: $address)
-                            .multilineTextAlignment(.trailing)
+                        // Use a TextEditor for multi-line address editing
+                        TextEditor(text: $address)
                             .focused($focusedField, equals: .address)
-                            .submitLabel(.next)
-                            .onSubmit {
-                                focusedField = .total
-                            }
+                            .frame(minHeight: 60, maxHeight: 120)
+                            .padding(6)
+                            .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.gray.opacity(0.25)))
+                            .multilineTextAlignment(.trailing)
                     } else {
                         Text(address)
                             .font(.system(size: 13, weight: .semibold))
@@ -279,6 +279,27 @@ struct BillCard: View {
             personName = invoice.personName
             address = invoice.address
             totalAmount = invoice.totalAmount
+        }
+        .toolbar {
+            // Keyboard toolbar with Next / Done actions to move between fields
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Next") {
+                    switch focusedField {
+                    case .date:
+                        focusedField = .person
+                    case .person:
+                        focusedField = .address
+                    case .address:
+                        focusedField = .total
+                    default:
+                        focusedField = .total
+                    }
+                }
+                Button("Done") {
+                    saveEditing()
+                }
+            }
         }
     }
 
