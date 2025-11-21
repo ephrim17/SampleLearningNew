@@ -71,8 +71,9 @@ struct DocumentContentView: View {
                 imageDataViewModel.resetImageData()
                 visionModel.resetState()
                 isInitialized = true
-                
-                imageDataViewModel.convertAssetImageToData(named: "11Grocery")
+                //var imageName = "Hotel-invoice-example1"
+                var imageName = "11Grocery"
+                imageDataViewModel.convertAssetImageToData(named: imageName)
             }
         }
         .onDisappear {

@@ -69,7 +69,6 @@ struct CustomBillSummaryView: View {
                                 })
                             }
                         }
-                        .padding(.top, 100)
                     }
                 }
                 
@@ -102,7 +101,6 @@ struct CustomBillSummaryView: View {
                     }
                     //.frame(width: 150)
                 }
-                .padding(.bottom, 60)
                 .padding(.horizontal, 18)
             }
         }
@@ -145,6 +143,7 @@ struct BillCard: View {
     @State private var address: String = ""
     @State private var totalAmount: String = ""
     @State private var currencySymbol: String = ""
+    @State private var storeName: String = ""
     @State private var isEditing: Bool = false
     @FocusState private var focusedField: Field?
     
@@ -196,9 +195,35 @@ struct BillCard: View {
                     }
                 }
                 Divider()
+                
+                HStack(alignment: .top) {
+                    Text("StoreName")
+                        .font(.system(size: 13, weight: .semibold))
+                        //.foregroundColor(.gray)
+                    Spacer()
+                    if isEditing {
+                        // Use a TextEditor for multi-line address editing
+                        TextEditor(text: $storeName)
+                            .focused($focusedField, equals: .address)
+                            .frame(minHeight: 60, maxHeight: 120)
+                            .padding(6)
+                            .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.gray.opacity(0.25)))
+                            .multilineTextAlignment(.trailing)
+                    } else {
+                        Text(storeName)
+                            .font(.system(size: 13))
+                            .foregroundColor(.black)
+                            .lineLimit(2)
+                            .multilineTextAlignment(.trailing)
+                    }
+                }
+
+                Divider()
+                
                 HStack(alignment: .top) {
                     Text("Address")
                         .font(.system(size: 13, weight: .semibold))
+                        
                         //.foregroundColor(.gray)
                     Spacer()
                     if isEditing {
@@ -213,8 +238,9 @@ struct BillCard: View {
                         Text(address)
                             .font(.system(size: 13))
                             .foregroundColor(.black)
-                            .lineLimit(2)
+                            .lineLimit(nil)
                             .multilineTextAlignment(.trailing)
+                            .frame(width: 180)
                     }
                 }
                 Divider()
@@ -288,8 +314,9 @@ struct BillCard: View {
             date = invoice.Date
             personName = invoice.personName
             address = invoice.address
-            totalAmount = invoice.currencySymbol + invoice.totalAmount
+            totalAmount = invoice.currencySymbol + " " + invoice.totalAmount
             currencySymbol = invoice.currencySymbol
+            storeName = invoice.storeName
         }
         .toolbar {
             // Keyboard toolbar with Next / Done actions to move between fields
@@ -334,7 +361,7 @@ struct BillCard: View {
     
     private func saveEditing() {
         // Create updated model and call save callback
-        let updated = InvoiceMakerModel(Date: date, totalAmount: totalAmount, currencySymbol: currencySymbol, address: address, personName: personName)
+        let updated = InvoiceMakerModel(Date: date, totalAmount: totalAmount, currencySymbol: currencySymbol, storeName: storeName, address: address, personName: personName)
         onSave(updated)
         isEditing = false
         focusedField = nil
@@ -343,7 +370,7 @@ struct BillCard: View {
 
 #Preview {
     CustomBillSummaryView(invoiceMakerItems: [
-        InvoiceMakerModel(Date: "aaaa", totalAmount: "aaaa", currencySymbol: "$", address: "12 Crescent Close Fairiew 11027 United States", personName: "aaaa")
+        InvoiceMakerModel(Date: "aaaa", totalAmount: "aaaa", currencySymbol: "$", storeName: "default", address: "teron 104 BTM Bangalore, Kssssssssssssssssss", personName: "aaaa")
     ])
 }
 

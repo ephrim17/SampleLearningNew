@@ -265,8 +265,11 @@ struct InvoiceMakerModel: Equatable, Hashable, Codable {
     @Guide(description: "totalAmount from the given text should be in numbers as string")
     let totalAmount: String
     
-    @Guide(description: "currency symbol")
+    @Guide(description: "Get currency symbol from the total amount in the given text")
     let currencySymbol: String
+    
+    @Guide(description: "Get store name from the given set of texts")
+    let storeName: String
     
     @Guide(description: "address from the given text")
     let address: String
