@@ -109,7 +109,11 @@ class VisionModel: ObservableObject {
         do {
             loadingText = "Analyzing document..."
             summarisedData = try await summarizeArticle(articleText: textParagraph)
+            withAnimation {
+                showBillSummary = true
+            }
             showBillSummary = true
+            
         } catch {
             print("Summarization failed:", error)
         }
@@ -121,7 +125,7 @@ class VisionModel: ObservableObject {
         // 1. Create a LanguageModelSession
         let session = LanguageModelSession()
         
-        let prompt = "Take a summary of the following article and give date, total amount, address and person name , :\n\n" + articleText
+        let prompt = "Take a summary of the following article and give date, currency symbol, total amount, address and person name , :\n\n" + articleText
         
         do {
             let afmResponse = try await session.respond(generating: InvoiceMakerModel.self) {
@@ -258,8 +262,11 @@ struct InvoiceMakerModel: Equatable, Hashable, Codable {
     @Guide(description: "Date from the given text")
     let Date: String
     
-    @Guide(description: "totalAmount from the given text should be in numbers as string for ex: 260 with currency symbol")
+    @Guide(description: "totalAmount from the given text should be in numbers as string")
     let totalAmount: String
+    
+    @Guide(description: "currency symbol")
+    let currencySymbol: String
     
     @Guide(description: "address from the given text")
     let address: String

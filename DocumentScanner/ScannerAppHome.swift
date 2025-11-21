@@ -21,7 +21,7 @@ struct ScannerAppHome: View {
                     HStack {
                         Spacer()
                         Button(action: {}) {
-                            Image(systemName: "person.circle")
+                            Image(systemName: "person.crop.circle")
                                 .font(.system(size: 28))
                                 .foregroundColor(.black)
                                 .padding(8)

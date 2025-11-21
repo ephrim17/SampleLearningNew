@@ -31,14 +31,15 @@ struct CustomBillSummaryView: View {
     @State private var currentInvoices: [InvoiceMakerModel] = []
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             // subtle background
             Image("scannerBg")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
             
-            VStack {
+            VStack(spacing: 0) {
+                
                 if currentInvoices.isEmpty {
                     VStack(spacing: 16) {
                         Spacer()
@@ -56,7 +57,7 @@ struct CustomBillSummaryView: View {
                     }
                 } else {
                     ScrollView {
-                        VStack {
+                        VStack(spacing: 16) {
                             ForEach(Array(currentInvoices.enumerated()), id: \.offset) { index, invoice in
                                 BillCard(invoice: invoice, index: index, onDelete: {
                                     deleteBillAndRefresh(at: index)
@@ -68,40 +69,43 @@ struct CustomBillSummaryView: View {
                                 })
                             }
                         }
-                        .padding(.vertical, 16)
+                        .padding(.top, 100)
                     }
                 }
                 
+                Spacer()
+                
                 HStack(spacing: 12) {
-                    HStack {
-                        Text("Upload Another Bill")
-                            .font(.system(size: 13, weight: .semibold))
-                            .foregroundColor(.black)
-                            .onTapGesture {
-                                imageDataModel.resetImageData()
-                                visionModel.resetState()
-                                router.goBackAndScanAgain()
-                            }
+                    HStack(spacing: 0) {
+                        Button(action: {
+                            //
+                        }) {
+                            Text("New Upload")
+                                .frame(maxWidth: .infinity)
+                                .font(.system(size: 20, weight: .semibold))
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
                     }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 44)
-                    .background(Color.orange)
-                    .opacity(0.8)
-                    .cornerRadius(24)
+                    //.frame(width: 150)
                     
-                    HStack {
-                        Text("Sync with server")
-                            .font(.system(size: 13, weight: .semibold))
-                            .foregroundColor(.black)
+                    HStack(spacing: 0) {
+                        Button(action: {
+                            //
+                        }) {
+                            Text("Sync")
+                                .frame(maxWidth: .infinity)
+                                .font(.system(size: 20, weight: .semibold))
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
                     }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 44)
-                    .background(Color.orange)
-                    .opacity(0.8)
-                    .cornerRadius(24)
+                    //.frame(width: 150)
                 }
-                .padding(.horizontal, 16)
+                .padding(.bottom, 60)
+                .padding(.horizontal, 18)
             }
+        }
             
             .navigationTitle("Summary")
             .navigationBarBackButtonHidden(true)
@@ -115,7 +119,7 @@ struct CustomBillSummaryView: View {
                         }
                     }
                 }
-            }
+            
         }
         .onAppear {
             currentInvoices = invoiceMakerItems
@@ -140,6 +144,7 @@ struct BillCard: View {
     @State private var personName: String = ""
     @State private var address: String = ""
     @State private var totalAmount: String = ""
+    @State private var currencySymbol: String = ""
     @State private var isEditing: Bool = false
     @FocusState private var focusedField: Field?
     
@@ -149,57 +154,12 @@ struct BillCard: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text("Bill #\(index + 1)")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(.gray)
-                Spacer()
-                HStack(spacing: 12) {
-                    Button(action: {
-                        onDelete()
-                    }) {
-                        Image(systemName: "trash.fill")
-                            .font(.system(size: 14))
-                            .foregroundColor(.red)
-                    }
-                    
-                    if isEditing {
-                        Button(action: {
-                            // Cancel edits
-                            cancelEditing()
-                        }) {
-                            Image(systemName: "xmark.circle")
-                                .font(.system(size: 16))
-                                .foregroundColor(.gray)
-                        }
-                        
-                        Button(action: {
-                            saveEditing()
-                        }) {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.system(size: 16))
-                                .foregroundColor(.green)
-                        }
-                    } else {
-                        Button(action: {
-                            startEditing()
-                        }) {
-                            Image(systemName: "pencil.circle.fill")
-                                .font(.system(size: 14))
-                                .foregroundColor(.orange)
-                        }
-                    }
-                }
-            }
-            .padding(.bottom, 4)
-            
-            Divider()
             
             VStack(spacing: 12) {
                 HStack {
                     Text("Date")
                         .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(.gray)
+                        //.foregroundColor(.gray)
                     Spacer()
                     if isEditing {
                         TextField("Date", text: $date)
@@ -211,15 +171,15 @@ struct BillCard: View {
                             }
                     } else {
                         Text(date)
-                            .font(.system(size: 13, weight: .semibold))
+                            .font(.system(size: 13))
                             .foregroundColor(.black)
                     }
                 }
-                
+                Divider()
                 HStack {
                     Text("Person Name")
                         .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(.gray)
+                        //.foregroundColor(.gray)
                     Spacer()
                     if isEditing {
                         TextField("Person Name", text: $personName)
@@ -231,15 +191,15 @@ struct BillCard: View {
                             }
                     } else {
                         Text(personName)
-                            .font(.system(size: 13, weight: .semibold))
+                            .font(.system(size: 13))
                             .foregroundColor(.black)
                     }
                 }
-                
+                Divider()
                 HStack(alignment: .top) {
                     Text("Address")
                         .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(.gray)
+                        //.foregroundColor(.gray)
                     Spacer()
                     if isEditing {
                         // Use a TextEditor for multi-line address editing
@@ -251,17 +211,18 @@ struct BillCard: View {
                             .multilineTextAlignment(.trailing)
                     } else {
                         Text(address)
-                            .font(.system(size: 13, weight: .semibold))
+                            .font(.system(size: 13))
                             .foregroundColor(.black)
                             .lineLimit(2)
                             .multilineTextAlignment(.trailing)
                     }
                 }
+                Divider()
                 
                 HStack {
                     Text("Total Amount")
                         .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(.gray)
+                        //.foregroundColor(.gray)
                     Spacer()
                     if isEditing {
                         TextField("Total Amount", text: $totalAmount)
@@ -273,10 +234,50 @@ struct BillCard: View {
                             }
                     } else {
                         Text(totalAmount)
-                            .font(.system(size: 13, weight: .semibold))
+                            .font(.system(size: 13))
                             .foregroundColor(.black)
                     }
                 }
+                
+                Divider()
+                HStack(spacing: 12) {
+                    Spacer()
+                    Button(action: {
+                        onDelete()
+                    }) {
+                        Image(systemName: "xmark.bin")
+                            .font(.system(size: 14))
+                            .foregroundColor(.black)
+                    }
+                    
+                    if isEditing {
+                        Button(action: {
+                            // Cancel edits
+                            cancelEditing()
+                        }) {
+                            Image(systemName: "xmark.circle")
+                                .font(.system(size: 14))
+                                .foregroundColor(.black)
+                        }
+                        
+                        Button(action: {
+                            saveEditing()
+                        }) {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.system(size: 14))
+                                .foregroundColor(.black)
+                        }
+                    } else {
+                        Button(action: {
+                            startEditing()
+                        }) {
+                            Image(systemName: "square.and.pencil")
+                                .font(.system(size: 14))
+                                .foregroundColor(.black)
+                        }
+                    }
+                }
+                
             }
         }
         .padding(16)
@@ -287,28 +288,29 @@ struct BillCard: View {
             date = invoice.Date
             personName = invoice.personName
             address = invoice.address
-            totalAmount = invoice.totalAmount
+            totalAmount = invoice.currencySymbol + invoice.totalAmount
+            currencySymbol = invoice.currencySymbol
         }
         .toolbar {
             // Keyboard toolbar with Next / Done actions to move between fields
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-                Button("Next") {
-                    switch focusedField {
-                    case .date:
-                        focusedField = .person
-                    case .person:
-                        focusedField = .address
-                    case .address:
-                        focusedField = .total
-                    default:
-                        focusedField = .total
-                    }
-                }
-                Button("Done") {
-                    saveEditing()
-                }
-            }
+//            ToolbarItemGroup(placement: .keyboard) {
+//                Spacer()
+//                Button("Next") {
+//                    switch focusedField {
+//                    case .date:
+//                        focusedField = .person
+//                    case .person:
+//                        focusedField = .address
+//                    case .address:
+//                        focusedField = .total
+//                    default:
+//                        focusedField = .total
+//                    }
+//                }
+//                Button("Done") {
+//                    saveEditing()
+//                }
+//            }
         }
     }
     
@@ -332,7 +334,7 @@ struct BillCard: View {
     
     private func saveEditing() {
         // Create updated model and call save callback
-        let updated = InvoiceMakerModel(Date: date, totalAmount: totalAmount, address: address, personName: personName)
+        let updated = InvoiceMakerModel(Date: date, totalAmount: totalAmount, currencySymbol: currencySymbol, address: address, personName: personName)
         onSave(updated)
         isEditing = false
         focusedField = nil
@@ -341,7 +343,7 @@ struct BillCard: View {
 
 #Preview {
     CustomBillSummaryView(invoiceMakerItems: [
-        InvoiceMakerModel(Date: "aaaa", totalAmount: "aaaa", address: "12 Crescent Close Fairiew 11027 United States", personName: "aaaa")
+        InvoiceMakerModel(Date: "aaaa", totalAmount: "aaaa", currencySymbol: "$", address: "12 Crescent Close Fairiew 11027 United States", personName: "aaaa")
     ])
 }
 

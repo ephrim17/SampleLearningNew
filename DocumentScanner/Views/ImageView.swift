@@ -19,7 +19,9 @@ struct ImageView: View {
                  if let uiImage = UIImage(data: imageDataModel.imageData ?? Data()) {
                     Image(uiImage: uiImage)
                         .resizable()
-                        .scaledToFit()
+                        .frame(width: 300, height: 400)
+                        .aspectRatio(contentMode: .fill)
+                        .clipped()
                         .overlay {
                             if let table = viewModel.table {
                                 GeometryReader { geometry in
@@ -106,8 +108,8 @@ struct ImageView: View {
                     
                     HStack(spacing: 0) {
                         Button(action: {
-                            imageDataModel.imageData = nil
-                            viewModel.resetState()
+                            //imageDataModel.imageData = nil
+                            //viewModel.resetState()
                         }) {
                             Text("Re-Upload Bill")
                                 .frame(maxWidth: .infinity)

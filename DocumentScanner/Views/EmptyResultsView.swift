@@ -10,8 +10,8 @@ struct EmptyResultsView: View {
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
-            VStack(spacing: 24) {
-                
+            VStack {
+                Spacer()
                 Image(systemName: "doc.text.magnifyingglass")
                     .font(.system(size: 60))
                     .foregroundColor(.gray)
@@ -28,11 +28,20 @@ struct EmptyResultsView: View {
                             
                         }
                 }
-                
-                
-                
+                Spacer()
+                HStack(spacing: 0) {
+                    Button(action: {
+                        //
+                    }) {
+                        Text("Upload a Bill")
+                            .frame(maxWidth: .infinity)
+                            .font(.system(size: 20, weight: .semibold))
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+                }
                 .padding(.horizontal, 32)
-                .padding(.bottom, 32)
+                .padding(.bottom, 82)
             }
         }
         .navigationTitle("Results")
