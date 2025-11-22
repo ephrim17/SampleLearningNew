@@ -18,7 +18,7 @@ class Router: ObservableObject {
     @Published var path = NavigationPath()
     
     @EnvironmentObject var visionViewModel: VisionModel
-    @EnvironmentObject var imageDataViewModel: ImageDataModel
+    @EnvironmentObject var imageDataViewModel: ImageDataViewModel
     
     func reset() {
         path = NavigationPath()

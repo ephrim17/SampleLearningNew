@@ -3,7 +3,7 @@ internal import Combine
 
 struct ScannerAppHome: View {
     @StateObject var router = Router()
-    @StateObject var imageDataModel = ImageDataModel()
+    @StateObject var imageDataModel = ImageDataViewModel()
     @StateObject var visionModel = VisionModel()
 
     var body: some View {

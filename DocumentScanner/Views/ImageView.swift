@@ -3,7 +3,7 @@ import Vision
 
 struct ImageView: View {
     @EnvironmentObject var router: Router
-    @EnvironmentObject var imageDataModel: ImageDataModel
+    @EnvironmentObject var imageDataModel: ImageDataViewModel
     @EnvironmentObject var viewModel: VisionModel
     @State var imageData: Data?
     
@@ -15,7 +15,6 @@ struct ImageView: View {
     var body: some View {
         ZStack {
              VStack{
-                // Convert the image data to a `UIImage`, and display it in an `Image` view.
                  if let uiImage = UIImage(data: imageDataModel.imageData ?? Data()) {
                     Image(uiImage: uiImage)
                         .resizable()
@@ -42,7 +41,6 @@ struct ImageView: View {
                                     }
                                 }
                             }
-                            
                             if !viewModel.newParagraphs.isEmpty {
                                 ZStack {
                                     ForEach(viewModel.newParagraphs, id: \.hashValue) { para in
@@ -59,7 +57,6 @@ struct ImageView: View {
                                 }
                                 
                             }
-                            
                             if let para = viewModel.paragraph {
                                 GeometryReader { geometry in
                                     ZStack {
@@ -75,16 +72,16 @@ struct ImageView: View {
                                 }
                             }
                         }
-                        //.padding()
                         .popover(isPresented: $isPopoverPresented,
                                  attachmentAnchor: .point(selectedCell?.location ?? .bottom)
                         ) {
-                            makePopoverView()
-                                .padding(20)
-                                .presentationCompactAdaptation(.popover)
+                            if let cell = selectedCell {
+                                makePopoverView(cell)
+                                    .padding(20)
+                                    .presentationCompactAdaptation(.popover)
+                            }
                         }
                 }
-                
                 if viewModel.showBillSummary {
                     HStack(spacing: 0) {
                         Button(action: {
@@ -122,12 +119,8 @@ struct ImageView: View {
                     .padding(.horizontal, 18)
                 }
             }
-            
             LoadingOverlayView(loadingText: viewModel.loadingText)
-
         }
-        
-        
         .task {
             // Process the image with Vision's document recognition.
             await viewModel.recognizeTable(in: imageDataModel.imageData ?? Data())
@@ -135,40 +128,6 @@ struct ImageView: View {
         .onDisappear {
             viewModel.resetState()
         }
-    }
-    
-    @ViewBuilder
-    private func makePopoverView() -> some View {
-        switch selectedCell?.content {
-        case .email(let string):
-            Link(destination: URL(string: "mailto:\(string)")!) {
-                HStack {
-                    Image(systemName: "square.and.pencil")
-                    Text(string)
-                }
-            }
-        case .phone(let string):
-            Link(destination: URL(string: "imessage:\(string)")!) {
-                HStack {
-                    Image(systemName: "phone.fill")
-                    Text(string)
-                }
-            }
-        case .text(let string):
-            Text(string)
-        case nil:
-            EmptyView()
-        }
-    }
-    
-    @ViewBuilder
-    private func makeAlert() -> some View {
-        Text("Table copied to clipboard!")
-            .font(.callout)
-            .padding(20)
-            .background(Color.green.clipShape(.buttonBorder))
-            .transition(.move(edge: .top))
-            .frame(maxHeight: .infinity, alignment: .top)
     }
     
     /// Copy the detected table to the clipboard and show an alert upon success.
@@ -195,48 +154,6 @@ struct ImageView: View {
         selectedCell = viewModel.table?.cell(at: visionPoint)
         if selectedCell != nil {
             isPopoverPresented = true
-        }
-    }
-}
-
-struct RoundedButton: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding()
-            .font(.headline)
-            .background(Color.blue)
-            .foregroundStyle(.white)
-            .clipShape(Capsule())
-    }
-}
-
-
-struct LoadingOverlayView: View {
-    
-    var loadingText: String = "Loading..."
-    
-    var body: some View {
-        ZStack {
-            // A semi-transparent background that covers the whole screen
-            if (!loadingText.isEmpty) {
-                Color.black
-                    .opacity(0.4)
-                    .edgesIgnoringSafeArea(.all)
-
-                // The loading indicator container (e.g., a blurred box)
-                VStack {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                        .scaleEffect(1.5)
-                    Text(loadingText)
-                        .foregroundColor(.white)
-                        .padding(.top, 10)
-                }
-                .padding(25)
-                .background(Color.black.opacity(0.7))
-                .cornerRadius(15)
-            }
-            
         }
     }
 }

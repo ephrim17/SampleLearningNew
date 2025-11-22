@@ -5,7 +5,6 @@ struct EmptyResultsView: View {
     
     var body: some View {
         ZStack {
-            // subtle background
             Image("scannerBg")
                 .resizable()
                 .scaledToFill()
@@ -31,7 +30,6 @@ struct EmptyResultsView: View {
                 Spacer()
                 HStack(spacing: 0) {
                     Button(action: {
-                        //
                     }) {
                         Text("Upload a Bill")
                             .frame(maxWidth: .infinity)
