@@ -28,7 +28,6 @@ struct BillCard: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            
             VStack(spacing: 12) {
                 HStack {
                     Text("Date")
@@ -181,7 +180,6 @@ struct BillCard: View {
         .padding(16)
         .background(Color(.systemGray6))
         .cornerRadius(12)
-        .padding(.horizontal, 16)
         .onAppear {
             date = invoice.Date
             personName = invoice.personName

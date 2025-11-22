@@ -4,11 +4,7 @@ struct EmptyResultsView: View {
     @EnvironmentObject var router: Router
     
     var body: some View {
-        ZStack {
-            Image("scannerBg")
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
+        BackgroundContainerView {
             VStack {
                 Spacer()
                 Image(systemName: "doc.text.magnifyingglass")

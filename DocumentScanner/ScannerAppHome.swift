@@ -5,18 +5,11 @@ struct ScannerAppHome: View {
     @StateObject var router = Router()
     @StateObject var imageDataModel = ImageDataViewModel()
     @StateObject var visionModel = VisionModel()
-
+    
     var body: some View {
         NavigationStack(path: $router.path) {
-            ZStack {
-                // subtle background
-                Image("scannerBg")
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-               
-
-                VStack {
+            BackgroundContainerView {
+                VStack(spacing: 0) {
                     // Top bar (avatar)
                     HStack {
                         Spacer()
@@ -27,29 +20,23 @@ struct ScannerAppHome: View {
                                 .padding(8)
                         }
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 30)
-
+                    .safeAreaPadding(.all)
+                    .padding(5)
                     // Greeting
                     VStack(alignment: .leading, spacing: 6) {
                         Text("Hi Peter,")
                             .font(.system(size: 48, weight: .bold))
                             .foregroundColor(.black)
                         Text("Welcome to the Bills Portal!")
-                                        // background image (add the image to Assets with name "ScannerBackground")
-                                       
+                        // background image (add the image to Assets with name "ScannerBackground")
+                        
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 24)
                     .padding(.top, 24)
-
                     Spacer()
-
-                    
-
                     // Action buttons
                     VStack(spacing: 20) {
-                     
                         HStack(spacing: 0) {
                             Button(action: {
                                 router.navigate(to: .scan)
@@ -63,7 +50,6 @@ struct ScannerAppHome: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.horizontal, 18)
-                        
                         HStack(spacing: 0) {
                             Button(action: {
                                 let invoices = StorageManager.shared.loadInvoices()
@@ -82,9 +68,6 @@ struct ScannerAppHome: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.horizontal, 18)
-                        
-                       
-
                         Button(action: {
                             // Ask AI action placeholder
                         }) {
@@ -94,7 +77,6 @@ struct ScannerAppHome: View {
                         }
                         .padding(.top, 6)
                     }
-
                     // Help button bottom-right
                     HStack {
                         Spacer()
@@ -104,10 +86,10 @@ struct ScannerAppHome: View {
                                 .foregroundColor(.black.opacity(0.8))
                                 .padding(8)
                         }
-                        .padding(.trailing, 24)
                     }
+                    .safeAreaPadding(.all)
+                    .padding(5)
                 }
-
                 // Navigation destinations
                 .navigationDestination(for: Route.self) { route in
                     switch route {
@@ -124,28 +106,6 @@ struct ScannerAppHome: View {
         .environmentObject(router)
         .environmentObject(imageDataModel)
         .environmentObject(visionModel)
-    }
-}
-
-struct ActionButtonView: View {
-    let icon: String?
-    let title: String?
-    let backgroundColor: Color?
-    
-    var body: some View {
-        VStack(spacing: 16) {
-            Image(systemName: icon ?? "")
-                .font(.system(size: 32))
-                .foregroundColor(.black)
-            
-            Text(title ?? "")
-                .font(.system(size: 20, weight: .semibold))
-                .foregroundColor(.black)
-        }
-        .frame(maxWidth: .infinity)
-        .frame(height: 140)
-        .background(backgroundColor)
-        .cornerRadius(24)
     }
 }
 

@@ -16,11 +16,7 @@ struct CustomBillSummaryView: View {
     @State private var currentInvoices: [InvoiceMakerModel] = []
     
     var body: some View {
-        ZStack {
-            Image("scannerBg")
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
+        BackgroundContainerView {
             VStack {
                 VStack{
                     if currentInvoices.isEmpty {
@@ -55,6 +51,7 @@ struct CustomBillSummaryView: View {
                     HStack {
                         HStack(spacing: 0) {
                             Button(action: {
+                                // Action for New Upload
                             }) {
                                 Text("New Upload")
                                     .frame(maxWidth: .infinity)
@@ -65,6 +62,7 @@ struct CustomBillSummaryView: View {
                         }
                         HStack(spacing: 0) {
                             Button(action: {
+                                // Action for Sync
                             }) {
                                 Text("Sync")
                                     .frame(maxWidth: .infinity)
@@ -73,27 +71,34 @@ struct CustomBillSummaryView: View {
                             .buttonStyle(.borderedProminent)
                             .controlSize(.large)
                         }
-                    }.padding(20)
+                    }.padding()
                 }
-            }.padding(.top, 40)
+            }
+            // --- FIX IS HERE ---
+            // Add padding to offset the content from the top safe area
+            //.padding(.top, topSafeAreaInset())
+            // Note: In a real app, use the built-in safe area handling or a GeometryReader
+            // if you cannot rely on UIApplication.shared.windows.first.
+
+            .navigationTitle("Summary")
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(action: {
+                        router.reset()
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.left")
+                        }
+                    }
+                }
+            }
             .onAppear {
                 currentInvoices = invoiceMakerItems
             }
         }
-        .navigationTitle("Summary")
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button(action: {
-                    router.reset()
-                }) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "chevron.left")
-                    }
-                }
-            }
-        }
     }
+    // ... (rest of your functions)
     private func deleteBillAndRefresh(at index: Int) {
         StorageManager.shared.deleteInvoice(at: index)
         withAnimation {
@@ -104,9 +109,8 @@ struct CustomBillSummaryView: View {
 
 #Preview {
     CustomBillSummaryView(invoiceMakerItems: [
+        InvoiceMakerModel(Date: "aaaa", totalAmount: "aaaa", currencySymbol: "$", storeName: "default", address: "teron 104 BTM Bangalore, Kssssssssssssssssss Kssssssssssssssssss Kssssssssssssssssss Ksssssss sssssssssss ss www", personName: "aaaa"),
+        InvoiceMakerModel(Date: "aaaa", totalAmount: "aaaa", currencySymbol: "$", storeName: "default", address: "teron 104 BTM Bangalore, Kssssssssssssssssss Kssssssssssssssssss Kssssssssssssssssss Ksssssss sssssssssss ss www", personName: "aaaa"),
         InvoiceMakerModel(Date: "aaaa", totalAmount: "aaaa", currencySymbol: "$", storeName: "default", address: "teron 104 BTM Bangalore, Kssssssssssssssssss Kssssssssssssssssss Kssssssssssssssssss Ksssssss sssssssssss ss www", personName: "aaaa")
     ])
 }
-
-
-

@@ -18,12 +18,7 @@ struct DocumentContentView: View {
     @EnvironmentObject var router: Router
     
     var body: some View {
-        ZStack {
-            Image("scannerBg")
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
-            
+        BackgroundContainerView {
             VStack{
                 VStack {
                     if let imageData = imageDataViewModel.imageData {
@@ -39,7 +34,7 @@ struct DocumentContentView: View {
                 visionModel.resetState()
                 isInitialized = true
                 //var imageName = "Hotel-invoice-example1"
-                var imageName = "11Grocery"
+                let imageName = "11Grocery"
                 imageDataViewModel.convertAssetImageToData(named: imageName)
             }
         }
