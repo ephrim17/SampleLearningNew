@@ -11,7 +11,8 @@ import FoundationModels
 
 struct ContentView: View {
     var body: some View {
-        FruitStarterPage()
+        AFM_ASA_Entry()
+        //FruitStarterPage()
     }
 }
 
@@ -25,10 +26,10 @@ struct ContentView: View {
 //    }
     do  {
         
-        let article = "Check the weather forecast and be prepared for changes, especially in desert climates. Always be aware of your surroundings, especially when hiking. Carry plenty of water and wear appropriate clothing.Follow Leave No Trace principles to protect the natural beauty of Joshua Tree."
+        let article = "Dual 12MP cameras with a 12MP Ultra Wide camera and a 12MP Telephoto camera."
         
         let session = LanguageModelSession()
-        let response =  try await session.respond(to: "Does this article has the word Joshua: " + article)
+        let response =  try await session.respond(to: "Convert this article into a swiftui screen" + article)
            print(response)
        } catch {
            print(error)
