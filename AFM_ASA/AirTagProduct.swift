@@ -36,9 +36,9 @@ struct PricingTier: Identifiable, Hashable, Codable {
 
 struct CartItem: Identifiable, Codable {
     var id = UUID()
-    let product: AirTagProduct
-    let quantity: Int
-    let pricingTier: PricingTier
+    var product: AirTagProduct
+    var quantity: Int
+    var pricingTier: PricingTier
     
     var total: Double {
         return Double(quantity) * pricingTier.price

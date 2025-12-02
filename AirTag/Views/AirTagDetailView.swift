@@ -4,7 +4,6 @@ import SwiftUI
 
 struct AirTagDetailView: View {
     @StateObject var viewModel = AirTagViewModel()
-    @State private var showBag = false
     
     var body: some View {
         NavigationStack {
@@ -24,7 +23,10 @@ struct AirTagDetailView: View {
                                     .background(Color.gray.opacity(0.3))
                                     .clipShape(Circle())
                             }
+                            
                             Spacer()
+                            
+                            
                             HStack(spacing: 12) {
                                 Button(action: {}) {
                                     Image(systemName: "square.and.arrow.up")
@@ -110,7 +112,15 @@ struct AirTagDetailView: View {
                                     }
                                 }
                                 
-                                if viewModel.selectedTier == nil {
+                                if let price = viewModel.selectedTier?.priceDisplay {
+                                    Text("Buy For \(price)")
+                                        .font(.system(size: 16, weight: .semibold))
+                                        .foregroundColor(.white)
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 44)
+                                        .background(Color.gray.opacity(0.3))
+                                        .padding(.horizontal, -20)
+                                } else {
                                     Text("From \(viewModel.pricingTiers.first?.priceDisplay ?? "0.00")")
                                         .font(.system(size: 16, weight: .semibold))
                                         .foregroundColor(.white)
@@ -166,17 +176,6 @@ struct AirTagDetailView: View {
                         VStack(spacing: 16) {
                             
                             if viewModel.selectedTier != nil {
-                                
-                                if let price = viewModel.selectedTier?.priceDisplay {
-                                    Text("Buy For \(price)")
-                                        .font(.system(size: 16, weight: .semibold))
-                                        .foregroundColor(.white)
-                                        .frame(maxWidth: .infinity)
-                                        .frame(height: 44)
-                                        .background(Color.gray.opacity(0.3))
-                                        .padding(.horizontal, -20)
-                                }
-                                
                                 Button(action: {
                                     viewModel.addToCart()
                                 }) {
@@ -226,18 +225,13 @@ struct AirTagDetailView: View {
                 }
             }
             .background(Color(.systemGray6).opacity(0.1))
-            .sheet(isPresented: $viewModel.showEngraving) {
+            .fullScreenCover(isPresented: $viewModel.showEngraving) {
                 AirTagEngravingView(isPresented: $viewModel.showEngraving, engraving: $viewModel.engravingText)
             }
-            .navigationDestination(isPresented: $showBag) {
-                BagView(viewModel: viewModel)
-            }
-            .alert("Product added to bag", isPresented: $viewModel.showAlert) {
-                Button("OK") {
-                    showBag = true
-                }
+            .alert("Cart", isPresented: $viewModel.showAlert) {
+                Button("OK") { }
             } message: {
-                //Text(viewModel.alertMessage)
+                Text(viewModel.alertMessage)
             }
         }
     }
