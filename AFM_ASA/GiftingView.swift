@@ -296,7 +296,7 @@ struct MessageKeyboardOverlay: View {
         
         var session = LanguageModelSession()
         let instructions = """
-       You are a Greeting message specialist, your job is to give happy greeting messages for the lovely gift you are going to present to that person.
+       You are a Greeting message specialist, your job is to give happy greeting messages.
        """
         session = LanguageModelSession(
             instructions: instructions
@@ -311,31 +311,6 @@ struct MessageKeyboardOverlay: View {
             print("LanguageModelSession respond failed:", error)
             throw error
         }
-    }
-}
-
-// MARK: - Checkout View Placeholder
-struct CheckoutView: View {
-    var body: some View {
-        ZStack {
-            Color(.systemGray6)
-                .ignoresSafeArea()
-            
-            VStack(spacing: 16) {
-                Image(systemName: "checkmark.circle.fill")
-                    .font(.system(size: 48))
-                    .foregroundColor(.blue)
-                
-                Text("Proceeding to Checkout")
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(.black)
-                
-                Text("Your gift message will be scheduled here")
-                    .font(.system(size: 14))
-                    .foregroundColor(.gray)
-            }
-        }
-        .navigationTitle("Checkout")
     }
 }
 
