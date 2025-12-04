@@ -76,7 +76,9 @@ struct BagView: View {
             .toolbarBackground(Color.black, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
             .sheet(isPresented: $showGifting) {
-                GiftingView()
+                GiftingView { result in
+                    viewModel.giftingText = result
+                }
             }
         }
     }
@@ -127,6 +129,7 @@ struct BagView: View {
             if !viewModel.cartItems.isEmpty {
                 savingsInfo
             }
+            giftingMessage
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 16)
@@ -157,6 +160,20 @@ struct BagView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
         .clipShape(RoundedRectangle(cornerRadius: 16))
+    }
+    
+    private var giftingMessage: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            if !viewModel.giftingText.isEmpty {
+                Text("Your Gifting Message: ")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.orange)
+                //Show personal message her
+                Text(viewModel.giftingText)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
     }
 
     private var questionsSection: some View {

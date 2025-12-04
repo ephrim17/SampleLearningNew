@@ -13,6 +13,7 @@ class AirTagViewModel: ObservableObject {
     @Published var alertMessage: String = ""
     @Published var engravingText: String = ""
     @Published var showEngraving: Bool = false
+    @Published var giftingText: String = ""
     
     init() {
         // Initialize product
