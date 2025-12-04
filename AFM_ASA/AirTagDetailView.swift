@@ -72,11 +72,7 @@ struct AirTagDetailView: View {
                         .padding(.vertical, 24)
                         
                         // Product Image
-                        Image("airtag")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 300)
-                            .padding(.vertical, 20)
+                        AirTagHeroImage(height: 300, verticalPadding: 20)
                         
                         // Gallery Button
                         Button(action: {}) {

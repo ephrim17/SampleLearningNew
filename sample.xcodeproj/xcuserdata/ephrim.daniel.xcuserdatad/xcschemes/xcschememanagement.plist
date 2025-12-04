@@ -4,10 +4,38 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>sample.xcscheme_^#shared#^_</key>
+		<key>SampleASAWatchApp Watch App.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+		<key>SampleASAWidgetsExtension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+		<key>sample.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>055B1A162EE1B5FD00D49641</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>055B1A322EE1BBD400D49641</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>05DBFACC2E2507AA004B7836</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

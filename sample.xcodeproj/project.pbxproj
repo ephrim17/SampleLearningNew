@@ -6,9 +6,91 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		055B1A1A2EE1B5FE00D49641 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 055B1A192EE1B5FD00D49641 /* WidgetKit.framework */; };
+		055B1A1C2EE1B5FE00D49641 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 055B1A1B2EE1B5FE00D49641 /* SwiftUI.framework */; };
+		055B1A272EE1B5FF00D49641 /* SampleASAWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 055B1A172EE1B5FD00D49641 /* SampleASAWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		055B1A342EE1BBD400D49641 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 055B1A192EE1B5FD00D49641 /* WidgetKit.framework */; };
+		055B1A352EE1BBD400D49641 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 055B1A1B2EE1B5FE00D49641 /* SwiftUI.framework */; };
+		055B1A542EE1BF5F00D49641 /* SampleASAWatchApp Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 055B1A4A2EE1BF5E00D49641 /* SampleASAWatchApp Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		055B1A252EE1B5FF00D49641 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 05DBFAC52E2507AA004B7836 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 055B1A162EE1B5FD00D49641;
+			remoteInfo = SampleASAWidgetsExtension;
+		};
+		055B1A522EE1BF5F00D49641 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 05DBFAC52E2507AA004B7836 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 055B1A492EE1BF5E00D49641;
+			remoteInfo = "SampleASAWatchApp Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		055B1A282EE1B5FF00D49641 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				055B1A272EE1B5FF00D49641 /* SampleASAWidgetsExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		055B1A582EE1BF5F00D49641 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				055B1A542EE1BF5F00D49641 /* SampleASAWatchApp Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		055B1A172EE1B5FD00D49641 /* SampleASAWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SampleASAWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		055B1A192EE1B5FD00D49641 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		055B1A1B2EE1B5FE00D49641 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		055B1A332EE1BBD400D49641 /* SampleASAWidgetsWatchExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SampleASAWidgetsWatchExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		055B1A4A2EE1BF5E00D49641 /* SampleASAWatchApp Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SampleASAWatchApp Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		05DBFACD2E2507AA004B7836 /* sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		055B1A2B2EE1B5FF00D49641 /* Exceptions for "SampleASAWidgets" folder in "SampleASAWidgetsExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 055B1A162EE1B5FD00D49641 /* SampleASAWidgetsExtension */;
+		};
+		055B1A2E2EE1B79000D49641 /* Exceptions for "sample" folder in "SampleASAWidgetsExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+			);
+			target = 055B1A162EE1B5FD00D49641 /* SampleASAWidgetsExtension */;
+		};
+		055B1A5D2EE1BFC300D49641 /* Exceptions for "AFM_ASA" folder in "SampleASAWatchApp Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				AirTagProduct.swift,
+				AirTagViewModel.swift,
+				Views/AirTagHeroImage.swift,
+			);
+			target = 055B1A492EE1BF5E00D49641 /* SampleASAWatchApp Watch App */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		053788BE2E96AAB000B76044 /* DocumentScanner */ = {
@@ -23,7 +105,23 @@
 		};
 		05587E3B2EDDE095000E48E6 /* AFM_ASA */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				055B1A5D2EE1BFC300D49641 /* Exceptions for "AFM_ASA" folder in "SampleASAWatchApp Watch App" target */,
+			);
 			path = AFM_ASA;
+			sourceTree = "<group>";
+		};
+		055B1A1D2EE1B5FE00D49641 /* SampleASAWidgets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				055B1A2B2EE1B5FF00D49641 /* Exceptions for "SampleASAWidgets" folder in "SampleASAWidgetsExtension" target */,
+			);
+			path = SampleASAWidgets;
+			sourceTree = "<group>";
+		};
+		055B1A4B2EE1BF5E00D49641 /* SampleASAWatchApp Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "SampleASAWatchApp Watch App";
 			sourceTree = "<group>";
 		};
 		058527452E30E797006C8A3E /* ChatBot */ = {
@@ -38,12 +136,40 @@
 		};
 		05DBFACF2E2507AA004B7836 /* sample */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				055B1A2E2EE1B79000D49641 /* Exceptions for "sample" folder in "SampleASAWidgetsExtension" target */,
+			);
 			path = sample;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		055B1A142EE1B5FD00D49641 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				055B1A1C2EE1B5FE00D49641 /* SwiftUI.framework in Frameworks */,
+				055B1A1A2EE1B5FE00D49641 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		055B1A302EE1BBD400D49641 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				055B1A352EE1BBD400D49641 /* SwiftUI.framework in Frameworks */,
+				055B1A342EE1BBD400D49641 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		055B1A472EE1BF5E00D49641 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		05DBFACA2E2507AA004B7836 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -54,6 +180,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		055B1A182EE1B5FD00D49641 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				055B1A192EE1B5FD00D49641 /* WidgetKit.framework */,
+				055B1A1B2EE1B5FE00D49641 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		05DBFAC42E2507AA004B7836 = {
 			isa = PBXGroup;
 			children = (
@@ -63,6 +198,9 @@
 				05921E522E33877A00255EBF /* Fruits Seller */,
 				058527452E30E797006C8A3E /* ChatBot */,
 				05DBFACF2E2507AA004B7836 /* sample */,
+				055B1A1D2EE1B5FE00D49641 /* SampleASAWidgets */,
+				055B1A4B2EE1BF5E00D49641 /* SampleASAWatchApp Watch App */,
+				055B1A182EE1B5FD00D49641 /* Frameworks */,
 				05DBFACE2E2507AA004B7836 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +209,9 @@
 			isa = PBXGroup;
 			children = (
 				05DBFACD2E2507AA004B7836 /* sample.app */,
+				055B1A172EE1B5FD00D49641 /* SampleASAWidgetsExtension.appex */,
+				055B1A332EE1BBD400D49641 /* SampleASAWidgetsWatchExtension.appex */,
+				055B1A4A2EE1BF5E00D49641 /* SampleASAWatchApp Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -78,6 +219,69 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		055B1A162EE1B5FD00D49641 /* SampleASAWidgetsExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 055B1A2C2EE1B5FF00D49641 /* Build configuration list for PBXNativeTarget "SampleASAWidgetsExtension" */;
+			buildPhases = (
+				055B1A132EE1B5FD00D49641 /* Sources */,
+				055B1A142EE1B5FD00D49641 /* Frameworks */,
+				055B1A152EE1B5FD00D49641 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				055B1A1D2EE1B5FE00D49641 /* SampleASAWidgets */,
+			);
+			name = SampleASAWidgetsExtension;
+			packageProductDependencies = (
+			);
+			productName = SampleASAWidgetsExtension;
+			productReference = 055B1A172EE1B5FD00D49641 /* SampleASAWidgetsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		055B1A322EE1BBD400D49641 /* SampleASAWidgetsWatchExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 055B1A432EE1BBD600D49641 /* Build configuration list for PBXNativeTarget "SampleASAWidgetsWatchExtension" */;
+			buildPhases = (
+				055B1A2F2EE1BBD400D49641 /* Sources */,
+				055B1A302EE1BBD400D49641 /* Frameworks */,
+				055B1A312EE1BBD400D49641 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SampleASAWidgetsWatchExtension;
+			packageProductDependencies = (
+			);
+			productName = SampleASAWidgetsWatchExtension;
+			productReference = 055B1A332EE1BBD400D49641 /* SampleASAWidgetsWatchExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		055B1A492EE1BF5E00D49641 /* SampleASAWatchApp Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 055B1A552EE1BF5F00D49641 /* Build configuration list for PBXNativeTarget "SampleASAWatchApp Watch App" */;
+			buildPhases = (
+				055B1A462EE1BF5E00D49641 /* Sources */,
+				055B1A472EE1BF5E00D49641 /* Frameworks */,
+				055B1A482EE1BF5E00D49641 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				055B1A4B2EE1BF5E00D49641 /* SampleASAWatchApp Watch App */,
+			);
+			name = "SampleASAWatchApp Watch App";
+			packageProductDependencies = (
+			);
+			productName = "SampleASAWatchApp Watch App";
+			productReference = 055B1A4A2EE1BF5E00D49641 /* SampleASAWatchApp Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
 		05DBFACC2E2507AA004B7836 /* sample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 05DBFAD82E2507AB004B7836 /* Build configuration list for PBXNativeTarget "sample" */;
@@ -85,10 +289,14 @@
 				05DBFAC92E2507AA004B7836 /* Sources */,
 				05DBFACA2E2507AA004B7836 /* Frameworks */,
 				05DBFACB2E2507AA004B7836 /* Resources */,
+				055B1A282EE1B5FF00D49641 /* Embed Foundation Extensions */,
+				055B1A582EE1BF5F00D49641 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				055B1A262EE1B5FF00D49641 /* PBXTargetDependency */,
+				055B1A532EE1BF5F00D49641 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				053788BE2E96AAB000B76044 /* DocumentScanner */,
@@ -115,6 +323,15 @@
 				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
+					055B1A162EE1B5FD00D49641 = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+					055B1A322EE1BBD400D49641 = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+					055B1A492EE1BF5E00D49641 = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
 					05DBFACC2E2507AA004B7836 = {
 						CreatedOnToolsVersion = 26.0;
 					};
@@ -135,11 +352,35 @@
 			projectRoot = "";
 			targets = (
 				05DBFACC2E2507AA004B7836 /* sample */,
+				055B1A162EE1B5FD00D49641 /* SampleASAWidgetsExtension */,
+				055B1A322EE1BBD400D49641 /* SampleASAWidgetsWatchExtension */,
+				055B1A492EE1BF5E00D49641 /* SampleASAWatchApp Watch App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		055B1A152EE1B5FD00D49641 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		055B1A312EE1BBD400D49641 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		055B1A482EE1BF5E00D49641 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		05DBFACB2E2507AA004B7836 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -150,6 +391,27 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		055B1A132EE1B5FD00D49641 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		055B1A2F2EE1BBD400D49641 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		055B1A462EE1BF5E00D49641 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		05DBFAC92E2507AA004B7836 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -159,7 +421,212 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		055B1A262EE1B5FF00D49641 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 055B1A162EE1B5FD00D49641 /* SampleASAWidgetsExtension */;
+			targetProxy = 055B1A252EE1B5FF00D49641 /* PBXContainerItemProxy */;
+		};
+		055B1A532EE1BF5F00D49641 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 055B1A492EE1BF5E00D49641 /* SampleASAWatchApp Watch App */;
+			targetProxy = 055B1A522EE1BF5F00D49641 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		055B1A292EE1B5FF00D49641 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZW496R2XNS;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SampleASAWidgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SampleASAWidgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTest.sample.SampleASAWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		055B1A2A2EE1B5FF00D49641 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZW496R2XNS;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SampleASAWidgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SampleASAWidgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTest.sample.SampleASAWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		055B1A442EE1BBD600D49641 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZW496R2XNS;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SampleASAWidgetsWatch/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SampleASAWidgetsWatch;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTest.SampleASAWidgetsWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		055B1A452EE1BBD600D49641 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZW496R2XNS;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SampleASAWidgetsWatch/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SampleASAWidgetsWatch;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTest.SampleASAWidgetsWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		055B1A562EE1BF5F00D49641 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZW496R2XNS;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SampleASAWatchApp;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.ephrimTest.sample;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTest.sample.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		055B1A572EE1BF5F00D49641 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZW496R2XNS;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SampleASAWatchApp;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.ephrimTest.sample;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTest.sample.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
 		05DBFAD62E2507AB004B7836 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -348,6 +815,33 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		055B1A2C2EE1B5FF00D49641 /* Build configuration list for PBXNativeTarget "SampleASAWidgetsExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				055B1A292EE1B5FF00D49641 /* Debug */,
+				055B1A2A2EE1B5FF00D49641 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		055B1A432EE1BBD600D49641 /* Build configuration list for PBXNativeTarget "SampleASAWidgetsWatchExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				055B1A442EE1BBD600D49641 /* Debug */,
+				055B1A452EE1BBD600D49641 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		055B1A552EE1BF5F00D49641 /* Build configuration list for PBXNativeTarget "SampleASAWatchApp Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				055B1A562EE1BF5F00D49641 /* Debug */,
+				055B1A572EE1BF5F00D49641 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		05DBFAC82E2507AA004B7836 /* Build configuration list for PBXProject "sample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
