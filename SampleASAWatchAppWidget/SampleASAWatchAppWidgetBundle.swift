@@ -12,6 +12,6 @@ import SwiftUI
 struct SampleASAWatchAppWidgetBundle: WidgetBundle {
     var body: some Widget {
         SampleASAWatchAppWidget()
-        SampleASAWatchAppWidgetControl()
+        SampleASAWatchAppWidgetDetail()
     }
 }

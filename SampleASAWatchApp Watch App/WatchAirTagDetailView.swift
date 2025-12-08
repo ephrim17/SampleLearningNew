@@ -88,3 +88,9 @@ struct WatchPricingCardView: View {
 #Preview("Watch Detail") {
     WatchAirTagDetailView()
 }
+
+struct SampleDetailView: View {
+    var body: some View {
+        Text(" Sample Details view")
+    }
+}

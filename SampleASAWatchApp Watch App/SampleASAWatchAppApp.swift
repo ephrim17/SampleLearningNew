@@ -9,9 +9,22 @@ import SwiftUI
 
 @main
 struct SampleASAWatchApp_Watch_AppApp: App {
+    @State private var openDetail = false
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack {
+                WatchRootView()
+                    .navigationDestination(isPresented: $openDetail) {
+                        SampleDetailView()
+                    }
+            }
+            .onOpenURL { url in
+                // Expect URLs like: myapp://sampledetail or widget-deeplink://sampledetail
+                if url.host == "sampledetail" || url.pathComponents.contains("sampledetail") {
+                    openDetail = true
+                }
+            }
         }
     }
 }

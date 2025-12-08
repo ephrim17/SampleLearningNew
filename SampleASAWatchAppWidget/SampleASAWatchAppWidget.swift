@@ -8,6 +8,14 @@
 import WidgetKit
 import SwiftUI
 
+
+struct SampleASAWatchWidgets: WidgetBundle {
+    var body: some Widget {
+        SampleASAWatchAppWidget()
+        SampleASAWatchAppWidgetDetail()
+    }
+}
+
 struct Provider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: Date(), configuration: ConfigurationAppIntent())
@@ -60,6 +68,21 @@ struct SampleASAWatchAppWidgetEntryView : View {
             }
             Text("Favorite Emoji:")
         }
+        .widgetURL(URL(string: "myapp://sampledetail"))
+    }
+}
+
+struct SampleDetailWidgetEntryView: View {
+    var entry: Provider.Entry
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("make iPad your canvas - Apple Pencil")
+                .font(.caption2)
+                .bold()
+                .lineLimit(2)
+        }
+        .widgetURL(URL(string: "myapp://sampledetail"))
     }
 }
 
@@ -71,6 +94,20 @@ struct SampleASAWatchAppWidget: Widget {
             SampleASAWatchAppWidgetEntryView(entry: entry)
                 .containerBackground(.fill.tertiary, for: .widget)
         }
+    }
+}
+
+struct SampleASAWatchAppWidgetDetail: Widget {
+    let kind: String = "SampleASAWatchAppWidgetDetail"
+
+    var body: some WidgetConfiguration {
+        AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
+            SampleDetailWidgetEntryView(entry: entry)
+                .containerBackground(.fill.tertiary, for: .widget)
+        }
+        .configurationDisplayName("Sample Detail")
+        .description("Shows a sample detail message.")
+        .supportedFamilies([.accessoryRectangular])
     }
 }
 
@@ -94,3 +131,11 @@ extension ConfigurationAppIntent {
     SimpleEntry(date: .now, configuration: .smiley)
     SimpleEntry(date: .now, configuration: .starEyes)
 }    
+
+#Preview(as: .accessoryRectangular) {
+    SampleASAWatchAppWidgetDetail()
+} timeline: {
+    SimpleEntry(date: .now, configuration: .smiley)
+    SimpleEntry(date: .now, configuration: .starEyes)
+}
+
