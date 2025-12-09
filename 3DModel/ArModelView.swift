@@ -13,7 +13,7 @@ struct ArModelView: View {
     @State private var selectedEntityName: String?
     @State private var showTextView: Bool = true
     @State private var messageText: String? = "click to know more about power button info"
-    let targetEntityName = "ogeHHHkEVjvPMgP"
+    let targetEntityName = "sQTUClhbUNPPGgI"
     
     @State private var modelEntity: ModelEntity?
     @State private var baseScale: Float = 0.1
@@ -32,19 +32,27 @@ struct ArModelView: View {
                     
                     
                     // Add InputTargetComponent only (Collision shapes generated recursively below)
-                    if let pointer1 = loaded.findEntity(named: targetEntityName) {
-                        pointer1.components.set(InputTargetComponent())
-                    }
-                    if let powerButton = loaded.findEntity(named: "EkUsSJAMJlahQjj") {
+                    if let powerButton = loaded.findEntity(named: targetEntityName) {
+                        // 1. Add InputTargetComponent to make it interactable
                         powerButton.components.set(InputTargetComponent())
+                        
+                        // 2. Generate Collision Shapes if they aren't already there
+                        // This is crucial for hit-testing to work
+                        if powerButton.components[CollisionComponent.self] == nil {
+                            powerButton.generateCollisionShapes(recursive: true)
+                        }
                     }
                     
                     // Generate collision shapes for the entire model once
                     loaded.generateCollisionShapes(recursive: true)
                     self.modelEntity = loaded
                     content.add(loaded)
-                } else if let existing = self.modelEntity, existing.scene == nil {
-                    content.add(existing)
+                    
+                    print("--- Starting Entity List ---")
+                                       listAllEntityNames(for: loaded)
+                                       print("--- End of Entity List ---")
+                    
+                    
                 }
                 self.applyTransform()
             }
@@ -54,7 +62,7 @@ struct ArModelView: View {
                     .onEnded { value in
                         let tappedName = value.entity.name
                         selectedEntityName = tappedName
-                        if tappedName == "EkUsSJAMJlahQjj" {
+                        if tappedName == targetEntityName {
                             messageText = "click to know more about power button info"
                         } else {
                             messageText = nil
@@ -62,31 +70,6 @@ struct ArModelView: View {
                         showTextView = true
                     }
             )
-//            .simultaneousGesture(
-//                MagnificationGesture()
-//                    .onChanged { value in
-//                        let newScale = baseScale * Float(value)
-//                        currentScale = max(0.1, min(newScale, 10.0))
-//                        applyTransform()
-//                    }
-//                    .onEnded { _ in
-//                        baseScale = currentScale
-//                    }
-//            )
-//            .simultaneousGesture(
-//                DragGesture()
-//                    .onChanged { value in
-//                        let factor: Float = 0.002
-//                        let dx = Float(value.translation.width) * factor
-//                        let dy = Float(value.translation.height) * factor
-//                        currentTranslation = SIMD3<Float>(baseTranslation.x + dx, baseTranslation.y - dy, baseTranslation.z)
-//                        applyTransform()
-//                    }
-//                    .onEnded { _ in
-//                        baseTranslation = currentTranslation
-//                    }
-//            )
-            
             // ... (Your existing SwiftUI overlay views remain the same) ...
             if showTextView, let name = selectedEntityName {
                 VStack {
@@ -148,5 +131,14 @@ struct ArModelView: View {
 
         var transform = Transform(scale: [currentScale, currentScale, currentScale], rotation: rotation, translation: currentTranslation)
         entity.transform = transform
+    }
+    
+    func listAllEntityNames(for entity: Entity, indent: String = "") {
+        print("\(indent)Entity Name: \(entity.name)")
+        
+        // Iterate over all child entities and call the function recursively
+        for child in entity.children {
+            listAllEntityNames(for: child, indent: indent + "  ")
+        }
     }
 }
