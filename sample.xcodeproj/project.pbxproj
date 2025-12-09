@@ -16,6 +16,8 @@
 		055B1B562EE1C68100D49641 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 055B1A192EE1B5FD00D49641 /* WidgetKit.framework */; };
 		055B1B572EE1C68100D49641 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 055B1A1B2EE1B5FE00D49641 /* SwiftUI.framework */; };
 		055B1B662EE1C68300D49641 /* SampleASAWatchAppWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 055B1B552EE1C68100D49641 /* SampleASAWatchAppWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		055B1BE32EE823FF00D49641 /* iphone16.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 055B1BE22EE823FF00D49641 /* iphone16.usdz */; };
+		055B1BE82EE8249100D49641 /* ArModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055B1BE72EE8249100D49641 /* ArModelView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +87,8 @@
 		055B1A332EE1BBD400D49641 /* SampleASAWidgetsWatchExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SampleASAWidgetsWatchExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		055B1A4A2EE1BF5E00D49641 /* SampleASAWatchApp Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SampleASAWatchApp Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		055B1B552EE1C68100D49641 /* SampleASAWatchAppWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SampleASAWatchAppWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		055B1BE22EE823FF00D49641 /* iphone16.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = iphone16.usdz; sourceTree = "<group>"; };
+		055B1BE72EE8249100D49641 /* ArModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArModelView.swift; sourceTree = "<group>"; };
 		05DBFACD2E2507AA004B7836 /* sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -235,9 +239,27 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		055B1BE52EE8240900D49641 /* other assets */ = {
+			isa = PBXGroup;
+			children = (
+				055B1BE22EE823FF00D49641 /* iphone16.usdz */,
+			);
+			path = "other assets";
+			sourceTree = "<group>";
+		};
+		055B1BE62EE8247900D49641 /* 3DModel */ = {
+			isa = PBXGroup;
+			children = (
+				055B1BE72EE8249100D49641 /* ArModelView.swift */,
+			);
+			path = 3DModel;
+			sourceTree = "<group>";
+		};
 		05DBFAC42E2507AA004B7836 = {
 			isa = PBXGroup;
 			children = (
+				055B1BE62EE8247900D49641 /* 3DModel */,
+				055B1BE52EE8240900D49641 /* other assets */,
 				05587E3B2EDDE095000E48E6 /* AFM_ASA */,
 				05587D822EDDAAFF000E48E6 /* GenUI_application */,
 				053788BE2E96AAB000B76044 /* DocumentScanner */,
@@ -468,6 +490,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				055B1BE32EE823FF00D49641 /* iphone16.usdz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,6 +529,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				055B1BE82EE8249100D49641 /* ArModelView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -548,7 +572,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTest.sample.SampleASAWidgets;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTestDemo.sample.SampleASAWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -578,7 +602,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTest.sample.SampleASAWidgets;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTestDemo.sample.SampleASAWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -595,6 +619,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZW496R2XNS;
@@ -609,8 +634,9 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTest.SampleASAWidgetsWatch;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTestDemo.sample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -628,6 +654,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZW496R2XNS;
@@ -642,8 +669,9 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTest.SampleASAWidgetsWatch;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTestDemo.sample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -668,13 +696,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = SampleASAWatchApp;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.ephrimTest.sample;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.ephrimTestDemo.sample;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTest.sample.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTestDemo.sample.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -701,13 +729,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = SampleASAWatchApp;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.ephrimTest.sample;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.ephrimTestDemo.sample;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTest.sample.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTestDemo.sample.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -741,7 +769,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTest.sample.watchkitapp.SampleASAWatchAppWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTestDemo.sample.watchkitapp.SampleASAWatchAppWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -774,7 +802,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTest.sample.watchkitapp.SampleASAWatchAppWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTestDemo.sample.watchkitapp.SampleASAWatchAppWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -929,7 +957,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTest.sample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTestDemo.sample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -961,7 +989,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTest.sample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ephrimTestDemo.sample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;

@@ -11,7 +11,8 @@ import FoundationModels
 
 struct ContentView: View {
     var body: some View {
-        AFM_ASA_Entry()
+        //AFM_ASA_Entry()
+        ArModelView()
         //FruitStarterPage()
     }
 }
