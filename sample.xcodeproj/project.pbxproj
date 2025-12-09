@@ -18,7 +18,8 @@
 		055B1B662EE1C68300D49641 /* SampleASAWatchAppWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 055B1B552EE1C68100D49641 /* SampleASAWatchAppWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		055B1BE32EE823FF00D49641 /* iphone16.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 055B1BE22EE823FF00D49641 /* iphone16.usdz */; };
 		055B1BE82EE8249100D49641 /* ArModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055B1BE72EE8249100D49641 /* ArModelView.swift */; };
-		055B1CCA2EE8485400D49641 /* rocket.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 055B1CC92EE8485400D49641 /* rocket.usdz */; };
+		055B1CCE2EE854BF00D49641 /* rocket.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 055B1CCD2EE854BF00D49641 /* rocket.usdz */; };
+		055B1CD02EE877D400D49641 /* ArModel_Rocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055B1CCF2EE877C900D49641 /* ArModel_Rocket.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,7 +91,8 @@
 		055B1B552EE1C68100D49641 /* SampleASAWatchAppWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SampleASAWatchAppWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		055B1BE22EE823FF00D49641 /* iphone16.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = iphone16.usdz; sourceTree = "<group>"; };
 		055B1BE72EE8249100D49641 /* ArModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArModelView.swift; sourceTree = "<group>"; };
-		055B1CC92EE8485400D49641 /* rocket.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = rocket.usdz; sourceTree = "<group>"; };
+		055B1CCD2EE854BF00D49641 /* rocket.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = rocket.usdz; sourceTree = "<group>"; };
+		055B1CCF2EE877C900D49641 /* ArModel_Rocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArModel_Rocket.swift; sourceTree = "<group>"; };
 		05DBFACD2E2507AA004B7836 /* sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -245,7 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				055B1BE22EE823FF00D49641 /* iphone16.usdz */,
-				055B1CC92EE8485400D49641 /* rocket.usdz */,
+				055B1CCD2EE854BF00D49641 /* rocket.usdz */,
 			);
 			path = "other assets";
 			sourceTree = "<group>";
@@ -253,6 +255,7 @@
 		055B1BE62EE8247900D49641 /* 3DModel */ = {
 			isa = PBXGroup;
 			children = (
+				055B1CCF2EE877C900D49641 /* ArModel_Rocket.swift */,
 				055B1BE72EE8249100D49641 /* ArModelView.swift */,
 			);
 			path = 3DModel;
@@ -493,7 +496,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				055B1CCA2EE8485400D49641 /* rocket.usdz in Resources */,
+				055B1CCE2EE854BF00D49641 /* rocket.usdz in Resources */,
 				055B1BE32EE823FF00D49641 /* iphone16.usdz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -534,6 +537,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				055B1BE82EE8249100D49641 /* ArModelView.swift in Sources */,
+				055B1CD02EE877D400D49641 /* ArModel_Rocket.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

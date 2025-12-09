@@ -70,6 +70,31 @@ struct ArModelView: View {
                         showTextView = true
                     }
             )
+            .simultaneousGesture(
+                MagnificationGesture()
+                    .onChanged { value in
+                        let newScale = baseScale * Float(value)
+                        currentScale = max(0.1, min(newScale, 10.0))
+                        applyTransform()
+                    }
+                    .onEnded { _ in
+                        baseScale = currentScale
+                    }
+            )
+            .simultaneousGesture(
+                DragGesture()
+                    .onChanged { value in
+                        let factor: Float = 0.002
+                        let dx = Float(value.translation.width) * factor
+                        let dy = Float(value.translation.height) * factor
+                        currentTranslation = SIMD3<Float>(baseTranslation.x + dx, baseTranslation.y - dy, baseTranslation.z)
+                        applyTransform()
+                    }
+                    .onEnded { _ in
+                        baseTranslation = currentTranslation
+                    }
+            )
+            
             // ... (Your existing SwiftUI overlay views remain the same) ...
             if showTextView, let name = selectedEntityName {
                 VStack {
