@@ -7,7 +7,7 @@
 import SwiftUI
 import RealityKit
 
-struct ArModelView: View {
+struct ArModelViewRocket: View {
     // ... (Your @State variables remain the same) ...
     @State private var selectedEntityName: String?
     @State private var showTextView: Bool = true

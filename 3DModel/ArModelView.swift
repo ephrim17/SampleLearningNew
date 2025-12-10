@@ -12,7 +12,7 @@ struct ArModelView: View {
     // ... (Your @State variables remain the same) ...
     @State private var selectedEntityName: String?
     @State private var showTextView: Bool = true
-    @State private var messageText: String? = "click to know more about power button info"
+    @State private var messageText: String? = "Click to know more about camera button info"
     let targetEntityName = "sQTUClhbUNPPGgI"
     
     @State private var modelEntity: ModelEntity?
@@ -24,38 +24,50 @@ struct ArModelView: View {
     @State private var rotationY: Float = 0.0
     @State private var rotationZ: Float = 0.0
 
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         ZStack {
-            RealityView { content in
-                // Load your 3D model
-                if self.modelEntity == nil, let loaded = try? await ModelEntity(named: "iphone16.usdz") {
-                    
-                    
-                    // Add InputTargetComponent only (Collision shapes generated recursively below)
-                    if let powerButton = loaded.findEntity(named: targetEntityName) {
-                        // 1. Add InputTargetComponent to make it interactable
-                        powerButton.components.set(InputTargetComponent())
-                        
-                        // 2. Generate Collision Shapes if they aren't already there
-                        // This is crucial for hit-testing to work
-                        if powerButton.components[CollisionComponent.self] == nil {
-                            powerButton.generateCollisionShapes(recursive: true)
-                        }
+            VStack {
+                HStack {
+                    Spacer()
+                    Button("Close") {
+                        dismiss()
                     }
-                    
-                    // Generate collision shapes for the entire model once
-                    loaded.generateCollisionShapes(recursive: true)
-                    self.modelEntity = loaded
-                    content.add(loaded)
-                    
-                    print("--- Starting Entity List ---")
-                                       listAllEntityNames(for: loaded)
-                                       print("--- End of Entity List ---")
-                    
-                    
+                }.padding(20)
+                RealityView { content in
+                    // Load your 3D model
+                    if self.modelEntity == nil, let loaded = try? await ModelEntity(named: "iphone16.usdz") {
+                        
+                        
+                        // Add InputTargetComponent only (Collision shapes generated recursively below)
+                        if let powerButton = loaded.findEntity(named: targetEntityName) {
+                            // 1. Add InputTargetComponent to make it interactable
+                            powerButton.components.set(InputTargetComponent())
+                            
+                            // 2. Generate Collision Shapes if they aren't already there
+                            // This is crucial for hit-testing to work
+                            if powerButton.components[CollisionComponent.self] == nil {
+                                powerButton.generateCollisionShapes(recursive: true)
+                            }
+                        }
+                        
+                        // Generate collision shapes for the entire model once
+                        loaded.generateCollisionShapes(recursive: true)
+                        self.modelEntity = loaded
+                        content.add(loaded)
+                        
+                        print("--- Starting Entity List ---")
+                                           listAllEntityNames(for: loaded)
+                                           print("--- End of Entity List ---")
+                        
+                        
+                    }
+                    self.applyTransform()
                 }
-                self.applyTransform()
             }
+                
+            
             .gesture(
                 TapGesture()
                     .targetedToAnyEntity()

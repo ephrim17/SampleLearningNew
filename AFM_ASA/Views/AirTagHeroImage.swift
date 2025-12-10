@@ -12,9 +12,10 @@ import SwiftUI
 struct AirTagHeroImage: View {
     var height: CGFloat = 300
     var verticalPadding: CGFloat = 20
+    var imageName: String = "airtag"
 
     var body: some View {
-        Image("airtag")
+        Image(imageName)
             .resizable()
             .scaledToFit()
             .frame(height: height)

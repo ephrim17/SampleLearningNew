@@ -22,7 +22,7 @@ struct PricingTier: Identifiable, Hashable, Codable {
     let quantity: Int
     let label: String
     let price: Double
-    var currency: String = "₹"
+    var currency: String = "$"
     let tax: String
     
     var priceDisplay: String {

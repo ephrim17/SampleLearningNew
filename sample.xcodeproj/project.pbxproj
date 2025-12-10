@@ -20,6 +20,8 @@
 		055B1BE82EE8249100D49641 /* ArModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055B1BE72EE8249100D49641 /* ArModelView.swift */; };
 		055B1CCE2EE854BF00D49641 /* rocket.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 055B1CCD2EE854BF00D49641 /* rocket.usdz */; };
 		055B1CD02EE877D400D49641 /* ArModel_Rocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055B1CCF2EE877C900D49641 /* ArModel_Rocket.swift */; };
+		055B1CD22EE9324800D49641 /* PdpDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055B1CD12EE9324800D49641 /* PdpDetailView.swift */; };
+		055B1CD42EE9328500D49641 /* PdpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055B1CD32EE9327B00D49641 /* PdpViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +95,8 @@
 		055B1BE72EE8249100D49641 /* ArModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArModelView.swift; sourceTree = "<group>"; };
 		055B1CCD2EE854BF00D49641 /* rocket.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = rocket.usdz; sourceTree = "<group>"; };
 		055B1CCF2EE877C900D49641 /* ArModel_Rocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArModel_Rocket.swift; sourceTree = "<group>"; };
+		055B1CD12EE9324800D49641 /* PdpDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdpDetailView.swift; sourceTree = "<group>"; };
+		055B1CD32EE9327B00D49641 /* PdpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdpViewModel.swift; sourceTree = "<group>"; };
 		05DBFACD2E2507AA004B7836 /* sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -255,8 +259,10 @@
 		055B1BE62EE8247900D49641 /* 3DModel */ = {
 			isa = PBXGroup;
 			children = (
+				055B1CD32EE9327B00D49641 /* PdpViewModel.swift */,
 				055B1CCF2EE877C900D49641 /* ArModel_Rocket.swift */,
 				055B1BE72EE8249100D49641 /* ArModelView.swift */,
+				055B1CD12EE9324800D49641 /* PdpDetailView.swift */,
 			);
 			path = 3DModel;
 			sourceTree = "<group>";
@@ -537,6 +543,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				055B1BE82EE8249100D49641 /* ArModelView.swift in Sources */,
+				055B1CD22EE9324800D49641 /* PdpDetailView.swift in Sources */,
+				055B1CD42EE9328500D49641 /* PdpViewModel.swift in Sources */,
 				055B1CD02EE877D400D49641 /* ArModel_Rocket.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
