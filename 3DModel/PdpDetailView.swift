@@ -52,7 +52,7 @@ struct PdpDetailView: View {
                                 }
                             }
                             .padding(.horizontal, 20)
-                            .padding(.vertical, 16)
+                            //.padding(.vertical, 16)
                             
                             // Product Title
                             VStack(spacing: 8) {
@@ -75,10 +75,12 @@ struct PdpDetailView: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding(.horizontal, 20)
-                            .padding(.vertical, 24)
+                            //.padding(.vertical, 24)
                             
                             // Product Image
-                            AirTagHeroImage(height: 300, verticalPadding: 20, imageName: "iPhone-16-")
+                            //AirTagHeroImage(height: 300, verticalPadding: 20, imageName: "iPhone-16-")
+                            ArModelView()
+                                .frame(height: 400)
                             
                             // Gallery Button
                             HStack{
@@ -116,7 +118,7 @@ struct PdpDetailView: View {
                                 
                                 // Pricing Tiers
                                 VStack(spacing: 12) {
-                                    HStack(spacing: 12) {
+                                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
                                         ForEach(viewModel.pricingTiers, id: \.id) { tier in
                                             PricingCardView(
                                                 tier: tier,
@@ -125,6 +127,8 @@ struct PdpDetailView: View {
                                                     viewModel.selectTier(tier)
                                                 }
                                             )
+                                            .frame(maxWidth: .infinity)
+                                            .frame(minHeight: 140)
                                         }
                                     }
                                     
@@ -263,3 +267,4 @@ struct PdpDetailView: View {
             }
         }
     }
+

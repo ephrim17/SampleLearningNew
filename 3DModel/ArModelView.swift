@@ -8,6 +8,72 @@
 import SwiftUI
 import RealityKit
 
+struct JoystickView: View {
+    @Binding var rotationX: Float
+    @Binding var rotationY: Float
+    let onChange: () -> Void
+
+    @State private var dragLocation: CGPoint = .zero
+
+    private func updateDragLocation(from geometry: GeometryProxy) {
+        let center = CGPoint(x: geometry.size.width / 2, y: geometry.size.height / 2)
+        let distance = min(CGFloat(rotationX) / (.pi / 2) * geometry.size.width / 2, geometry.size.width / 2)
+        let angle = CGFloat(rotationY)
+        dragLocation = CGPoint(x: center.x + cos(angle) * distance, y: center.y + sin(angle) * distance)
+    }
+
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack {
+                Circle()
+                    .fill(Color.gray.opacity(0.2))
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+
+                Circle()
+                    .fill(Color.white)
+                    .frame(width: 30, height: 30)
+                    .position(dragLocation)
+                    .gesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged { value in
+                                let center = CGPoint(x: geometry.size.width / 2, y: geometry.size.height / 2)
+                                let location = value.location
+                                let vector = CGPoint(x: location.x - center.x, y: location.y - center.y)
+                                let distance = min(sqrt(vector.x * vector.x + vector.y * vector.y), geometry.size.width / 2)
+                                let angle = atan2(vector.y, vector.x)
+
+                                // Map to rotation
+                                rotationY = Float(angle) // Yaw
+                                rotationX = Float(distance / (geometry.size.width / 2) * .pi / 2) // Pitch, limited
+
+                                dragLocation = CGPoint(x: center.x + cos(angle) * distance, y: center.y + sin(angle) * distance)
+                                onChange()
+                            }
+                            .onEnded { _ in
+                                // Keep the current position and rotation
+                            }
+                    )
+                    
+            }
+            .onAppear {
+                updateDragLocation(from: geometry)
+            }
+            .onChange(of: rotationX) { _ in
+                updateDragLocation(from: geometry)
+            }
+            .onChange(of: rotationY) { _ in
+                updateDragLocation(from: geometry)
+            }
+            .overlay {
+                Text("3D")
+                    .fontWeight(.bold)
+                    .font(.callout)
+                    .foregroundStyle(.gray)
+            }
+        }
+    }
+}
+
 struct ArModelView: View {
     // ... (Your @State variables remain the same) ...
     @State private var selectedEntityName: String?
@@ -16,8 +82,8 @@ struct ArModelView: View {
     let targetEntityName = "sQTUClhbUNPPGgI"
     
     @State private var modelEntity: ModelEntity?
-    @State private var baseScale: Float = 0.1
-    @State private var currentScale: Float = 0.1
+    @State private var baseScale: Float = 0.2
+    @State private var currentScale: Float = 0.2
     @State private var baseTranslation: SIMD3<Float> = .zero
     @State private var currentTranslation: SIMD3<Float> = SIMD3<Float>(-0.03866667, 0.298, 0.0)
     @State private var rotationX: Float = 0.0
@@ -30,10 +96,10 @@ struct ArModelView: View {
         ZStack {
             VStack {
                 HStack {
-                    Spacer()
-                    Button("Close") {
-                        dismiss()
-                    }
+                    //Spacer()
+//                    Button("Close") {
+//                        dismiss()
+//                    }
                 }.padding(20)
                 RealityView { content in
                     // Load your 3D model
@@ -121,40 +187,21 @@ struct ArModelView: View {
 //                }
                 ProductCalloutView(isPresented: $showTextView, message: messageTextPart)
                 .frame(width: 300, height: 200)
-                .padding(.top, 50)
+                //.padding(.top, 50)
             }
-            // ... (Your existing Vstack for Sliders remains the same) ...
-            VStack {
+            // 3D Joystick for rotation control
+            VStack (alignment: .trailing){
                 Spacer()
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Rotation")
-                        .font(.headline)
-                    HStack {
-                        Text("X")
-                        Slider(value: Binding(
-                            get: { Double(rotationX) },
-                            set: { rotationX = Float($0); applyTransform() }
-                        ), in: -Double.pi ... Double.pi)
-                    }
-                    HStack {
-                        Text("Y")
-                        Slider(value: Binding(
-                            get: { Double(rotationY) },
-                            set: { rotationY = Float($0); applyTransform() }
-                        ), in: -Double.pi ... Double.pi)
-                    }
-                    HStack {
-                        Text("Z")
-                        Slider(value: Binding(
-                            get: { Double(rotationZ) },
-                            set: { rotationZ = Float($0); applyTransform() }
-                        ), in: -Double.pi ... Double.pi)
-                    }
+                HStack {
+                    Spacer()
+                    JoystickView(rotationX: $rotationX, rotationY: $rotationY, onChange: applyTransform)
+                        .frame(width: 50, height: 50)
+                        .padding(12)
+//                        .background(.ultraThinMaterial)
+//                        .clipShape(RoundedRectangle(cornerRadius: 12))
+//                        .padding()
                 }
-                .padding(12)
-                .background(.ultraThinMaterial)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .padding()
+                
             }
         }
     }
