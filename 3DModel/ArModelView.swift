@@ -12,7 +12,7 @@ struct ArModelView: View {
     // ... (Your @State variables remain the same) ...
     @State private var selectedEntityName: String?
     @State private var showTextView: Bool = true
-    @State private var messageText: String? = "Click to know more about camera button info"
+    @State private var messageText: String? = "**Camera Control button**: Instantly take a photo, record video, adjust settings, and more. So you never miss a moment."
     let targetEntityName = "sQTUClhbUNPPGgI"
     
     @State private var modelEntity: ModelEntity?
@@ -75,7 +75,7 @@ struct ArModelView: View {
                         let tappedName = value.entity.name
                         selectedEntityName = tappedName
                         if tappedName == targetEntityName {
-                            messageText = "click to know more about power button info"
+                            messageText = messageText
                         } else {
                             messageText = nil
                         }
@@ -108,17 +108,18 @@ struct ArModelView: View {
             )
             
             // ... (Your existing SwiftUI overlay views remain the same) ...
-            if showTextView, let name = selectedEntityName {
-                VStack {
-                    Text(messageText ?? "Details for \(name)")
-                        .font(.headline)
-                        .padding()
-                    Button("Close") {
-                        showTextView = false
-                        selectedEntityName = nil
-                    }
-                    .padding()
-                }
+            if showTextView, let name = selectedEntityName, let messageTextPart = messageText {
+//                VStack {
+//                    Text(messageText ?? "Details for \(name)")
+//                        .font(.headline)
+//                        .padding()
+//                    Button("Close") {
+//                        showTextView = false
+//                        selectedEntityName = nil
+//                    }
+//                    .padding()
+//                }
+                ProductCalloutView(isPresented: $showTextView, message: messageTextPart)
                 .frame(width: 300, height: 200)
                 .padding(.top, 50)
             }

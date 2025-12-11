@@ -31,8 +31,8 @@ class PdpViewModel: ObservableObject {
         
         // Initialize pricing tiers
         self.pricingTiers = [
-            PricingTier(quantity: 1, label: "iPhone 16", price: 699, tax: ""),
-            PricingTier(quantity: 1, label: "iPhone 16 Plus", price: 799, tax: "")
+            PricingTier(quantity: 1, label: "iPhone 16 Pro", price: 699, tax: ""),
+            PricingTier(quantity: 1, label: "iPhone 16 Pro Max", price: 799, tax: "")
         ]
         
         // Set default tier
