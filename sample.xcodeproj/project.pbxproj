@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		052B169D2EEAA5AF00AF81AB /* watch_ar.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 052B169C2EEAA5AF00AF81AB /* watch_ar.usdz */; };
+		0538B3E22EEADECE00A248AB /* AR-watch-Try-on.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0538B3E12EEADECE00A248AB /* AR-watch-Try-on.swift */; };
 		055B1A1A2EE1B5FE00D49641 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 055B1A192EE1B5FD00D49641 /* WidgetKit.framework */; };
 		055B1A1C2EE1B5FE00D49641 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 055B1A1B2EE1B5FE00D49641 /* SwiftUI.framework */; };
 		055B1A272EE1B5FF00D49641 /* SampleASAWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 055B1A172EE1B5FD00D49641 /* SampleASAWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -86,6 +88,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		052B169C2EEAA5AF00AF81AB /* watch_ar.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = watch_ar.usdz; sourceTree = "<group>"; };
+		0538B3E12EEADECE00A248AB /* AR-watch-Try-on.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AR-watch-Try-on.swift"; sourceTree = "<group>"; };
 		055B1A172EE1B5FD00D49641 /* SampleASAWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SampleASAWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		055B1A192EE1B5FD00D49641 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		055B1A1B2EE1B5FE00D49641 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -136,6 +140,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		052B16962EEAA28400AF81AB /* WatchtryOn */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WatchtryOn;
+			sourceTree = "<group>";
+		};
 		053788BE2E96AAB000B76044 /* DocumentScanner */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = DocumentScanner;
@@ -254,6 +263,7 @@
 			children = (
 				055B1BE22EE823FF00D49641 /* iphone16.usdz */,
 				055B1CCD2EE854BF00D49641 /* rocket.usdz */,
+				052B169C2EEAA5AF00AF81AB /* watch_ar.usdz */,
 			);
 			path = "other assets";
 			sourceTree = "<group>";
@@ -261,6 +271,7 @@
 		055B1BE62EE8247900D49641 /* 3DModel */ = {
 			isa = PBXGroup;
 			children = (
+				0538B3E12EEADECE00A248AB /* AR-watch-Try-on.swift */,
 				055B1CD32EE9327B00D49641 /* PdpViewModel.swift */,
 				055B1CCF2EE877C900D49641 /* ArModel_Rocket.swift */,
 				055B1BE72EE8249100D49641 /* ArModelView.swift */,
@@ -273,6 +284,7 @@
 		05DBFAC42E2507AA004B7836 = {
 			isa = PBXGroup;
 			children = (
+				052B16962EEAA28400AF81AB /* WatchtryOn */,
 				055B1BE62EE8247900D49641 /* 3DModel */,
 				055B1BE52EE8240900D49641 /* other assets */,
 				05587E3B2EDDE095000E48E6 /* AFM_ASA */,
@@ -408,6 +420,7 @@
 				055B1A532EE1BF5F00D49641 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				052B16962EEAA28400AF81AB /* WatchtryOn */,
 				053788BE2E96AAB000B76044 /* DocumentScanner */,
 				05587D822EDDAAFF000E48E6 /* GenUI_application */,
 				05587E3B2EDDE095000E48E6 /* AFM_ASA */,
@@ -507,6 +520,7 @@
 			files = (
 				055B1CCE2EE854BF00D49641 /* rocket.usdz in Resources */,
 				055B1BE32EE823FF00D49641 /* iphone16.usdz in Resources */,
+				052B169D2EEAA5AF00AF81AB /* watch_ar.usdz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,6 +563,7 @@
 				055B1CD22EE9324800D49641 /* PdpDetailView.swift in Sources */,
 				055B1CD42EE9328500D49641 /* PdpViewModel.swift in Sources */,
 				055B1CD62EE9398700D49641 /* ProductCalloutView.swift in Sources */,
+				0538B3E22EEADECE00A248AB /* AR-watch-Try-on.swift in Sources */,
 				055B1CD02EE877D400D49641 /* ArModel_Rocket.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -967,6 +982,7 @@
 				DEVELOPMENT_TEAM = ZW496R2XNS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"We need access to your camera to enable augmented reality watch try-ons.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -999,6 +1015,7 @@
 				DEVELOPMENT_TEAM = ZW496R2XNS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"We need access to your camera to enable augmented reality watch try-ons.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
