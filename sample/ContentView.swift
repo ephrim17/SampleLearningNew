@@ -13,7 +13,8 @@ struct ContentView: View {
     var body: some View {
         //AFM_ASA_Entry()
         //ArModelView()
-        PdpDetailView()
+        //PdpDetailView()
+        WatchTryOnDeep()
         //WatchTryOnContainer()
         //ARWatchTryOnView()
         //FruitStarterPage()
