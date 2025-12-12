@@ -14,8 +14,8 @@ struct ContentView: View {
         //AFM_ASA_Entry()
         //ArModelView()
         //PdpDetailView()
-        WatchTryOnDeep()
-        //WatchTryOnContainer()
+        //WatchTryOnDeep()
+        WatchTryOnContainer()
         //ARWatchTryOnView()
         //FruitStarterPage()
     }
