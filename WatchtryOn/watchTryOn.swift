@@ -11,13 +11,14 @@ import Vision
 import RealityKit // or SceneKit if preferred
 
 class ViewController: UIViewController, ARSessionDelegate {
-    
+
     // MARK: - Properties
     private var arView: ARView!
     private let visionQueue = DispatchQueue(label: "vision.handpose.queue")
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
     private var watchAnchor: AnchorEntity?
     private var lastWristTransform: simd_float4x4?
+    private let style: WatchStyle
     // If the watch face is rotated, adjust `correctiveDegreesXYZ` inside `orientationForWrist` (try Y: 0, 90, 180, 270)
     
     // Debug tuning for orientation
@@ -36,6 +37,15 @@ class ViewController: UIViewController, ARSessionDelegate {
     private var loadingOverlay: UIView = UIView()
     private var loadingLabel: UILabel = UILabel()
     private var loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .large)
+
+    init(style: WatchStyle) {
+        self.style = style
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +78,7 @@ class ViewController: UIViewController, ARSessionDelegate {
         arView.session.delegate = self
         setupResetButton()
         // Load your watch 3D model (ensure you have a 'WatchModel.usdz' in your assets)
-        if let watchModel = try? ModelEntity.loadModel(named: "watch_ar") {
+        if let watchModel = try? ModelEntity.loadModel(named: style.modelName) {
             watchAnchor = AnchorEntity()
             watchAnchor?.addChild(watchModel)
             // Initial scale and position adjustments might be needed
@@ -113,7 +123,7 @@ class ViewController: UIViewController, ARSessionDelegate {
         view.bringSubviewToFront(loadingOverlay)
         // Ensure watch anchor exists and is hidden until detection
         if watchAnchor == nil {
-            if let watchModel = try? ModelEntity.loadModel(named: "watch_ar") {
+            if let watchModel = try? ModelEntity.loadModel(named: style.modelName) {
                 let anchor = AnchorEntity()
                 anchor.addChild(watchModel)
                 watchModel.scale = SIMD3<Float>(0.4, 0.4, 0.4)

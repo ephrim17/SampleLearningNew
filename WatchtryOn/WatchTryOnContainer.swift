@@ -6,8 +6,14 @@
 import SwiftUI
 
 struct WatchTryOnContainer: UIViewControllerRepresentable {
+    let style: WatchStyle
+
+    init(style: WatchStyle) {
+        self.style = style
+    }
+
     func makeUIViewController(context: Context) -> ViewController {
-        return ViewController()
+        return ViewController(style: style)
     }
     
     func updateUIViewController(_ uiViewController: ViewController, context: Context) {
