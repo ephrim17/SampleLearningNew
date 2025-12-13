@@ -90,6 +90,9 @@ struct ArModelView: View {
     @State private var rotationY: Float = 0.0
     @State private var rotationZ: Float = 0.0
 
+    @State private var tapIndicatorPosition: CGPoint? = nil
+    @State private var showTapIndicator: Bool = false
+
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -172,6 +175,16 @@ struct ArModelView: View {
                         baseTranslation = currentTranslation
                     }
             )
+            .simultaneousGesture(
+                DragGesture(minimumDistance: 0)
+                    .onEnded { value in
+                        self.tapIndicatorPosition = value.location
+                        self.showTapIndicator = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                            self.showTapIndicator = false
+                        }
+                    }
+            )
             
             // ... (Your existing SwiftUI overlay views remain the same) ...
             if showTextView, let name = selectedEntityName, let messageTextPart = messageText {
@@ -186,8 +199,8 @@ struct ArModelView: View {
 //                    .padding()
 //                }
                 ProductCalloutView(isPresented: $showTextView, message: messageTextPart)
-                .frame(width: 300, height: 200)
-                //.padding(.top, 50)
+                    .frame(width: 300, height: 200)
+                    .zIndex(10)
             }
             // 3D Joystick for rotation control
             VStack (alignment: .trailing){
@@ -202,6 +215,15 @@ struct ArModelView: View {
 //                        .padding()
                 }
                 
+            }
+            
+            // Blue spot pointer overlay
+            if showTapIndicator, let pos = tapIndicatorPosition {
+                Circle()
+                    .fill(Color.blue.opacity(0.8))
+                    .frame(width: 18, height: 18)
+                    .position(pos)
+                    .shadow(color: Color.blue.opacity(0.5), radius: 10, x: 0, y: 0)
             }
         }
     }
@@ -227,3 +249,4 @@ struct ArModelView: View {
         }
     }
 }
+
