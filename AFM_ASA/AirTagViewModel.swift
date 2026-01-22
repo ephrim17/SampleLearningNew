@@ -4,7 +4,7 @@ internal import Combine
 // MARK: - AirTagViewModel
 
 class AirTagViewModel: ObservableObject {
-    @Published var product: AirTagProduct
+    @Published var product: PdpProduct
     @Published var selectedTier: PricingTier?
     @Published var quantity: Int = 1
     @Published var pricingTiers: [PricingTier] = []
@@ -17,7 +17,7 @@ class AirTagViewModel: ObservableObject {
     
     init() {
         // Initialize product
-        self.product = AirTagProduct(
+        self.product = PdpProduct(
             name: "AirTag",
             tagline: "Free Engraving",
             imageURL: "airtag",

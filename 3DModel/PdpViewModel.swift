@@ -9,7 +9,7 @@ import Foundation
 internal import Combine
 
 class PdpViewModel: ObservableObject {
-    @Published var product: AirTagProduct
+    @Published var product: PdpProduct
     @Published var selectedTier: PricingTier?
     @Published var quantity: Int = 1
     @Published var pricingTiers: [PricingTier] = []
@@ -22,11 +22,14 @@ class PdpViewModel: ObservableObject {
     
     init() {
         // Initialize product
-        self.product = AirTagProduct(
+        
+//        //iPhone
+        self.product = PdpProduct(
             name: "iPhone",
             tagline: "Free Engraving",
-            imageURL: "iPhone",
-            features: ["It's glow time", "Easy setup", "Works with iPhone, iPad, Mac, and Apple Watch"]
+            imageURL: "iPhone-16-",
+            features: ["It's glow time", "Easy setup", "Works with iPhone, iPad, Mac, and Apple Watch"],
+            tryOnAvailable: false, joystick3DAvailable: true, isEngravingAvailable: true
         )
         
         // Initialize pricing tiers
@@ -34,6 +37,21 @@ class PdpViewModel: ObservableObject {
             PricingTier(quantity: 1, label: "iPhone 16 Pro", price: 699, tax: ""),
             PricingTier(quantity: 1, label: "iPhone 16 Pro Max", price: 799, tax: "")
         ]
+        
+        //watch
+//        self.product = PdpProduct(
+//            name: "Apple Watch Series 11",
+//            tagline: "The ultimate watch for a healthy life.",
+//            imageURL: "appleWatch",
+//            features: ["The ultimate watch for a healthy life."],
+//            tryOnAvailable: true
+//        )
+//        
+//        // Initialize pricing tiers
+//        self.pricingTiers = [
+//            PricingTier(quantity: 1, label: "Aluminium Choice of GPS or GPS + Cellular", price: 399, tax: ""),
+//            PricingTier(quantity: 1, label: "Titanium Comes with GPS + Cellular", price: 699, tax: "")
+//        ]
         
         // Set default tier
         self.selectedTier = pricingTiers.first

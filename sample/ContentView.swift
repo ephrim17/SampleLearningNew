@@ -13,9 +13,9 @@ struct ContentView: View {
     var body: some View {
         //AFM_ASA_Entry()
         //ArModelView()
-        //PdpDetailView()
+        AirTagDetailView()
         //WatchTryOnDeep()
-        WatchTryOnContainer()
+        //WatchTryOnContainer()
         //ARWatchTryOnView()
         //FruitStarterPage()
     }

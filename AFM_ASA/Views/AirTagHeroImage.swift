@@ -1,5 +1,5 @@
 //
-//  AirTagHeroImage.swift
+//  HeroImage.swift
 //  sample
 //
 //  Created by ephrim.daniel on 04/12/25.
@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - Reusable AirTag Hero Image
 
-struct AirTagHeroImage: View {
+struct HeroImage: View {
     var height: CGFloat = 300
     var verticalPadding: CGFloat = 20
     var imageName: String = "airtag"

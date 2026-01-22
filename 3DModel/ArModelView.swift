@@ -82,10 +82,10 @@ struct ArModelView: View {
     let targetEntityName = "sQTUClhbUNPPGgI"
     
     @State private var modelEntity: ModelEntity?
-    @State private var baseScale: Float = 0.2
-    @State private var currentScale: Float = 0.2
+    @State private var baseScale: Float = 0.18
+    @State private var currentScale: Float = 0.18
     @State private var baseTranslation: SIMD3<Float> = .zero
-    @State private var currentTranslation: SIMD3<Float> = SIMD3<Float>(-0.03866667, 0.298, 0.0)
+    @State private var currentTranslation: SIMD3<Float> = .zero
     @State private var rotationX: Float = 0.0
     @State private var rotationY: Float = 0.0
     @State private var rotationZ: Float = 0.0
@@ -98,12 +98,12 @@ struct ArModelView: View {
     var body: some View {
         ZStack {
             VStack {
-                HStack {
-                    //Spacer()
-//                    Button("Close") {
-//                        dismiss()
-//                    }
-                }.padding(20)
+//                HStack {
+//                    //Spacer()
+////                    Button("Close") {
+////                        dismiss()
+////                    }
+//                }.padding(20)
                 RealityView { content in
                     // Load your 3D model
                     if self.modelEntity == nil, let loaded = try? await ModelEntity(named: "iphone16.usdz") {
@@ -133,7 +133,7 @@ struct ArModelView: View {
                         
                     }
                     self.applyTransform()
-                }
+                }.padding(20)
             }
                 
             

@@ -11,6 +11,7 @@ struct PdpDetailView: View {
         @StateObject var viewModel = PdpViewModel()
         @State private var showBag = false
         @State private var showARView = false
+        @State private var showTryOn = false
         
         var body: some View {
             NavigationStack {
@@ -78,9 +79,13 @@ struct PdpDetailView: View {
                             //.padding(.vertical, 24)
                             
                             // Product Image
-                            //AirTagHeroImage(height: 300, verticalPadding: 20, imageName: "iPhone-16-")
-                            ArModelView()
-                                .frame(height: 400)
+                            if viewModel.product.joystick3DAvailable {
+                                ArModelView()
+                                    .frame(height: 400)
+                            } else {
+                                HeroImage(height: 300, verticalPadding: 20, imageName: viewModel.product.imageURL)
+                            }
+                            
                             
                             // Gallery Button
                             HStack{
@@ -93,7 +98,6 @@ struct PdpDetailView: View {
                                         .background(Color.gray.opacity(0.4))
                                         .clipShape(Capsule())
                                 }
-                                .padding(.vertical, 20)
                                 
                                 Button(action: {
                                     showARView = true
@@ -106,8 +110,24 @@ struct PdpDetailView: View {
                                         .background(Color.gray.opacity(0.4))
                                         .clipShape(Capsule())
                                 }
-                                .padding(.vertical, 20)
-                            }
+                               
+                                
+                                if viewModel.product.tryOnAvailable {
+                                    Button(action: {
+                                        showTryOn = true
+                                    }) {
+                                        Text("Try on")
+                                            .font(.system(size: 16, weight: .semibold))
+                                            .foregroundColor(.white)
+                                            .frame(height: 44)
+                                            .frame(maxWidth: 120)
+                                            .background(Color.gray.opacity(0.4))
+                                            .clipShape(Capsule())
+                                    }
+                                    
+                                }
+                                
+                            }.padding(.vertical, 20)
                             
                             
                             // Quantity Question
@@ -144,7 +164,7 @@ struct PdpDetailView: View {
                                 }
                                 
                                 // Engraving Section (Shown after selecting a pricing tier)
-                                if viewModel.selectedTier != nil {
+                                if viewModel.selectedTier != nil && viewModel.product.isEngravingAvailable{
                                     VStack(alignment: .leading, spacing: 16) {
                                         Text("Engraving")
                                             .font(.system(size: 28, weight: .bold))
@@ -155,7 +175,7 @@ struct PdpDetailView: View {
                                             .foregroundColor(Color.white.opacity(0.6))
                                             .fixedSize(horizontal: false, vertical: true)
 
-                                        Image("iPhone-16-")
+                                        Image(viewModel.product.imageURL)
                                             .resizable()
                                             .scaledToFit()
                                             .frame(height: 220)
@@ -256,6 +276,9 @@ struct PdpDetailView: View {
                 }
                 .sheet(isPresented: $showARView) {
                     ArModelView()
+                }
+                .sheet(isPresented: $showTryOn) {
+                    WatchTryOnContainer()
                 }
                 .alert("Product added to bag", isPresented: $viewModel.showAlert) {
                     Button("OK") {

@@ -1,20 +1,25 @@
 import Foundation
 
-// MARK: - AirTag Models
-
-struct AirTagProduct: Identifiable, Codable {
+struct PdpProduct: Identifiable, Codable {
     var id = UUID()
     let name: String
     let tagline: String
     let imageURL: String
     let features: [String]
+    var tryOnAvailable: Bool
+    var joystick3DAvailable: Bool
+    var isEngravingAvailable: Bool
     
-    init(name: String = "AirTag", tagline: String = "Free Engraving", imageURL: String = "airtag", features: [String] = []) {
+    init(name: String = "AirTag", tagline: String = "Free Engraving", imageURL: String = "airtag", features: [String] = [], tryOnAvailable: Bool = false, joystick3DAvailable: Bool = false, isEngravingAvailable: Bool = false) {
         self.name = name
         self.tagline = tagline
         self.imageURL = imageURL
         self.features = features
+        self.tryOnAvailable = tryOnAvailable
+        self.joystick3DAvailable = joystick3DAvailable
+        self.isEngravingAvailable = isEngravingAvailable
     }
+    
 }
 
 struct PricingTier: Identifiable, Hashable, Codable {
@@ -36,7 +41,7 @@ struct PricingTier: Identifiable, Hashable, Codable {
 
 struct CartItem: Identifiable, Codable {
     var id = UUID()
-    var product: AirTagProduct
+    var product: PdpProduct
     var quantity: Int
     var pricingTier: PricingTier
     

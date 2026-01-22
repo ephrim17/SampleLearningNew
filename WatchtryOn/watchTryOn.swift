@@ -17,6 +17,20 @@ class ViewController: UIViewController, ARSessionDelegate {
     private let visionQueue = DispatchQueue(label: "vision.handpose.queue")
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
     private var watchAnchor: AnchorEntity?
+    private var watchModelEntity: ModelEntity?
+    
+    // Recursively print all entity names for debugging
+    private func listAllEntityNames(for entity: Entity, indent: String = "") {
+        let name = entity.name.isEmpty ? "<unnamed>" : entity.name
+        print("\(indent)\(name) : \(type(of: entity))")
+        for child in entity.children {
+            listAllEntityNames(for: child, indent: indent + "  ")
+        }
+    }
+    
+    private let watchColors: [(name: String, color: UIColor)] = [
+        ("Black", .black), ("Silver", UIColor(white: 0.85, alpha: 1)), ("Gold", UIColor(red: 0.85, green: 0.71, blue: 0.39, alpha: 1)), ("Blue", .systemBlue), ("Red", .systemRed)
+    ]
     private var lastWristTransform: simd_float4x4?
     // If the watch face is rotated, adjust `correctiveDegreesXYZ` inside `orientationForWrist` (try Y: 0, 90, 180, 270)
     
@@ -36,6 +50,9 @@ class ViewController: UIViewController, ARSessionDelegate {
     private var loadingOverlay: UIView = UIView()
     private var loadingLabel: UILabel = UILabel()
     private var loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView(style: .large)
+    
+    private var colorBarContainer: UIVisualEffectView?
+    private var swatchButtons: [UIButton] = []
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -51,6 +68,7 @@ class ViewController: UIViewController, ARSessionDelegate {
         setupVision()
         setupLoadingOverlay()
         setupDebugPanel()
+        setupColorBar()
         
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(toggleDebugPanel(_:)))
         longPress.minimumPressDuration = 0.8
@@ -79,8 +97,14 @@ class ViewController: UIViewController, ARSessionDelegate {
         if let watchModel = try? ModelEntity.loadModel(named: "watch_ar") {
             watchAnchor = AnchorEntity()
             watchAnchor?.addChild(watchModel)
-            // Initial scale and position adjustments might be needed
-            watchModel.scale = SIMD3<Float>(0.4, 0.4, 0.4) // Adjust base scale to be more visible
+            watchModel.scale = SIMD3<Float>(0.4, 0.4, 0.4)
+            self.watchModelEntity = watchModel
+            // Apply a default color
+            self.applyWatchColor(UIColor.black)
+            
+            print("--- Starting Entity List ---")
+            listAllEntityNames(for: watchModel)
+            print("--- End of Entity List ---")
         }
     }
     
@@ -89,20 +113,20 @@ class ViewController: UIViewController, ARSessionDelegate {
     }
 
     private func setupResetButton() {
-        let button = UIButton(type: .system)
-        button.setTitle("Reset AR", for: .normal)
-        button.backgroundColor = UIColor.systemGray.withAlphaComponent(0.7)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 10
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(resetARSession), for: .touchUpInside)
-        self.view.addSubview(button)
-        NSLayoutConstraint.activate([
-            button.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
-            button.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            button.widthAnchor.constraint(equalToConstant: 100),
-            button.heightAnchor.constraint(equalToConstant: 40)
-        ])
+//        let button = UIButton(type: .system)
+//        button.setTitle("Reset AR", for: .normal)
+//        button.backgroundColor = UIColor.systemGray.withAlphaComponent(0.7)
+//        button.setTitleColor(.white, for: .normal)
+//        button.layer.cornerRadius = 10
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        button.addTarget(self, action: #selector(resetARSession), for: .touchUpInside)
+//        self.view.addSubview(button)
+//        NSLayoutConstraint.activate([
+//            button.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+//            button.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
+//            button.widthAnchor.constraint(equalToConstant: 100),
+//            button.heightAnchor.constraint(equalToConstant: 40)
+//        ])
     }
     
     @objc private func resetARSession() {
@@ -126,6 +150,8 @@ class ViewController: UIViewController, ARSessionDelegate {
                 anchor.addChild(watchModel)
                 watchModel.scale = SIMD3<Float>(0.4, 0.4, 0.4)
                 watchAnchor = anchor
+                self.watchModelEntity = watchModel
+                self.applyWatchColor(UIColor.black)
             }
         }
         if let anchor = watchAnchor {
@@ -238,8 +264,135 @@ class ViewController: UIViewController, ARSessionDelegate {
             stack.topAnchor.constraint(equalTo: panel.topAnchor, constant: 8),
             stack.bottomAnchor.constraint(equalTo: panel.bottomAnchor, constant: -8)
         ])
-
+        panel.alpha = 0 
         self.debugPanel = panel
+    }
+
+    private func setupColorBar() {
+        let bar = UIStackView()
+        bar.axis = .horizontal
+        bar.alignment = .center
+        bar.distribution = .fillProportionally
+        bar.spacing = 10
+        bar.translatesAutoresizingMaskIntoConstraints = false
+
+        // Clear any existing list and rebuild
+        self.swatchButtons.removeAll()
+
+        for (index, item) in watchColors.enumerated() {
+            let button = UIButton(type: .system)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.widthAnchor.constraint(equalToConstant: 36).isActive = true
+            button.heightAnchor.constraint(equalToConstant: 36).isActive = true
+            button.layer.cornerRadius = 18
+            button.layer.borderWidth = 1
+            button.layer.borderColor = UIColor.white.withAlphaComponent(0.55).cgColor
+            button.backgroundColor = item.color
+            button.tag = index
+
+            // Add shadow and highlight for depth
+            button.layer.shadowColor = UIColor.black.cgColor
+            button.layer.shadowOpacity = 0.25
+            button.layer.shadowOffset = CGSize(width: 0, height: 2)
+            button.layer.shadowRadius = 3
+
+            // Touch down/up animations for delightful feel
+            button.addTarget(self, action: #selector(onSwatchTouchDown(_:)), for: [.touchDown, .touchDragEnter])
+            button.addTarget(self, action: #selector(onSwatchTouchUp(_:)), for: [.touchCancel, .touchDragExit, .touchUpInside, .touchUpOutside])
+
+            button.addTarget(self, action: #selector(onColorTapped(_:)), for: .touchUpInside)
+
+            bar.addArrangedSubview(button)
+            self.swatchButtons.append(button)
+        }
+
+        // Glass container using blur effect
+        let blur = UIBlurEffect(style: .systemUltraThinMaterialDark)
+        let glass = UIVisualEffectView(effect: blur)
+        glass.translatesAutoresizingMaskIntoConstraints = false
+
+        // Optional: subtle vibrancy-like overlay using an extra visual effect view
+        let overlay = UIVisualEffectView(effect: nil)
+        overlay.translatesAutoresizingMaskIntoConstraints = false
+        overlay.isUserInteractionEnabled = false
+        overlay.backgroundColor = UIColor.white.withAlphaComponent(0.06)
+        overlay.layer.cornerRadius = 16
+        overlay.clipsToBounds = true
+
+        let container = UIView()
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.backgroundColor = .clear
+
+        // Rounded corners and border on the glass container
+        glass.layer.cornerRadius = 16
+        glass.clipsToBounds = true
+        glass.layer.borderColor = UIColor.white.withAlphaComponent(0.22).cgColor
+        glass.layer.borderWidth = 1
+
+        // Inner highlight (top gradient-like) using a thin view
+        let highlight = UIView()
+        highlight.translatesAutoresizingMaskIntoConstraints = false
+        highlight.backgroundColor = UIColor.white.withAlphaComponent(0.12)
+        highlight.layer.cornerRadius = 16
+        highlight.clipsToBounds = true
+
+        glass.contentView.addSubview(container)
+        glass.contentView.addSubview(overlay)
+        glass.contentView.addSubview(highlight)
+        container.addSubview(bar)
+
+        view.addSubview(glass)
+
+        NSLayoutConstraint.activate([
+            // Glass placement
+            glass.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            glass.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -60),
+
+            // Container edges inside glass
+            container.leadingAnchor.constraint(equalTo: glass.contentView.leadingAnchor),
+            container.trailingAnchor.constraint(equalTo: glass.contentView.trailingAnchor),
+            container.topAnchor.constraint(equalTo: glass.contentView.topAnchor),
+            container.bottomAnchor.constraint(equalTo: glass.contentView.bottomAnchor),
+
+            // Overlay fills glass for subtle tint
+            overlay.leadingAnchor.constraint(equalTo: glass.contentView.leadingAnchor),
+            overlay.trailingAnchor.constraint(equalTo: glass.contentView.trailingAnchor),
+            overlay.topAnchor.constraint(equalTo: glass.contentView.topAnchor),
+            overlay.bottomAnchor.constraint(equalTo: glass.contentView.bottomAnchor),
+
+            // Highlight at the top edge for sheen
+            highlight.leadingAnchor.constraint(equalTo: glass.contentView.leadingAnchor),
+            highlight.trailingAnchor.constraint(equalTo: glass.contentView.trailingAnchor),
+            highlight.topAnchor.constraint(equalTo: glass.contentView.topAnchor),
+            highlight.heightAnchor.constraint(equalToConstant: 2),
+
+            // Bar insets
+            bar.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 14),
+            bar.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -14),
+            bar.topAnchor.constraint(equalTo: container.topAnchor, constant: 10),
+            bar.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -10)
+        ])
+
+        // Size the glass to fit content
+        let height = 56.0
+        let width = CGFloat(watchColors.count) * 36.0 + CGFloat(max(0, watchColors.count - 1)) * 10.0 + 28.0
+        let widthConstraint = glass.widthAnchor.constraint(equalToConstant: width)
+        widthConstraint.priority = .defaultHigh
+        widthConstraint.isActive = true
+        let heightConstraint = glass.heightAnchor.constraint(equalToConstant: height)
+        heightConstraint.priority = .required
+        heightConstraint.isActive = true
+
+        // Save reference
+        self.colorBarContainer = glass
+
+        // Appear animation
+        glass.alpha = 0
+        glass.transform = CGAffineTransform(translationX: 0, y: 12)
+        UIView.animate(withDuration: 0.35, delay: 0.15, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.6, options: [.allowUserInteraction, .beginFromCurrentState]) {
+            glass.alpha = 1
+            glass.transform = .identity
+        }
     }
 
     @objc private func onYSegmentChanged(_ sender: UISegmentedControl) {
@@ -261,6 +414,75 @@ class ViewController: UIViewController, ARSessionDelegate {
         let hidden = !panel.isHidden
         panel.isHidden = hidden
         panel.alpha = hidden ? 0 : 1
+    }
+    
+    @objc private func onColorTapped(_ sender: UIButton) {
+        let idx = sender.tag
+        guard watchColors.indices.contains(idx) else { return }
+        let color = watchColors[idx].color
+        applyWatchColor(color)
+        
+        // Haptic feedback
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+
+        // Subtle shimmer on the glass container
+        if let glass = self.colorBarContainer {
+            let shimmer = CAGradientLayer()
+            shimmer.colors = [
+                UIColor.clear.cgColor,
+                UIColor.white.withAlphaComponent(0.25).cgColor,
+                UIColor.clear.cgColor
+            ]
+            shimmer.startPoint = CGPoint(x: 0, y: 0.5)
+            shimmer.endPoint = CGPoint(x: 1, y: 0.5)
+            shimmer.locations = [0, 0.5, 1]
+            shimmer.frame = glass.bounds.insetBy(dx: -glass.bounds.width, dy: 0)
+            glass.layer.addSublayer(shimmer)
+
+            let anim = CABasicAnimation(keyPath: "position.x")
+            anim.fromValue = -glass.bounds.width
+            anim.toValue = glass.bounds.width * 2
+            anim.duration = 0.8
+            anim.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+            CATransaction.begin()
+            CATransaction.setCompletionBlock { shimmer.removeFromSuperlayer() }
+            shimmer.add(anim, forKey: "shimmer")
+            CATransaction.commit()
+        }
+    }
+    
+    @objc private func onSwatchTouchDown(_ sender: UIButton) {
+        let scaleDown = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        let lift: CGFloat = 6
+        UIView.animate(withDuration: 0.12, delay: 0, options: [.beginFromCurrentState, .allowUserInteraction]) {
+            sender.transform = scaleDown.translatedBy(x: 0, y: -2)
+            sender.layer.shadowOpacity = 0.35
+            sender.layer.shadowRadius = 5
+            sender.layer.shadowOffset = CGSize(width: 0, height: 4)
+        }
+    }
+
+    @objc private func onSwatchTouchUp(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.28, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.8, options: [.beginFromCurrentState, .allowUserInteraction]) {
+            sender.transform = .identity
+            sender.layer.shadowOpacity = 0.25
+            sender.layer.shadowRadius = 3
+            sender.layer.shadowOffset = CGSize(width: 0, height: 2)
+        }
+
+        // Subtle selection pulse when actually tapped inside
+        if sender.isTouchInside {
+            let pulse = CASpringAnimation(keyPath: "transform.scale")
+            pulse.fromValue = 1.0
+            pulse.toValue = 1.06
+            pulse.initialVelocity = 0.8
+            pulse.damping = 6
+            pulse.stiffness = 150
+            pulse.mass = 0.6
+            pulse.duration = pulse.settlingDuration
+            sender.layer.add(pulse, forKey: "pulse")
+        }
     }
 
     // MARK: - ARSessionDelegate
@@ -619,6 +841,38 @@ class ViewController: UIViewController, ARSessionDelegate {
                 removeAnchor()
             }
         }
+    }
+    
+    private func applyWatchColor(_ uiColor: UIColor) {
+        guard let root = self.watchModelEntity else { return }
+
+        func tintMaterials(in entity: Entity) {
+            // Only tint the exact band entity by name (and its descendants)
+            if let model = entity as? ModelEntity, entity.name == "MswjViAcFQPAHRi" {
+                var newMaterials: [Material] = []
+                for material in (model.model?.materials ?? []) {
+                    if var simple = material as? SimpleMaterial {
+                        var color = simple.color
+                        color.tint = uiColor
+                        simple.color = color
+                        newMaterials.append(simple)
+                    } else if var pbr = material as? PhysicallyBasedMaterial {
+                        var base = pbr.baseColor
+                        base.tint = uiColor
+                        pbr.baseColor = base
+                        newMaterials.append(pbr)
+                    } else {
+                        newMaterials.append(material)
+                    }
+                }
+                if !newMaterials.isEmpty {
+                    model.model?.materials = newMaterials
+                }
+            }
+            for child in entity.children { tintMaterials(in: child) }
+        }
+
+        tintMaterials(in: root)
     }
 }
 

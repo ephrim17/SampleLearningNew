@@ -25,7 +25,7 @@ struct WatchAirTagDetailView: View {
                     .padding(.bottom, 4)
 
                 // Reused hero image
-                AirTagHeroImage(height: 120, verticalPadding: 8)
+                HeroImage(height: 120, verticalPadding: 8)
 
                 // Pricing tiers (vertical for watch)
                 VStack(spacing: 6) {
